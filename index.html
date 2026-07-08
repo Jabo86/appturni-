@@ -2,10 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#2563eb">
+    <meta name="color-scheme" content="light dark">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AppTurni">
+    <meta name="format-detection" content="telephone=no">
     <title>AppTurni</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,24 +19,26 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        html, body {
-            width: 100%;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        html {
+            height: 100%;
+            /* Usa l'altezza reale dello schermo del telefono, non solo la viewport iniziale */
+            height: 100dvh;
+            overscroll-behavior-y: none;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background: #f0f4f8;
             color: #1e293b;
-            padding: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            min-height: 100vh;
+            min-height: 100dvh;
+            /* Rispetta le safe-area (notch, home indicator) sui telefoni */
+            padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+            overscroll-behavior-y: none;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
         }
 
         body.dark-mode {
@@ -41,30 +47,28 @@
         }
 
         .container {
-            width: 100%;
             max-width: 480px;
+            width: 100%;
             margin: 0 auto;
-            padding: 0;
         }
 
-        /* HEADER */
         .header {
             background: white;
-            border-radius: 14px;
-            padding: 10px 14px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-            margin-bottom: 10px;
+            border-radius: 16px;
+            padding: 12px 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 12px;
         }
 
         .dark-mode .header { background: #1e293b; }
 
         .header-title {
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #1e40af;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .dark-mode .header-title { color: #ffffff; }
@@ -72,11 +76,11 @@
         #clock {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 0.6rem;
+            gap: 6px;
+            font-size: 0.75rem;
             font-weight: 600;
             background: #f1f5f9;
-            padding: 2px 10px;
+            padding: 4px 12px;
             border-radius: 20px;
             font-family: 'Courier New', monospace;
         }
@@ -86,17 +90,61 @@
             color: #e2e8f0;
         }
 
-        #clock-time { min-width: 55px; text-align: center; font-size: 0.6rem; }
+        #clock-time { min-width: 60px; text-align: center; }
+
+        #today-widget {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .widget-date {
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .widget-shifts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .widget-shift {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .widget-empty {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .widget-note {
+            background: rgba(251, 191, 36, 0.3);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
 
         .month-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: 8px 0;
         }
 
         .month-title {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #1e293b;
             text-align: center;
@@ -106,12 +154,12 @@
         .dark-mode .month-title { color: #f1f5f9; }
 
         .nav-btn {
-            width: 34px;
-            height: 34px;
+            width: 40px;
+            height: 40px;
             border: none;
             background: none;
             color: #3b82f6;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             border-radius: 50%;
             display: flex;
@@ -121,58 +169,14 @@
             flex-shrink: 0;
         }
 
-        /* WIDGET OGGI */
-        #today-widget {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            border-radius: 14px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-        }
+        .nav-btn:hover { background: rgba(59, 130, 246, 0.1); }
 
-        .widget-date {
-            font-size: 0.95rem;
-            font-weight: 600;
-            opacity: 0.9;
-            margin-bottom: 6px;
-        }
-
-        .widget-shifts {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .widget-shift {
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(4px);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .widget-empty {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        .widget-note {
-            background: rgba(251, 191, 36, 0.3);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-        }
-
-        /* CALENDARIO */
         .calendar {
             background: white;
-            border-radius: 14px;
-            padding: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 10px;
+            border-radius: 16px;
+            padding: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            margin-bottom: 12px;
         }
 
         .dark-mode .calendar { background: #1e293b; }
@@ -180,18 +184,18 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 3px;
+            gap: 4px;
             width: 100%;
         }
 
         .day-header {
             text-align: center;
             font-weight: 700;
-            font-size: 0.6rem;
-            padding: 4px 0;
+            font-size: 0.7rem;
+            padding: 6px 0;
             color: #64748b;
             background: #f1f5f9;
-            border-radius: 4px;
+            border-radius: 6px;
         }
 
         .dark-mode .day-header {
@@ -202,27 +206,27 @@
         .day-cell {
             aspect-ratio: 1 / 1.1;
             background: #f8fafc;
-            border-radius: 6px;
-            padding: 3px;
+            border-radius: 8px;
+            padding: 4px;
             position: relative;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
             display: flex;
             flex-direction: column;
-            min-height: 55px;
+            min-height: 70px;
             overflow: hidden;
         }
 
         .dark-mode .day-cell { background: #2d3748; }
-        .day-cell:active { transform: scale(0.93); }
+        .day-cell:active { transform: scale(0.95); }
 
         .day-number {
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #1e293b;
             position: absolute;
-            top: 2px;
-            right: 4px;
+            top: 4px;
+            right: 6px;
         }
 
         .dark-mode .day-number { color: #e2e8f0; }
@@ -231,14 +235,13 @@
             background: #3b82f6;
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            right: 3px;
-            top: 2px;
-            font-size: 0.7rem;
+            right: 4px;
+            top: 3px;
         }
 
         .day-cell.holiday { background: #fef2f2; }
@@ -247,41 +250,41 @@
         .shifts-container {
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            margin-top: 16px;
+            gap: 2px;
+            margin-top: 18px;
             flex: 1;
             justify-content: center;
         }
 
         .shift-badge {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            padding: 1px 2px;
-            border-radius: 2px;
+            padding: 1px 3px;
+            border-radius: 3px;
             text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
+            line-height: 1.3;
             max-width: 100%;
         }
 
-        .shift-badge.single { font-size: 0.6rem; padding: 2px 3px; }
-        .shift-badge.multi-2 { font-size: 0.45rem; }
-        .shift-badge.multi-3 { font-size: 0.4rem; }
-        .shift-badge.multi-4 { font-size: 0.35rem; }
-        .shift-badge.multi-5 { font-size: 0.3rem; }
+        .shift-badge.single { font-size: 0.7rem; padding: 2px 4px; }
+        .shift-badge.multi-2 { font-size: 0.55rem; }
+        .shift-badge.multi-3 { font-size: 0.5rem; }
+        .shift-badge.multi-4 { font-size: 0.45rem; }
+        .shift-badge.multi-5 { font-size: 0.4rem; }
 
         .note-indicator {
             position: absolute;
-            bottom: 1px;
+            bottom: 2px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.35rem;
+            font-size: 0.45rem;
             background: #fbbf24;
             color: #1e293b;
-            padding: 1px 3px;
-            border-radius: 6px;
+            padding: 1px 4px;
+            border-radius: 8px;
             max-width: 90%;
             white-space: nowrap;
             overflow: hidden;
@@ -297,20 +300,20 @@
         .note-indicator.has-notification::after {
             content: '🔔';
             margin-left: 2px;
-            font-size: 0.35rem;
+            font-size: 0.4rem;
         }
 
         .note-edit-btn {
             position: absolute;
-            top: 1px;
-            left: 3px;
-            font-size: 0.4rem;
+            top: 2px;
+            left: 4px;
+            font-size: 0.5rem;
             color: #94a3b8;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 1px 3px;
-            border-radius: 3px;
+            padding: 2px;
+            border-radius: 4px;
             transition: all 0.2s;
         }
 
@@ -319,12 +322,11 @@
             background: rgba(59, 130, 246, 0.1);
         }
 
-        /* SELEZIONE TURNI */
         .shift-selector-section {
             background: white;
-            border-radius: 14px;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
 
         .dark-mode .shift-selector-section { background: #1e293b; }
@@ -332,8 +334,8 @@
         .shift-selector-title {
             text-align: center;
             font-weight: 600;
-            font-size: 0.75rem;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
             color: #64748b;
         }
 
@@ -342,19 +344,19 @@
         .shift-selector {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
             justify-content: center;
         }
 
         .shift-option {
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             cursor: pointer;
             border: 2px solid #e2e8f0;
             background: white;
-            transition: all 0.15s;
+            transition: all 0.2s;
             white-space: nowrap;
         }
 
@@ -364,7 +366,8 @@
             color: #e2e8f0;
         }
 
-        .shift-option:active { transform: scale(0.93); }
+        .shift-option:hover { transform: scale(1.05); }
+        .shift-option:active { transform: scale(0.95); }
 
         .shift-option.selected {
             border-color: #3b82f6;
@@ -373,28 +376,26 @@
 
         .clear-shift-btn {
             width: 100%;
-            margin-top: 8px;
-            padding: 6px;
+            margin-top: 10px;
+            padding: 8px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             background: #ef4444;
             color: white;
             font-weight: 600;
-            font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
 
-        .clear-shift-btn:active { transform: scale(0.97); }
+        .clear-shift-btn:hover { opacity: 0.85; }
 
-        /* HAMBURGER */
         .hamburger-btn {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #3b82f6;
             cursor: pointer;
-            padding: 2px 6px;
+            padding: 4px 8px;
         }
 
         .hamburger-menu {
@@ -408,10 +409,10 @@
             right: 0;
             top: 100%;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            min-width: 180px;
-            padding: 4px 0;
+            min-width: 200px;
+            padding: 6px 0;
             z-index: 1000;
             margin-top: 4px;
             max-height: 70vh;
@@ -428,84 +429,44 @@
         .menu-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
+            gap: 10px;
+            padding: 10px 16px;
             width: 100%;
             border: none;
             background: none;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #1e293b;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: background 0.2s;
             font-family: inherit;
         }
 
         .dark-mode .menu-item { color: #e2e8f0; }
-        .menu-item:active { background: #f1f5f9; }
-        .dark-mode .menu-item:active { background: #334155; }
+        .menu-item:hover { background: #f1f5f9; }
+        .dark-mode .menu-item:hover { background: #334155; }
 
-        /* CONDIVISIONE */
-        .share-section {
-            background: white;
-            border-radius: 14px;
-            padding: 10px 14px;
-            margin-top: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .dark-mode .share-section {
-            background: #1e293b;
-        }
-
-        .share-section-title {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 6px;
-        }
-
-        .share-btn {
-            width: 100%;
-            padding: 8px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: white;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .share-btn:active { transform: scale(0.97); }
-
-        /* STATISTICHE */
         .stats-view, .annual-view { display: none; }
         .stats-view.active, .annual-view.active { display: block; }
 
         .stats-card {
             background: white;
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
 
         .dark-mode .stats-card { background: #1e293b; }
 
         .stats-title {
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .stats-value {
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #2563eb;
         }
@@ -515,20 +476,20 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
         }
 
         .stats-item {
             background: #f8fafc;
-            border-radius: 6px;
-            padding: 6px;
+            border-radius: 8px;
+            padding: 8px;
             text-align: center;
         }
 
         .dark-mode .stats-item { background: #2d3748; }
 
         .stats-item-title {
-            font-size: 0.55rem;
+            font-size: 0.65rem;
             color: #64748b;
             font-weight: 600;
         }
@@ -536,41 +497,14 @@
         .dark-mode .stats-item-title { color: #94a3b8; }
 
         .stats-item-value {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 700;
         }
 
-        .back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            background: white;
-            color: #1e293b;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .dark-mode .back-btn {
-            background: #1e293b;
-            border-color: #475569;
-            color: #e2e8f0;
-        }
-
-        .back-btn:active { background: #f8fafc; }
-        .dark-mode .back-btn:active { background: #2d3748; }
-
-        /* MODALI */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -583,13 +517,13 @@
 
         .modal-content {
             background: white;
-            border-radius: 14px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px;
             max-width: 400px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            animation: modalIn 0.2s ease;
+            animation: modalIn 0.25s ease;
         }
 
         @keyframes modalIn {
@@ -603,17 +537,17 @@
         }
 
         .modal-content h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .modal-content label {
             display: block;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: #64748b;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .dark-mode .modal-content label { color: #94a3b8; }
@@ -622,11 +556,11 @@
         .modal-content select,
         .modal-content textarea {
             width: 100%;
-            padding: 6px 10px;
+            padding: 8px 12px;
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
             background: #f8fafc;
             color: #1e293b;
             transition: border-color 0.2s;
@@ -648,37 +582,30 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
-        .modal-content input[type="color"] { height: 36px; padding: 2px; }
+        .modal-content input[type="color"] { height: 44px; padding: 4px; }
+        .modal-content input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; }
 
         .checkbox-group {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .checkbox-group input[type="checkbox"] { 
-            width: 16px; 
-            height: 16px; 
-            margin-right: 6px;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-        .checkbox-group label { margin-bottom: 0; cursor: pointer; font-size: 0.75rem; }
+        .checkbox-group label { margin-bottom: 0; cursor: pointer; }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 8px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 16px;
         }
 
         .btn-secondary {
-            padding: 6px 16px;
+            padding: 8px 20px;
             background: #e2e8f0;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.75rem;
             cursor: pointer;
             color: #1e293b;
         }
@@ -689,32 +616,29 @@
         }
 
         .btn-primary {
-            padding: 6px 16px;
+            padding: 8px 20px;
             background: #2563eb;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.75rem;
             cursor: pointer;
             color: white;
         }
 
-        .btn-primary:active { background: #1d4ed8; }
+        .btn-primary:hover { background: #1d4ed8; }
 
         .btn-danger {
-            padding: 6px 16px;
+            padding: 8px 20px;
             background: #dc2626;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.75rem;
             cursor: pointer;
             color: white;
         }
 
-        .btn-danger:active { background: #b91c1c; }
+        .btn-danger:hover { background: #b91c1c; }
 
-        /* TOAST */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -726,17 +650,16 @@
         }
 
         .toast {
-            padding: 10px 16px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 12px;
             color: white;
             font-weight: 600;
-            font-size: 0.8rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            animation: toastIn 0.3s ease;
-            margin-bottom: 6px;
+            animation: toastIn 0.4s ease;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         @keyframes toastIn {
@@ -748,18 +671,21 @@
         .toast-error { background: #dc2626; }
         .toast-info { background: #2563eb; }
 
-        /* ANNUALE */
         .annual-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
+        }
+
+        @media (max-width: 400px) {
+            .annual-grid { grid-template-columns: 1fr 1fr; }
         }
 
         .annual-month {
             background: white;
-            border-radius: 8px;
-            padding: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .dark-mode .annual-month { background: #1e293b; }
@@ -767,8 +693,8 @@
         .annual-month-title {
             font-weight: 700;
             text-align: center;
-            font-size: 0.6rem;
-            margin-bottom: 3px;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
             color: #64748b;
         }
 
@@ -777,17 +703,17 @@
         .annual-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
+            gap: 2px;
         }
 
         .annual-day {
-            font-size: 0.45rem;
+            font-size: 0.5rem;
             text-align: center;
-            padding: 1px 0;
-            border-radius: 2px;
+            padding: 2px 0;
+            border-radius: 3px;
             background: #f8fafc;
             color: #1e293b;
-            height: 14px;
+            height: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -806,50 +732,31 @@
         .annual-day.has-shift { font-weight: 700; }
         .annual-day.today { outline: 2px solid #3b82f6; }
 
-        .chart-container {
+        .back-btn {
             display: flex;
-            align-items: flex-end;
-            gap: 3px;
-            height: 100px;
-            padding: 6px 2px 0 2px;
-        }
-
-        .chart-bar-wrap {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: flex-end;
-            height: 100%;
-        }
-
-        .chart-bar {
+            justify-content: center;
+            gap: 8px;
             width: 100%;
-            max-width: 18px;
-            background: linear-gradient(180deg, #3b82f6, #2563eb);
-            border-radius: 3px 3px 0 0;
-            transition: height 0.3s;
-            min-height: 2px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            color: #1e293b;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .chart-bar-value {
-            font-size: 0.4rem;
-            font-weight: 700;
-            color: #64748b;
-            margin-bottom: 1px;
+        .dark-mode .back-btn {
+            background: #1e293b;
+            border-color: #475569;
+            color: #e2e8f0;
         }
 
-        .dark-mode .chart-bar-value { color: #94a3b8; }
+        .back-btn:hover { background: #f8fafc; }
+        .dark-mode .back-btn:hover { background: #2d3748; }
 
-        .chart-bar-label {
-            font-size: 0.45rem;
-            color: #64748b;
-            margin-top: 3px;
-        }
-
-        .dark-mode .chart-bar-label { color: #94a3b8; }
-
-        /* LINGUA */
         .language-container { position: relative; }
         .language-btn {
             background: none;
@@ -857,23 +764,23 @@
             cursor: pointer;
             padding: 0;
         }
-        .language-btn .flag-icon { font-size: 18px; line-height: 1; }
+        .language-btn .flag-icon { font-size: 22px; line-height: 1; }
 
         .language-menu {
             position: absolute;
             top: 100%;
             right: 0;
-            margin-top: 6px;
+            margin-top: 8px;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
             overflow: hidden;
             transform: translateY(-10px);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             z-index: 2000;
-            min-width: 140px;
+            min-width: 160px;
         }
 
         .dark-mode .language-menu {
@@ -890,92 +797,178 @@
         .lang-option {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
+            gap: 10px;
+            padding: 8px 16px;
             width: 100%;
             border: none;
             background: none;
             color: #1e293b;
-            font-size: 0.75rem;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: background 0.2s;
         }
 
         .dark-mode .lang-option { color: #e2e8f0; }
-        .lang-option:active { background: #f1f5f9; }
-        .dark-mode .lang-option:active { background: #334155; }
+        .lang-option:hover { background: #f1f5f9; }
+        .dark-mode .lang-option:hover { background: #334155; }
 
-        .lang-option .flag-icon { font-size: 16px; line-height: 1; }
+        .lang-option .flag-icon { font-size: 18px; line-height: 1; }
 
-        /* UTILITY */
         .flex-between { display: flex; align-items: center; justify-content: space-between; }
-        .gap-2 { gap: 6px; }
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 12px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 12px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .text-center { text-align: center; }
         .hidden { display: none !important; }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
         .dark-mode ::-webkit-scrollbar-thumb { background: #475569; }
 
-        /* PATTERN */
+        /* --- PATTERN RICORRENTI --- */
         .pattern-sequence-list {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            margin-bottom: 10px;
-            max-height: 180px;
+            gap: 6px;
+            margin-bottom: 12px;
+            max-height: 220px;
             overflow-y: auto;
         }
 
         .pattern-day-row {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: #f8fafc;
-            border-radius: 6px;
-            padding: 4px 6px;
+            border-radius: 8px;
+            padding: 6px 8px;
         }
 
         .dark-mode .pattern-day-row { background: #2d3748; }
 
         .pattern-day-index {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-weight: 700;
             color: #64748b;
-            width: 18px;
+            width: 22px;
             text-align: center;
             flex-shrink: 0;
         }
 
         .dark-mode .pattern-day-index { color: #94a3b8; }
 
-        .pattern-day-row select { margin-bottom: 0; flex: 1; font-size: 0.7rem; padding: 4px 6px; }
+        .pattern-day-row select { margin-bottom: 0; flex: 1; }
 
         .pattern-remove-btn {
             background: none;
             border: none;
             color: #ef4444;
             cursor: pointer;
-            font-size: 0.8rem;
-            padding: 2px 6px;
+            font-size: 0.9rem;
+            padding: 4px;
             flex-shrink: 0;
         }
 
         .pattern-add-btn {
             width: 100%;
-            padding: 6px;
+            padding: 8px;
             border: 2px dashed #cbd5e1;
-            border-radius: 6px;
+            border-radius: 8px;
             background: none;
             color: #64748b;
             font-weight: 600;
-            font-size: 0.7rem;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .dark-mode .pattern-add-btn { border-color: #475569; color: #94a3b8; }
+
+        /* --- GRAFICO MENSILE ANNUALE --- */
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 140px;
+            padding: 8px 4px 0 4px;
+        }
+
+        .chart-bar-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .chart-bar {
+            width: 100%;
+            max-width: 22px;
+            background: linear-gradient(180deg, #3b82f6, #2563eb);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s;
+            min-height: 2px;
+        }
+
+        .chart-bar-value {
+            font-size: 0.5rem;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 2px;
+        }
+
+        .dark-mode .chart-bar-value { color: #94a3b8; }
+
+        .chart-bar-label {
+            font-size: 0.55rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .dark-mode .chart-bar-label { color: #94a3b8; }
+
+        /* --- Condivisione in fondo --- */
+        .share-section {
+            background: white;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .dark-mode .share-section {
+            background: #1e293b;
+        }
+
+        .share-section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .share-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .share-btn:hover { transform: scale(1.02); opacity: 0.95; }
+        .share-btn:active { transform: scale(0.98); }
 
         /* Straordinario */
         .overtime-badge {
@@ -989,18 +982,70 @@
             border-color: #dc2626;
         }
         .shift-option.overtime.selected {
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.4);
         }
 
-        /* Contenitore immagine condivisione */
+        /* Layout responsive: pieno schermo su smartphone, si allarga su tablet/desktop */
+        .fixed-layout {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .calendar-grid .day-cell {
+            min-width: 0;
+            width: 100%;
+        }
+
+        /* --- TABLET (da ~600px, es. iPad in verticale) --- */
+        @media (min-width: 600px) {
+            .fixed-layout { max-width: 680px; }
+            .day-cell { min-height: 90px; }
+            .day-number { font-size: 1rem; }
+            .shift-badge { font-size: 0.7rem; }
+            .shift-badge.single { font-size: 0.8rem; }
+            .month-title { font-size: 1.5rem; }
+            .header-title { font-size: 1.35rem; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* --- TABLET GRANDE / DESKTOP PICCOLO (da ~900px, es. iPad orizzontale) --- */
+        @media (min-width: 900px) {
+            .fixed-layout { max-width: 900px; }
+            .day-cell { min-height: 110px; }
+            .calendar { padding: 16px; }
+            .annual-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* --- DESKTOP (da ~1200px) --- */
+        @media (min-width: 1200px) {
+            .fixed-layout { max-width: 1100px; }
+            .day-cell { min-height: 120px; }
+            .annual-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Adatta automaticamente a schermi di telefono molto piccoli (es. iPhone SE, 320-360px) */
+        @media (max-width: 360px) {
+            body { padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
+            .day-cell { min-height: 58px; }
+            .day-number { font-size: 0.75rem; }
+            .shift-badge { font-size: 0.55rem; }
+            .header-title { font-size: 1.05rem; }
+            .month-title { font-size: 1.1rem; }
+        }
+
+        /* Contenitore per l'immagine da condividere (invisible) */
         #share-image-container {
             position: absolute;
             left: -9999px;
             top: 0;
             width: 400px;
             background: white;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             z-index: -1;
         }
         .dark-mode #share-image-container {
@@ -1010,17 +1055,17 @@
         #share-image-container .share-calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
+            gap: 3px;
             width: 100%;
         }
         #share-image-container .share-day-header {
             text-align: center;
             font-weight: 700;
-            font-size: 0.5rem;
-            padding: 3px 0;
+            font-size: 0.6rem;
+            padding: 4px 0;
             color: #64748b;
             background: #f1f5f9;
-            border-radius: 3px;
+            border-radius: 4px;
         }
         .dark-mode #share-image-container .share-day-header {
             background: #334155;
@@ -1029,16 +1074,16 @@
         #share-image-container .share-day-cell {
             aspect-ratio: 1 / 1;
             background: #f8fafc;
-            border-radius: 3px;
+            border-radius: 4px;
             padding: 2px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             font-weight: 600;
             color: #1e293b;
-            min-height: 25px;
+            min-height: 30px;
         }
         .dark-mode #share-image-container .share-day-cell {
             background: #2d3748;
@@ -1046,7 +1091,7 @@
         }
         #share-image-container .share-day-cell.today {
             outline: 2px solid #3b82f6;
-            border-radius: 3px;
+            border-radius: 4px;
         }
         #share-image-container .share-day-cell.holiday {
             background: #fef2f2;
@@ -1055,7 +1100,7 @@
             background: #7f1d1d;
         }
         #share-image-container .share-shift-badge {
-            font-size: 0.35rem;
+            font-size: 0.4rem;
             font-weight: 700;
             padding: 1px 2px;
             border-radius: 2px;
@@ -1068,61 +1113,36 @@
         }
         #share-image-container .share-month-title {
             text-align: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: #1e293b;
         }
         .dark-mode #share-image-container .share-month-title {
             color: #e2e8f0;
         }
         #share-image-container .share-footer {
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
-            font-size: 0.45rem;
+            font-size: 0.55rem;
             color: #94a3b8;
             border-top: 1px solid #e2e8f0;
-            padding-top: 6px;
+            padding-top: 8px;
         }
         .dark-mode #share-image-container .share-footer {
             border-top-color: #475569;
             color: #64748b;
         }
-
-        /* Responsive per schermi molto piccoli */
-        @media (max-width: 380px) {
-            body { padding: 4px; }
-            .header { padding: 8px 10px; }
-            .header-title { font-size: 0.85rem; }
-            #clock { font-size: 0.5rem; padding: 2px 6px; }
-            #clock-time { min-width: 45px; font-size: 0.5rem; }
-            .month-title { font-size: 0.95rem; }
-            .day-cell { min-height: 40px; }
-            .day-number { font-size: 0.6rem; }
-            .shift-badge { font-size: 0.4rem; }
-            .shift-badge.single { font-size: 0.5rem; }
-            .shift-option { font-size: 0.55rem; padding: 3px 8px; }
-            .widget-date { font-size: 0.8rem; }
-            .widget-shift { font-size: 0.6rem; padding: 2px 8px; }
-            .share-btn { font-size: 0.7rem; padding: 6px; }
-            .stats-value { font-size: 1.3rem; }
-        }
-
-        /* Responsive per schermi grandi (tablet) */
-        @media (min-width: 600px) {
-            .container { max-width: 480px; }
-            body { padding: 16px; }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container fixed-layout">
         <!-- HEADER -->
         <div class="header">
             <div class="flex-between">
                 <div class="header-title">
                     📅 AppTurni
-                    <button id="theme-toggle" style="background:none;border:none;font-size:0.9rem;cursor:pointer;color:#64748b;padding:0 4px;">
+                    <button id="theme-toggle" style="background:none;border:none;font-size:1rem;cursor:pointer;color:#64748b;">
                         🌙
                     </button>
                 </div>
@@ -1132,22 +1152,50 @@
                         <span id="clock-time">00:00:00</span>
                     </div>
                     <div class="hamburger-menu">
-                        <button id="hamburger-btn" class="hamburger-btn">☰</button>
+                        <button id="hamburger-btn" class="hamburger-btn">
+                            ☰
+                        </button>
                         <div id="hamburger-menu-content" class="hamburger-menu-content">
-                            <button class="menu-item" onclick="showAnnualView()">📅 Annuale</button>
-                            <button class="menu-item" onclick="openCreateShiftModal()">➕ Nuovo Turno</button>
-                            <button class="menu-item" onclick="openEditShiftModal()">✏️ Modifica</button>
-                            <button class="menu-item" onclick="openDeleteShiftModal()">🗑️ Elimina</button>
-                            <button class="menu-item" onclick="openPatternModal()">🔁 Ricorrenti</button>
-                            <button class="menu-item" onclick="openWorkSettingsModal()">⚙️ Lavoro</button>
-                            <button class="menu-item" onclick="showStatsPage()">📊 Statistiche</button>
-                            <button class="menu-item" onclick="openNotificationSettings()">🔔 Notifiche</button>
-                            <button class="menu-item" onclick="exportPDF()">📄 PDF</button>
-                            <button class="menu-item" onclick="exportExcel()">📊 Excel</button>
-                            <button class="menu-item" onclick="exportBackup()">⬆️ Backup</button>
-                            <button class="menu-item" onclick="document.getElementById('backup-file-input').click()">⬇️ Ripristina</button>
+                            <button class="menu-item" onclick="showAnnualView()">
+                                📅 Visualizzazione Annuale
+                            </button>
+                            <button class="menu-item" onclick="openCreateShiftModal()">
+                                ➕ Aggiungi Turno
+                            </button>
+                            <button class="menu-item" onclick="openEditShiftModal()">
+                                ✏️ Modifica Turno
+                            </button>
+                            <button class="menu-item" onclick="openDeleteShiftModal()">
+                                🗑️ Elimina Turno
+                            </button>
+                            <button class="menu-item" onclick="openPatternModal()">
+                                🔁 Turni Ricorrenti
+                            </button>
+                            <button class="menu-item" onclick="openWorkSettingsModal()">
+                                ⚙️ Impostazioni Lavoro
+                            </button>
+                            <button class="menu-item" onclick="showStatsPage()">
+                                📊 Statistiche
+                            </button>
+                            <button class="menu-item" onclick="openNotificationSettings()">
+                                🔔 Impostazioni Notifiche
+                            </button>
+                            <button class="menu-item" onclick="exportPDF()">
+                                📄 Esporta PDF
+                            </button>
+                            <button class="menu-item" onclick="exportExcel()">
+                                📊 Esporta Excel
+                            </button>
+                            <button class="menu-item" onclick="exportBackup()">
+                                ⬆️ Backup
+                            </button>
+                            <button class="menu-item" onclick="document.getElementById('backup-file-input').click()">
+                                ⬇️ Ripristina
+                            </button>
                             <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="importBackup(event)">
-                            <button class="menu-item" onclick="exportToGoogleCalendar()">🌐 Google Calendar</button>
+                            <button class="menu-item" onclick="exportToGoogleCalendar()">
+                                🌐 Google Calendar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1199,76 +1247,84 @@
             <div class="shift-selector-section">
                 <div class="shift-selector-title">📋 Seleziona Turno</div>
                 <div class="shift-selector" id="shift-selector"></div>
-                <button onclick="clearShift()" class="clear-shift-btn">✕ Rimuovi Turno</button>
+                <button onclick="clearShift()" class="clear-shift-btn">
+                    ✕ Rimuovi Turno
+                </button>
             </div>
         </div>
 
-        <!-- CONDIVISIONE -->
+        <!-- CONDIVISIONE IN FONDO -->
         <div class="share-section">
-            <div class="share-section-title">📤 Condividi Calendario</div>
-            <button class="share-btn" onclick="shareMonthImage()">📸 Condividi Immagine</button>
+            <div class="share-section-title">📤 Condividi Calendario Mensile</div>
+            <button class="share-btn" onclick="shareMonthImage()">
+                📸 Condividi Immagine
+            </button>
         </div>
 
         <!-- STATISTICHE -->
         <div id="stats-view" class="stats-view">
             <h1 class="stats-title">📊 Statistiche</h1>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;">Ore Lavorate</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;">Ore Lavorate</div>
                 <div id="worked-hours" class="stats-value">0:00</div>
-                <div style="font-size:0.6rem;color:#94a3b8;">Totale ore questo mese</div>
+                <div style="font-size:0.7rem;color:#94a3b8;">Totale ore questo mese</div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;">Straordinario</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;">Straordinario</div>
                 <div id="overtime-hours" class="stats-value">0:00</div>
-                <div style="font-size:0.6rem;color:#94a3b8;" id="overtime-hint">Ore di straordinario</div>
+                <div style="font-size:0.7rem;color:#94a3b8;" id="overtime-hint">Ore di straordinario effettuate</div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;margin-bottom:6px;">🌴 Ferie / Permessi</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:8px;">🌴 Ferie / Permessi Residui</div>
                 <div id="ferie-permessi-details" class="stats-grid"></div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;margin-bottom:6px;">📋 Turni</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:8px;">📋 Turni</div>
                 <div id="shifts-details" class="stats-grid"></div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;margin-bottom:6px;">📝 Note</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:8px;">📝 Note</div>
                 <div id="notes-list"></div>
             </div>
-            <button onclick="showMonthlyView()" class="back-btn">← Torna al Calendario</button>
+            <button onclick="showMonthlyView()" class="back-btn">
+                ← Torna al Calendario
+            </button>
         </div>
 
         <!-- ANNUALE -->
         <div id="annual-view" class="annual-view">
-            <h1 class="stats-title">📅 Annuale</h1>
+            <h1 class="stats-title">📅 Visualizzazione Annuale</h1>
             <div id="annual-calendar" class="annual-grid"></div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;">Ore Annuali</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;">Ore Annuali</div>
                 <div id="annual-hours" class="stats-value">0:00</div>
-                <div style="font-size:0.6rem;color:#94a3b8;">Totale quest'anno</div>
+                <div style="font-size:0.7rem;color:#94a3b8;">Totale ore quest'anno</div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;">Straordinario</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;">Straordinario Annuale</div>
                 <div id="annual-overtime" class="stats-value">0:00</div>
-                <div style="font-size:0.6rem;color:#94a3b8;">Totale straordinario</div>
+                <div style="font-size:0.7rem;color:#94a3b8;">Totale straordinario quest'anno</div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;margin-bottom:4px;">📈 Andamento Mensile</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:4px;">📈 Andamento Ore Mese su Mese</div>
                 <div id="monthly-chart" class="chart-container"></div>
             </div>
             <div class="stats-card">
-                <div style="font-size:0.7rem;color:#64748b;font-weight:600;margin-bottom:6px;">📋 Turni</div>
+                <div style="font-size:0.8rem;color:#64748b;font-weight:600;margin-bottom:8px;">📋 Turni Annuali</div>
                 <div id="annual-shifts-details" class="stats-grid"></div>
             </div>
-            <button onclick="showMonthlyView()" class="back-btn">← Torna al Calendario</button>
+            <button onclick="showMonthlyView()" class="back-btn">
+                ← Torna al Calendario
+            </button>
         </div>
 
         <!-- MODALI -->
         <div id="create-shift-modal" class="modal-overlay hidden">
             <div class="modal-content">
-                <h3>✏️ Nuovo Turno</h3>
-                <label>Nome</label>
+                <h3>✏️ Crea Nuovo Turno</h3>
+                <label>Nome Turno</label>
                 <input type="text" id="shift-name-input" placeholder="es. Mattina">
-                <label>Abbreviazione</label>
+                <label>Abbreviazione (opzionale)</label>
                 <input type="text" id="shift-abbr-input" placeholder="es. M">
                 <label>Ore (HH:MM)</label>
                 <input type="text" id="shift-hours-input" placeholder="es. 07:15">
@@ -1276,15 +1332,15 @@
                 <input type="color" id="shift-color-input" value="#fef3c7">
                 <div class="checkbox-group">
                     <input type="checkbox" id="shift-is-ferie-input">
-                    <label>Ferie</label>
+                    <label for="shift-is-ferie-input">Conta come giorno di Ferie</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="shift-is-permesso-input">
-                    <label>Permesso</label>
+                    <label for="shift-is-permesso-input">Conta come giorno di Permesso</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="shift-is-overtime-input">
-                    <label>Straordinario</label>
+                    <label for="shift-is-overtime-input">Conta come Straordinario</label>
                 </div>
                 <div class="modal-actions">
                     <button onclick="closeCreateShiftModal()" class="btn-secondary">Annulla</button>
@@ -1296,8 +1352,10 @@
         <div id="delete-shift-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <h3>🗑️ Elimina Turno</h3>
-                <label>Seleziona</label>
-                <select id="delete-shift-select"><option value="">Seleziona...</option></select>
+                <label>Seleziona Turno</label>
+                <select id="delete-shift-select">
+                    <option value="">Seleziona...</option>
+                </select>
                 <div class="modal-actions">
                     <button onclick="closeDeleteShiftModal()" class="btn-secondary">Annulla</button>
                     <button onclick="deleteShift()" class="btn-danger">Elimina</button>
@@ -1309,7 +1367,7 @@
             <div class="modal-content">
                 <h3>✏️ Modifica Turno</h3>
                 <div id="edit-shift-select-container"></div>
-                <label>Nome</label>
+                <label>Nome Turno</label>
                 <input type="text" id="edit-shift-name">
                 <label>Abbreviazione</label>
                 <input type="text" id="edit-shift-abbr">
@@ -1319,15 +1377,15 @@
                 <input type="color" id="edit-shift-color" value="#fef3c7">
                 <div class="checkbox-group">
                     <input type="checkbox" id="edit-shift-is-ferie">
-                    <label>Ferie</label>
+                    <label for="edit-shift-is-ferie">Conta come giorno di Ferie</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="edit-shift-is-permesso">
-                    <label>Permesso</label>
+                    <label for="edit-shift-is-permesso">Conta come giorno di Permesso</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="edit-shift-is-overtime">
-                    <label>Straordinario</label>
+                    <label for="edit-shift-is-overtime">Conta come Straordinario</label>
                 </div>
                 <div class="modal-actions">
                     <button onclick="closeEditShiftModal()" class="btn-secondary">Annulla</button>
@@ -1338,11 +1396,12 @@
 
         <div id="note-modal" class="modal-overlay hidden">
             <div class="modal-content">
-                <h3>📝 Nota</h3>
+                <h3>📝 Aggiungi Nota</h3>
+                <label>Nota</label>
                 <textarea id="note-text" rows="3" placeholder="Inserisci una nota..."></textarea>
                 <label>Data Notifica</label>
                 <input type="date" id="note-notification-date">
-                <label>Orario</label>
+                <label>Orario Notifica</label>
                 <input type="time" id="note-notification-time" value="08:00">
                 <div class="checkbox-group">
                     <input type="checkbox" id="note-enable-notification">
@@ -1357,10 +1416,10 @@
 
         <div id="notification-settings-modal" class="modal-overlay hidden">
             <div class="modal-content">
-                <h3>🔔 Notifiche</h3>
+                <h3>🔔 Impostazioni Notifiche</h3>
                 <div class="checkbox-group">
                     <input type="checkbox" id="notification-enabled" checked>
-                    <label>Abilita</label>
+                    <label>Abilita notifiche</label>
                 </div>
                 <div class="checkbox-group">
                     <input type="checkbox" id="notification-vibrate" checked>
@@ -1377,14 +1436,15 @@
             </div>
         </div>
 
+        <!-- MODALE IMPOSTAZIONI LAVORO -->
         <div id="work-settings-modal" class="modal-overlay hidden">
             <div class="modal-content">
-                <h3>⚙️ Lavoro</h3>
-                <label>Ore Settimanali</label>
+                <h3>⚙️ Impostazioni Lavoro</h3>
+                <label>Ore Contrattuali Settimanali</label>
                 <input type="number" id="weekly-hours-input" step="0.5" min="0" placeholder="es. 40">
-                <label>Ferie Annuali</label>
+                <label>Giorni di Ferie Annuali Totali</label>
                 <input type="number" id="ferie-total-input" step="1" min="0" placeholder="es. 26">
-                <label>Permessi Annuali</label>
+                <label>Giorni di Permesso Annuali Totali</label>
                 <input type="number" id="permessi-total-input" step="1" min="0" placeholder="es. 32">
                 <div class="modal-actions">
                     <button onclick="closeWorkSettingsModal()" class="btn-secondary">Annulla</button>
@@ -1393,34 +1453,37 @@
             </div>
         </div>
 
+        <!-- MODALE PATTERN RICORRENTI -->
         <div id="pattern-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <h3>🔁 Turni Ricorrenti</h3>
-                <label>Data Inizio</label>
+                <label>Data di Inizio Ciclo</label>
                 <input type="date" id="pattern-start-date">
-                <label style="margin-top:4px;">Sequenza</label>
+                <label style="margin-top:4px;">Sequenza del Ciclo (si ripete)</label>
                 <div id="pattern-sequence-list" class="pattern-sequence-list"></div>
-                <button type="button" class="pattern-add-btn" onclick="addPatternDay()">+ Aggiungi Giorno</button>
-                <label>Mesi in avanti</label>
+                <button type="button" class="pattern-add-btn" onclick="addPatternDay()">+ Aggiungi Giorno al Ciclo</button>
+                <label>Applica per quanti mesi in avanti</label>
                 <input type="number" id="pattern-months-ahead" min="1" max="24" value="6">
                 <div class="checkbox-group">
                     <input type="checkbox" id="pattern-overwrite">
-                    <label>Sovrascrivi</label>
+                    <label for="pattern-overwrite">Sovrascrivi turni già presenti</label>
                 </div>
                 <div class="modal-actions">
                     <button onclick="closePatternModal()" class="btn-secondary">Annulla</button>
-                    <button onclick="applyPattern()" class="btn-primary">Applica</button>
+                    <button onclick="applyPattern()" class="btn-primary">Applica Ciclo</button>
                 </div>
             </div>
         </div>
 
+        <!-- CONTENITORE PER IMMAGINE DA CONDIVIDERE -->
         <div id="share-image-container"></div>
+
         <div id="toast-container" class="toast-container"></div>
     </div>
 
     <script>
         // ============================================================
-        // JAVASCRIPT COMPLETO - OTTIMIZZATO PER MOBILE
+        // JAVASCRIPT COMPLETO - CON NOTIFICHE CAPACITOR
         // ============================================================
 
         // --- CAPACITOR NOTIFICHE ---
@@ -1432,7 +1495,9 @@
                 try {
                     const { LocalNotifications } = Capacitor.Plugins;
                     await LocalNotifications.requestPermissions();
-                } catch (e) { console.log('Capacitor notifiche non disponibile'); }
+                } catch (e) {
+                    console.log('Capacitor notifiche non disponibile');
+                }
             },
 
             async scheduleNotification(title, body, date, id) {
@@ -1440,7 +1505,9 @@
                 try {
                     const { LocalNotifications } = Capacitor.Plugins;
                     const scheduledDate = new Date(date);
-                    const diff = scheduledDate.getTime() - Date.now();
+                    const now = new Date();
+                    const diff = scheduledDate.getTime() - now.getTime();
+                    
                     if (diff > 0) {
                         await LocalNotifications.schedule({
                             notifications: [{
@@ -1452,8 +1519,11 @@
                                 vibrate: true
                             }]
                         });
+                        console.log('Notifica Capacitor programmata per:', scheduledDate);
                     }
-                } catch (e) { console.log('Errore schedule Capacitor:', e); }
+                } catch (e) {
+                    console.log('Errore schedule Capacitor:', e);
+                }
             },
 
             async cancelNotification(id) {
@@ -1461,17 +1531,54 @@
                 try {
                     const { LocalNotifications } = Capacitor.Plugins;
                     await LocalNotifications.cancel({ notifications: [{ id: id }] });
-                } catch (e) { console.log('Errore cancel Capacitor:', e); }
+                } catch (e) {
+                    console.log('Errore cancel Capacitor:', e);
+                }
+            },
+
+            async cancelAll() {
+                if (!this.isCapacitor) return;
+                try {
+                    const { LocalNotifications } = Capacitor.Plugins;
+                    await LocalNotifications.cancelAll();
+                } catch (e) {
+                    console.log('Errore cancelAll Capacitor:', e);
+                }
+            },
+
+            async getPending() {
+                if (!this.isCapacitor) return [];
+                try {
+                    const { LocalNotifications } = Capacitor.Plugins;
+                    const result = await LocalNotifications.getPending();
+                    return result.notifications || [];
+                } catch (e) {
+                    return [];
+                }
             }
         };
 
-        // --- PASQUA ---
+        // --- ID NOTIFICA SICURO (32-bit, richiesto dai plugin nativi Capacitor) ---
+        function getNotificationId(noteKey) {
+            let hash = 0;
+            for (let i = 0; i < noteKey.length; i++) {
+                hash = (hash * 31 + noteKey.charCodeAt(i)) | 0; // forza a 32-bit signed
+            }
+            return Math.abs(hash) || 1;
+        }
+
+        // --- FUNZIONI PER PASQUA ---
         function calculateEaster(year) {
-            const a = year % 19, b = Math.floor(year / 100), c = year % 100;
-            const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+            const a = year % 19;
+            const b = Math.floor(year / 100);
+            const c = year % 100;
+            const d = Math.floor(b / 4);
+            const e = b % 4;
+            const f = Math.floor((b + 8) / 25);
             const g = Math.floor((b - f + 1) / 3);
             const h = (19 * a + b - d - g + 15) % 30;
-            const i = Math.floor(c / 4), k = c % 4;
+            const i = Math.floor(c / 4);
+            const k = c % 4;
             const l = (32 + 2 * e + 2 * i - h - k) % 7;
             const m = Math.floor((a + 11 * h + 22 * l) / 451);
             const month = Math.floor((h + l - 7 * m + 114) / 31);
@@ -1481,17 +1588,22 @@
 
         function getHolidaysForYear(year) {
             const easter = calculateEaster(year);
-            const fixed = [
+            const fixedHolidays = [
                 { month: 0, day: 1 }, { month: 0, day: 6 }, { month: 3, day: 25 },
                 { month: 4, day: 1 }, { month: 5, day: 2 }, { month: 7, day: 15 },
                 { month: 10, day: 1 }, { month: 11, day: 8 }, { month: 11, day: 25 },
                 { month: 11, day: 26 }
             ];
-            return [...fixed, { month: easter.month, day: easter.day }, { month: easter.month, day: easter.day + 1 }];
+            const easterHolidays = [
+                { month: easter.month, day: easter.day },
+                { month: easter.month, day: easter.day + 1 }
+            ];
+            return [...fixedHolidays, ...easterHolidays];
         }
 
         function isHoliday(year, month, day) {
-            return getHolidaysForYear(year).some(h => h.month === month && h.day === day);
+            const holidays = getHolidaysForYear(year);
+            return holidays.some(h => h.month === month && h.day === day);
         }
 
         // --- VARIABILI ---
@@ -1505,8 +1617,17 @@
         let touchStartX = 0;
         let patternSequence = [];
 
-        let notificationSettings = { enabled: true, vibrate: true, sound: true };
-        let workSettings = { weeklyHours: 40, ferieTotal: 26, permessiTotal: 32 };
+        let notificationSettings = {
+            enabled: true,
+            vibrate: true,
+            sound: true
+        };
+
+        let workSettings = {
+            weeklyHours: 40,
+            ferieTotal: 26,
+            permessiTotal: 32
+        };
 
         const isStorageAvailable = (function() {
             try { localStorage.setItem('__test__', '1'); localStorage.removeItem('__test__'); return true; } 
@@ -1515,27 +1636,55 @@
 
         // --- TRADUZIONI ---
         const translations = {
-            it: { monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'], monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'], dayNames: ['LUN','MAR','MER','GIO','VEN','SAB','DOM'] },
-            en: { monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'], monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], dayNames: ['MON','TUE','WED','THU','FRI','SAT','SUN'] },
-            es: { monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'], dayNames: ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM'] },
-            de: { monthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'], monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'], dayNames: ['MO','DI','MI','DO','FR','SA','SO'] },
-            fr: { monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'], monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'], dayNames: ['LUN','MAR','MER','JEU','VEN','SAM','DIM'] }
+            it: {
+                monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+                monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
+                dayNames: ['LUN','MAR','MER','GIO','VEN','SAB','DOM']
+            },
+            en: {
+                monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                dayNames: ['MON','TUE','WED','THU','FRI','SAT','SUN']
+            },
+            es: {
+                monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['LUN','MAR','MIÉ','JUE','VIE','SÁB','DOM']
+            },
+            de: {
+                monthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+                monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+                dayNames: ['MO','DI','MI','DO','FR','SA','SO']
+            },
+            fr: {
+                monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
+                dayNames: ['LUN','MAR','MER','JEU','VEN','SAM','DIM']
+            }
         };
 
-        function getLang() { return localStorage.getItem('selectedLanguage') || 'it'; }
+        function getLang() {
+            return localStorage.getItem('selectedLanguage') || 'it';
+        }
 
         function updateTranslations(lang) {
             const monthEl = document.getElementById('month-name');
-            if (monthEl) monthEl.textContent = `${translations[lang].monthNames[currentMonth]} ${currentYear}`;
+            if (monthEl) {
+                monthEl.textContent = `${translations[lang].monthNames[currentMonth]} ${currentYear}`;
+            }
             const headers = document.querySelectorAll('.day-header');
             const dayNames = translations[lang].dayNames;
-            headers.forEach((el, i) => { if (dayNames[i]) el.textContent = dayNames[i]; });
+            headers.forEach((el, i) => {
+                if (dayNames[i]) el.textContent = dayNames[i];
+            });
         }
 
-        // --- SUPPORTO ---
+        // --- FUNZIONI SUPPORTO ---
         function isDarkColor(hex) {
             try {
-                const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+                const r = parseInt(hex.slice(1,3), 16);
+                const g = parseInt(hex.slice(3,5), 16);
+                const b = parseInt(hex.slice(5,7), 16);
                 return (r*299 + g*587 + b*114) / 1000 < 128;
             } catch { return false; }
         }
@@ -1552,7 +1701,8 @@
         function decimalToTime(decimal) {
             try {
                 if (isNaN(decimal) || decimal < 0) return '0:00';
-                const h = Math.floor(decimal), m = Math.round((decimal - h) * 60);
+                const h = Math.floor(decimal);
+                const m = Math.round((decimal - h) * 60);
                 return `${h}:${String(m).padStart(2, '0')}`;
             } catch { return '0:00'; }
         }
@@ -1581,8 +1731,11 @@
         function saveShift(key, value) {
             try {
                 if (isStorageAvailable) {
-                    if (value && value.length > 0) localStorage.setItem(key, JSON.stringify(value));
-                    else localStorage.removeItem(key);
+                    if (value && value.length > 0) {
+                        localStorage.setItem(key, JSON.stringify(value));
+                    } else {
+                        localStorage.removeItem(key);
+                    }
                 }
             } catch (e) { console.error('saveShift error:', e); }
         }
@@ -1598,8 +1751,11 @@
         }
 
         function saveCustomShifts() {
-            try { if (isStorageAvailable) localStorage.setItem('customShifts', JSON.stringify(shifts)); } 
-            catch (e) { console.error('saveCustomShifts error:', e); }
+            try {
+                if (isStorageAvailable) {
+                    localStorage.setItem('customShifts', JSON.stringify(shifts));
+                }
+            } catch (e) { console.error('saveCustomShifts error:', e); }
         }
 
         function loadCustomShifts() {
@@ -1628,8 +1784,11 @@
         function saveNoteData(key, data) {
             try {
                 if (isStorageAvailable) {
-                    if (data.text) localStorage.setItem(key, JSON.stringify(data));
-                    else localStorage.removeItem(key);
+                    if (data.text) {
+                        localStorage.setItem(key, JSON.stringify(data));
+                    } else {
+                        localStorage.removeItem(key);
+                    }
                 }
             } catch (e) { console.error('saveNoteData error:', e); }
         }
@@ -1645,8 +1804,11 @@
         }
 
         function saveWorkSettingsData() {
-            try { if (isStorageAvailable) localStorage.setItem('workSettings', JSON.stringify(workSettings)); } 
-            catch (e) { console.error('saveWorkSettingsData error:', e); }
+            try {
+                if (isStorageAvailable) {
+                    localStorage.setItem('workSettings', JSON.stringify(workSettings));
+                }
+            } catch (e) { console.error('saveWorkSettingsData error:', e); }
         }
 
         function openWorkSettingsModal() {
@@ -1667,7 +1829,7 @@
             saveWorkSettingsData();
             closeWorkSettingsModal();
             updateWorkedHoursAndSummary();
-            showToast('✅ Impostazioni salvate', 'success');
+            showToast('✅ Impostazioni lavoro salvate', 'success');
         }
 
         // --- OROLOGIO ---
@@ -1716,7 +1878,7 @@
             shiftsEl.innerHTML = html;
         }
 
-        // --- NOTIFICHE ---
+        // --- NOTIFICHE CON CAPACITOR ---
         function loadNotificationSettings() {
             try {
                 if (isStorageAvailable) {
@@ -1739,7 +1901,9 @@
                 notificationSettings.enabled = document.getElementById('notification-enabled')?.checked ?? true;
                 notificationSettings.vibrate = document.getElementById('notification-vibrate')?.checked ?? true;
                 notificationSettings.sound = document.getElementById('notification-sound')?.checked ?? true;
-                if (isStorageAvailable) localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+                if (isStorageAvailable) {
+                    localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+                }
                 closeNotificationSettings();
                 showToast('✅ Impostazioni salvate', 'success');
             } catch (e) { console.error('saveNotificationSettingsUI error:', e); }
@@ -1759,26 +1923,43 @@
             document.getElementById('notification-settings-modal')?.classList.add('hidden');
         }
 
-        function saveNotificationSettings() { saveNotificationSettingsUI(); }
+        function saveNotificationSettings() {
+            saveNotificationSettingsUI();
+        }
 
         function playNotificationSound() {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const o1 = ctx.createOscillator(), g1 = ctx.createGain();
-                o1.connect(g1); g1.connect(ctx.destination);
-                o1.frequency.value = 800; o1.type = 'sine'; g1.gain.value = 0.3;
-                o1.start(); o1.stop(ctx.currentTime + 0.15);
+                const o1 = ctx.createOscillator();
+                const g1 = ctx.createGain();
+                o1.connect(g1);
+                g1.connect(ctx.destination);
+                o1.frequency.value = 800;
+                o1.type = 'sine';
+                g1.gain.value = 0.3;
+                o1.start();
+                o1.stop(ctx.currentTime + 0.15);
                 setTimeout(() => {
-                    const o2 = ctx.createOscillator(), g2 = ctx.createGain();
-                    o2.connect(g2); g2.connect(ctx.destination);
-                    o2.frequency.value = 600; o2.type = 'sine'; g2.gain.value = 0.3;
-                    o2.start(); o2.stop(ctx.currentTime + 0.15);
+                    const o2 = ctx.createOscillator();
+                    const g2 = ctx.createGain();
+                    o2.connect(g2);
+                    g2.connect(ctx.destination);
+                    o2.frequency.value = 600;
+                    o2.type = 'sine';
+                    g2.gain.value = 0.3;
+                    o2.start();
+                    o2.stop(ctx.currentTime + 0.15);
                 }, 150);
                 setTimeout(() => {
-                    const o3 = ctx.createOscillator(), g3 = ctx.createGain();
-                    o3.connect(g3); g3.connect(ctx.destination);
-                    o3.frequency.value = 1000; o3.type = 'sine'; g3.gain.value = 0.3;
-                    o3.start(); o3.stop(ctx.currentTime + 0.2);
+                    const o3 = ctx.createOscillator();
+                    const g3 = ctx.createGain();
+                    o3.connect(g3);
+                    g3.connect(ctx.destination);
+                    o3.frequency.value = 1000;
+                    o3.type = 'sine';
+                    g3.gain.value = 0.3;
+                    o3.start();
+                    o3.stop(ctx.currentTime + 0.2);
                 }, 300);
             } catch (e) { console.log('Audio fallback'); }
         }
@@ -1786,24 +1967,39 @@
         async function triggerNotification(noteKey, noteText) {
             if (!notificationSettings.enabled) return;
             
+            // Tentativo con Capacitor
             if (CapacitorNotifications.isCapacitor) {
                 try {
-                    const notificationId = parseInt(noteKey.replace(/\D/g, '')) || Date.now();
-                    await CapacitorNotifications.scheduleNotification('📝 AppTurni', noteText, new Date(Date.now() + 1000), notificationId);
+                    const notificationId = getNotificationId(noteKey);
+                    await CapacitorNotifications.scheduleNotification(
+                        '📝 AppTurni - Promemoria',
+                        noteText,
+                        new Date(Date.now() + 1000),
+                        notificationId
+                    );
+                    showToast('🔔 Notifica programmata con Capacitor', 'success');
                     return;
-                } catch (e) { console.log('Capacitor fallback'); }
+                } catch (e) {
+                    console.log('Capacitor fallback a web notification');
+                }
             }
 
+            // Fallback: Web Notification
             if ('Notification' in window && Notification.permission === 'granted') {
                 new Notification('📝 AppTurni', {
-                    body: noteText, tag: noteKey, requireInteraction: true,
+                    body: noteText,
+                    icon: '/icon-192.png',
+                    tag: noteKey,
+                    requireInteraction: true,
                     silent: !notificationSettings.sound,
                     vibrate: notificationSettings.vibrate ? [200,100,200] : []
                 });
             }
             
             if (notificationSettings.sound) playNotificationSound();
-            if (notificationSettings.vibrate && navigator.vibrate) navigator.vibrate([200,100,200,100,300]);
+            if (notificationSettings.vibrate && navigator.vibrate) {
+                navigator.vibrate([200,100,200,100,300]);
+            }
             
             removeScheduledNotification(noteKey);
             const data = loadNote(noteKey);
@@ -1817,20 +2013,30 @@
         }
 
         function scheduleNotification(noteKey, dateTime, noteText) {
-            const delay = dateTime.getTime() - Date.now();
+            const now = Date.now();
+            const delay = dateTime.getTime() - now;
             if (delay <= 0) return;
             if (notificationTimers[noteKey]) {
                 clearTimeout(notificationTimers[noteKey]);
                 delete notificationTimers[noteKey];
             }
             
+            // Per Capacitor usiamo il suo sistema
             if (CapacitorNotifications.isCapacitor) {
-                const notificationId = parseInt(noteKey.replace(/\D/g, '')) || Date.now();
-                CapacitorNotifications.scheduleNotification('📝 AppTurni', noteText, dateTime, notificationId);
+                const notificationId = getNotificationId(noteKey);
+                CapacitorNotifications.scheduleNotification(
+                    '📝 AppTurni - Promemoria',
+                    noteText,
+                    dateTime,
+                    notificationId
+                );
                 return;
             }
             
-            notificationTimers[noteKey] = setTimeout(() => triggerNotification(noteKey, noteText), delay);
+            // Fallback: setTimeout
+            notificationTimers[noteKey] = setTimeout(() => {
+                triggerNotification(noteKey, noteText);
+            }, delay);
         }
 
         function removeScheduledNotification(noteKey) {
@@ -1838,10 +2044,13 @@
                 clearTimeout(notificationTimers[noteKey]);
                 delete notificationTimers[noteKey];
             }
+            
+            // Cancella notifica Capacitor
             if (CapacitorNotifications.isCapacitor) {
-                const notificationId = parseInt(noteKey.replace(/\D/g, '')) || Date.now();
+                const notificationId = getNotificationId(noteKey);
                 CapacitorNotifications.cancelNotification(notificationId);
             }
+            
             try {
                 if (isStorageAvailable) {
                     const notifs = JSON.parse(localStorage.getItem('scheduledNotifications') || '{}');
@@ -1857,8 +2066,11 @@
                 const notifs = JSON.parse(localStorage.getItem('scheduledNotifications') || '{}');
                 const now = Date.now();
                 Object.entries(notifs).forEach(([key, data]) => {
-                    if (data.timestamp > now) scheduleNotification(key, new Date(data.timestamp), data.text);
-                    else delete notifs[key];
+                    if (data.timestamp > now) {
+                        scheduleNotification(key, new Date(data.timestamp), data.text);
+                    } else {
+                        delete notifs[key];
+                    }
                 });
                 localStorage.setItem('scheduledNotifications', JSON.stringify(notifs));
             } catch (e) { console.error('loadScheduledNotifications error:', e); }
@@ -1876,9 +2088,17 @@
         }
 
         function checkScheduledNotifications() {}
+
         function requestNotificationPermission() {
-            if (CapacitorNotifications.isCapacitor) CapacitorNotifications.requestPermission();
-            if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+            // Permessi Capacitor
+            if (CapacitorNotifications.isCapacitor) {
+                CapacitorNotifications.requestPermission();
+            }
+            
+            // Permessi Web
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
         }
 
         // --- GESTIONE TURNI ---
@@ -1895,7 +2115,10 @@
                 const label = s.isOvertime ? '⚡' : '';
                 div.textContent = `${label} ${s.name}`;
                 div.title = `${s.name} (${s.abbreviation}, ${decimalToTime(s.hours)})${s.isOvertime ? ' ⚡ Straordinario' : ''}`;
-                div.addEventListener('click', () => { selectedShift = key; renderShiftSelector(); });
+                div.addEventListener('click', () => {
+                    selectedShift = key;
+                    renderShiftSelector();
+                });
                 container.appendChild(div);
             });
         }
@@ -1931,7 +2154,9 @@
             showToast('✅ Turno creato: ' + name, 'success');
         }
 
-        function openCreateShiftModal() { document.getElementById('create-shift-modal')?.classList.remove('hidden'); }
+        function openCreateShiftModal() {
+            document.getElementById('create-shift-modal')?.classList.remove('hidden');
+        }
 
         function closeCreateShiftModal() {
             document.getElementById('create-shift-modal')?.classList.add('hidden');
@@ -1939,9 +2164,12 @@
                 const el = document.getElementById(id);
                 if (el) el.value = id === 'shift-color-input' ? '#fef3c7' : '';
             });
-            document.getElementById('shift-is-ferie-input').checked = false;
-            document.getElementById('shift-is-permesso-input').checked = false;
-            document.getElementById('shift-is-overtime-input').checked = false;
+            const ferieCb = document.getElementById('shift-is-ferie-input');
+            const permCb = document.getElementById('shift-is-permesso-input');
+            const overtimeCb = document.getElementById('shift-is-overtime-input');
+            if (ferieCb) ferieCb.checked = false;
+            if (permCb) permCb.checked = false;
+            if (overtimeCb) overtimeCb.checked = false;
         }
 
         // --- ELIMINAZIONE TURNO ---
@@ -1968,7 +2196,8 @@
             const days = new Date(currentYear, currentMonth + 1, 0).getDate();
             for (let d = 1; d <= days; d++) {
                 const key = `shift_${currentYear}_${currentMonth}_${d}`;
-                saveShift(key, loadShift(key).filter(s => s !== name));
+                const list = loadShift(key).filter(s => s !== name);
+                saveShift(key, list);
             }
             if (selectedShift === name) selectedShift = null;
             closeDeleteShiftModal();
@@ -2054,7 +2283,9 @@
                     const key = localStorage.key(i);
                     if (key && key.startsWith('shift_')) {
                         const list = loadShift(key);
-                        if (list.includes(oldName)) saveShift(key, list.map(s => s === oldName ? newName : s));
+                        if (list.includes(oldName)) {
+                            saveShift(key, list.map(s => s === oldName ? newName : s));
+                        }
                     }
                 }
             } else {
@@ -2119,7 +2350,7 @@
             showToast('📝 Nota salvata', 'success');
         }
 
-        // --- PATTERN ---
+        // --- PATTERN RICORRENTI ---
         function loadPattern() {
             try {
                 if (isStorageAvailable) {
@@ -2137,7 +2368,11 @@
         function savePattern(startDate, monthsAhead) {
             try {
                 if (isStorageAvailable) {
-                    localStorage.setItem('shiftPattern', JSON.stringify({ sequence: patternSequence, startDate, monthsAhead }));
+                    localStorage.setItem('shiftPattern', JSON.stringify({
+                        sequence: patternSequence,
+                        startDate,
+                        monthsAhead
+                    }));
                 }
             } catch (e) { console.error('savePattern error:', e); }
         }
@@ -2150,30 +2385,44 @@
             patternSequence.forEach((val, idx) => {
                 const row = document.createElement('div');
                 row.className = 'pattern-day-row';
+
                 const indexEl = document.createElement('div');
                 indexEl.className = 'pattern-day-index';
                 indexEl.textContent = idx + 1;
                 row.appendChild(indexEl);
+
                 const select = document.createElement('select');
                 select.innerHTML = '<option value="">😴 Riposo</option>' +
                     shiftKeys.map(k => `<option value="${k}" ${val === k ? 'selected' : ''}>${shifts[k].name}</option>`).join('');
                 select.value = val || '';
-                select.addEventListener('change', () => { patternSequence[idx] = select.value || null; });
+                select.addEventListener('change', () => {
+                    patternSequence[idx] = select.value || null;
+                });
                 row.appendChild(select);
+
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'pattern-remove-btn';
                 removeBtn.innerHTML = '✕';
-                removeBtn.addEventListener('click', () => { patternSequence.splice(idx, 1); renderPatternSequence(); });
+                removeBtn.addEventListener('click', () => {
+                    patternSequence.splice(idx, 1);
+                    renderPatternSequence();
+                });
                 row.appendChild(removeBtn);
+
                 list.appendChild(row);
             });
         }
 
-        function addPatternDay() { patternSequence.push(null); renderPatternSequence(); }
+        function addPatternDay() {
+            patternSequence.push(null);
+            renderPatternSequence();
+        }
 
         function openPatternModal() {
             const saved = loadPattern();
-            if (!patternSequence || patternSequence.length === 0) patternSequence = [null];
+            if (!patternSequence || patternSequence.length === 0) {
+                patternSequence = [null];
+            }
             renderPatternSequence();
             const startInput = document.getElementById('pattern-start-date');
             const monthsInput = document.getElementById('pattern-months-ahead');
@@ -2182,7 +2431,9 @@
             document.getElementById('pattern-modal')?.classList.remove('hidden');
         }
 
-        function closePatternModal() { document.getElementById('pattern-modal')?.classList.add('hidden'); }
+        function closePatternModal() {
+            document.getElementById('pattern-modal')?.classList.add('hidden');
+        }
 
         function applyPattern() {
             const startDateStr = document.getElementById('pattern-start-date')?.value;
@@ -2190,25 +2441,38 @@
             const overwrite = document.getElementById('pattern-overwrite')?.checked || false;
 
             if (!startDateStr) { showToast('❌ Seleziona una data di inizio', 'error'); return; }
-            if (patternSequence.length === 0) { showToast('❌ Aggiungi almeno un giorno al ciclo', 'error'); return; }
+            const validSequence = patternSequence.filter((v, i) => true);
+            if (validSequence.length === 0) { showToast('❌ Aggiungi almeno un giorno al ciclo', 'error'); return; }
 
             const [sy, sm, sd] = startDateStr.split('-').map(Number);
             const startDate = new Date(sy, sm - 1, sd);
             const endDate = new Date(sy, sm - 1, sd);
             endDate.setMonth(endDate.getMonth() + monthsAhead);
 
-            let cursor = new Date(startDate), count = 0, applied = 0, skipped = 0;
+            let cursor = new Date(startDate);
+            let count = 0;
+            let applied = 0;
+            let skipped = 0;
 
             while (cursor <= endDate) {
-                const y = cursor.getFullYear(), m = cursor.getMonth(), d = cursor.getDate();
+                const y = cursor.getFullYear();
+                const m = cursor.getMonth();
+                const d = cursor.getDate();
                 const key = `shift_${y}_${m}_${d}`;
                 const patternValue = patternSequence[count % patternSequence.length];
+
                 const existing = loadShift(key);
                 if (existing.length === 0 || overwrite) {
-                    if (patternValue) saveShift(key, [patternValue]);
-                    else saveShift(key, []);
+                    if (patternValue) {
+                        saveShift(key, [patternValue]);
+                    } else {
+                        saveShift(key, []);
+                    }
                     applied++;
-                } else skipped++;
+                } else {
+                    skipped++;
+                }
+
                 count++;
                 cursor.setDate(cursor.getDate() + 1);
             }
@@ -2218,7 +2482,7 @@
             renderCalendar();
             updateWorkedHoursAndSummary();
             updateWidget();
-            showToast(`🔁 Ciclo applicato a ${applied} giorni${skipped > 0 ? ` (${skipped} già assegnati)` : ''}`, 'success');
+            showToast(`🔁 Ciclo applicato a ${applied} giorni${skipped > 0 ? ` (${skipped} già assegnati, non modificati)` : ''}`, 'success');
         }
 
         // --- CONDIVISIONE IMMAGINE ---
@@ -2235,25 +2499,35 @@
             const isCurrentMonth = currentMonth === today.getMonth() && currentYear === today.getFullYear();
 
             let html = `
-                <div style="background:${document.body.classList.contains('dark-mode') ? '#0f172a' : '#ffffff'};padding:16px;border-radius:12px;width:400px;">
+                <div style="background:${document.body.classList.contains('dark-mode') ? '#0f172a' : '#ffffff'};padding:20px;border-radius:16px;width:400px;">
                     <div class="share-month-title">📅 ${monthName} ${currentYear}</div>
                     <div class="share-calendar-grid">
             `;
 
+            // Headers
             const dayNames = translations[lang].dayNames;
-            dayNames.forEach(d => { html += `<div class="share-day-header">${d}</div>`; });
+            dayNames.forEach(d => {
+                html += `<div class="share-day-header">${d}</div>`;
+            });
 
-            for (let i = 0; i < offset; i++) { html += `<div class="share-day-cell"></div>`; }
+            // Empty cells
+            for (let i = 0; i < offset; i++) {
+                html += `<div class="share-day-cell"></div>`;
+            }
 
+            // Days
             for (let d = 1; d <= daysInMonth; d++) {
                 const isToday = isCurrentMonth && d === today.getDate();
-                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d).getDay() === 0;
+                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || 
+                                 new Date(currentYear, currentMonth, d).getDay() === 0;
+                
                 let classes = 'share-day-cell';
                 if (isToday) classes += ' today';
                 if (dayIsHoliday) classes += ' holiday';
 
                 const shiftKey = `shift_${currentYear}_${currentMonth}_${d}`;
                 const shiftsList = loadShift(shiftKey);
+                
                 let shiftHTML = '';
                 if (shiftsList.length > 0) {
                     shiftsList.slice(0, 3).forEach(sName => {
@@ -2265,11 +2539,16 @@
                         }
                     });
                     if (shiftsList.length > 3) {
-                        shiftHTML += `<div class="share-shift-badge" style="font-size:0.3rem;">+${shiftsList.length - 3}</div>`;
+                        shiftHTML += `<div class="share-shift-badge" style="font-size:0.35rem;">+${shiftsList.length - 3}</div>`;
                     }
                 }
 
-                html += `<div class="${classes}">${d}${shiftHTML}</div>`;
+                html += `
+                    <div class="${classes}">
+                        ${d}
+                        ${shiftHTML}
+                    </div>
+                `;
             }
 
             html += `
@@ -2278,7 +2557,7 @@
                         📊 Ore: ${decimalToTime(computeMonthTotalHours(currentYear, currentMonth))} | 
                         Straordinario: ${decimalToTime(computeMonthOvertime(currentYear, currentMonth))}
                     </div>
-                    <div class="share-footer" style="border-top:none;padding-top:0;font-size:0.4rem;">
+                    <div class="share-footer" style="border-top:none;padding-top:0;font-size:0.45rem;">
                         Generato con AppTurni
                     </div>
                 </div>
@@ -2293,7 +2572,9 @@
             const days = new Date(year, month + 1, 0).getDate();
             for (let d = 1; d <= days; d++) {
                 const key = `shift_${year}_${month}_${d}`;
-                loadShift(key).forEach(sName => { if (shifts[sName]) total += shifts[sName].hours; });
+                loadShift(key).forEach(sName => {
+                    if (shifts[sName]) total += shifts[sName].hours;
+                });
             }
             return total;
         }
@@ -2316,12 +2597,14 @@
                 const container = buildShareImageHTML();
                 if (!container) return;
                 
+                // Forza il rendering del container
                 container.style.position = 'absolute';
                 container.style.left = '0';
                 container.style.top = '0';
                 container.style.zIndex = '9999';
                 container.style.display = 'block';
                 
+                // Attendi il rendering
                 await new Promise(resolve => setTimeout(resolve, 300));
                 
                 const canvas = await html2canvas(container, {
@@ -2333,15 +2616,18 @@
                     height: container.scrollHeight
                 });
                 
+                // Nascondi il container
                 container.style.position = 'absolute';
                 container.style.left = '-9999px';
                 container.style.top = '0';
                 container.style.zIndex = '-1';
                 container.style.display = 'none';
                 
+                // Converti in blob
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
                 if (!blob) throw new Error('Impossibile creare l\'immagine');
                 
+                // Condividi
                 if (navigator.share) {
                     const file = new File([blob], `calendario_${currentYear}_${currentMonth+1}.png`, { type: 'image/png' });
                     await navigator.share({
@@ -2350,6 +2636,7 @@
                     });
                     showToast('📸 Immagine condivisa!', 'success');
                 } else {
+                    // Fallback: download
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -2379,9 +2666,13 @@
 
             if (!grid) return;
             
-            while (grid.children.length > 7) grid.removeChild(grid.lastChild);
+            while (grid.children.length > 7) {
+                grid.removeChild(grid.lastChild);
+            }
             
-            if (monthName) monthName.textContent = `${translations[lang].monthNames[currentMonth]} ${currentYear}`;
+            if (monthName) {
+                monthName.textContent = `${translations[lang].monthNames[currentMonth]} ${currentYear}`;
+            }
 
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -2401,7 +2692,9 @@
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'day-cell';
-                if (isCurrentMonth && day === today.getDate()) cell.classList.add('today');
+                if (isCurrentMonth && day === today.getDate()) {
+                    cell.classList.add('today');
+                }
 
                 const num = document.createElement('span');
                 num.className = 'day-number';
@@ -2440,16 +2733,18 @@
                     cell.appendChild(container);
                 }
 
-                if (isHoliday(currentYear, currentMonth, day) || new Date(currentYear, currentMonth, day).getDay() === 0) {
-                    cell.classList.add('holiday');
-                }
+                const dayIsHoliday = isHoliday(currentYear, currentMonth, day) || 
+                                 new Date(currentYear, currentMonth, day).getDay() === 0;
+                if (dayIsHoliday) cell.classList.add('holiday');
 
                 const noteKey = `note_${currentYear}_${currentMonth}_${day}`;
                 const noteData = loadNote(noteKey);
                 if (noteData.text) {
                     const noteEl = document.createElement('div');
                     noteEl.className = 'note-indicator';
-                    if (noteData.hasNotification) noteEl.classList.add('has-notification');
+                    if (noteData.hasNotification) {
+                        noteEl.classList.add('has-notification');
+                    }
                     noteEl.textContent = noteData.text.length > 12 ? noteData.text.slice(0,12) + '…' : noteData.text;
                     cell.appendChild(noteEl);
                 }
@@ -2509,14 +2804,17 @@
                 const key = `shift_${year}_${month}_${d}`;
                 loadShift(key).forEach(sName => {
                     const s = shifts[sName];
-                    if (s && s.isOvertime) totalOvertime += s.hours;
+                    if (s && s.isOvertime) {
+                        totalOvertime += s.hours;
+                    }
                 });
             }
             return totalOvertime;
         }
 
         function computeFeriePermessiUsed(year) {
-            let ferieUsed = 0, permessiUsed = 0;
+            let ferieUsed = 0;
+            let permessiUsed = 0;
             for (let m = 0; m < 12; m++) {
                 const days = new Date(year, m + 1, 0).getDate();
                 for (let d = 1; d <= days; d++) {
@@ -2540,7 +2838,8 @@
             const notesEl = document.getElementById('notes-list');
             if (!hoursEl || !shiftsEl || !notesEl) return;
 
-            let total = 0, overtime = 0;
+            let total = 0;
+            let overtime = 0;
             const counts = {};
             const notes = [];
             const days = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -2551,7 +2850,9 @@
                     if (shifts[sName]) {
                         total += shifts[sName].hours;
                         counts[sName] = (counts[sName] || 0) + 1;
-                        if (shifts[sName].isOvertime) overtime += shifts[sName].hours;
+                        if (shifts[sName].isOvertime) {
+                            overtime += shifts[sName].hours;
+                        }
                     }
                 });
                 const nk = `note_${currentYear}_${currentMonth}_${d}`;
@@ -2563,7 +2864,9 @@
 
             if (overtimeEl) {
                 overtimeEl.textContent = decimalToTime(overtime);
-                if (overtimeHint) overtimeHint.textContent = 'Ore di straordinario';
+                if (overtimeHint) {
+                    overtimeHint.textContent = 'Ore di straordinario effettuate';
+                }
             }
 
             if (feriePermEl) {
@@ -2571,9 +2874,18 @@
                 const ferieResidui = (workSettings.ferieTotal || 0) - ferieUsed;
                 const permessiResidui = (workSettings.permessiTotal || 0) - permessiUsed;
                 feriePermEl.innerHTML = `
-                    <div class="stats-item"><div class="stats-item-title">Ferie Usate</div><div class="stats-item-value">${ferieUsed}</div></div>
-                    <div class="stats-item"><div class="stats-item-title">Ferie Residue</div><div class="stats-item-value">${ferieResidui}</div></div>
-                    <div class="stats-item"><div class="stats-item-title">Permessi Residui</div><div class="stats-item-value">${permessiResidui}</div></div>
+                    <div class="stats-item">
+                        <div class="stats-item-title">Ferie Usate (${currentYear})</div>
+                        <div class="stats-item-value">${ferieUsed}</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-item-title">Ferie Residue</div>
+                        <div class="stats-item-value">${ferieResidui}</div>
+                    </div>
+                    <div class="stats-item">
+                        <div class="stats-item-title">Permessi Residui</div>
+                        <div class="stats-item-value">${permessiResidui}</div>
+                    </div>
                 `;
             }
 
@@ -2613,7 +2925,9 @@
                 const days = new Date(year, m + 1, 0).getDate();
                 for (let d = 1; d <= days; d++) {
                     const key = `shift_${year}_${m}_${d}`;
-                    loadShift(key).forEach(sName => { if (shifts[sName]) total += shifts[sName].hours; });
+                    loadShift(key).forEach(sName => {
+                        if (shifts[sName]) total += shifts[sName].hours;
+                    });
                 }
                 monthly.push(total);
             }
@@ -2631,19 +2945,24 @@
             monthly.forEach((hours, idx) => {
                 const wrap = document.createElement('div');
                 wrap.className = 'chart-bar-wrap';
+
                 const valueLabel = document.createElement('div');
                 valueLabel.className = 'chart-bar-value';
                 valueLabel.textContent = hours > 0 ? Math.round(hours) : '';
                 wrap.appendChild(valueLabel);
+
                 const bar = document.createElement('div');
                 bar.className = 'chart-bar';
-                bar.style.height = ((hours / max) * 100) + '%';
+                const heightPct = max > 0 ? (hours / max) * 100 : 0;
+                bar.style.height = heightPct + '%';
                 bar.title = `${translations[lang].monthNamesShort[idx]}: ${decimalToTime(hours)}`;
                 wrap.appendChild(bar);
+
                 const label = document.createElement('div');
                 label.className = 'chart-bar-label';
                 label.textContent = translations[lang].monthNamesShort[idx];
                 wrap.appendChild(label);
+
                 container.appendChild(wrap);
             });
         }
@@ -2654,7 +2973,8 @@
             const shiftsEl = document.getElementById('annual-shifts-details');
             if (!hoursEl || !shiftsEl) return;
 
-            let total = 0, totalOvertime = 0;
+            let total = 0;
+            let totalOvertime = 0;
             const counts = {};
 
             for (let m = 0; m < 12; m++) {
@@ -2665,14 +2985,18 @@
                         if (shifts[sName]) {
                             total += shifts[sName].hours;
                             counts[sName] = (counts[sName] || 0) + 1;
-                            if (shifts[sName].isOvertime) totalOvertime += shifts[sName].hours;
+                            if (shifts[sName].isOvertime) {
+                                totalOvertime += shifts[sName].hours;
+                            }
                         }
                     });
                 }
             }
 
             hoursEl.textContent = decimalToTime(total);
-            if (overtimeEl) overtimeEl.textContent = decimalToTime(totalOvertime);
+            if (overtimeEl) {
+                overtimeEl.textContent = decimalToTime(totalOvertime);
+            }
 
             renderMonthlyChart(currentYear);
 
@@ -2730,10 +3054,12 @@
             for (let m = 0; m < 12; m++) {
                 const monthDiv = document.createElement('div');
                 monthDiv.className = 'annual-month';
+
                 const title = document.createElement('div');
                 title.className = 'annual-month-title';
                 title.textContent = translations[lang].monthNames[m];
                 monthDiv.appendChild(title);
+
                 const grid = document.createElement('div');
                 grid.className = 'annual-days';
 
@@ -2744,7 +3070,7 @@
                     h.textContent = d;
                     h.style.fontWeight = 'bold';
                     h.style.color = '#3b82f6';
-                    h.style.fontSize = '0.45rem';
+                    h.style.fontSize = '0.5rem';
                     grid.appendChild(h);
                 });
 
@@ -2765,9 +3091,9 @@
                         cell.classList.add('today');
                     }
 
-                    if (isHoliday(currentYear, m, d) || new Date(currentYear, m, d).getDay() === 0) {
-                        cell.classList.add('holiday');
-                    }
+                    const dayIsHoliday = isHoliday(currentYear, m, d) || 
+                                     new Date(currentYear, m, d).getDay() === 0;
+                    if (dayIsHoliday) cell.classList.add('holiday');
 
                     const key = `shift_${currentYear}_${m}_${d}`;
                     const names = loadShift(key);
@@ -2795,7 +3121,7 @@
             }
         }
 
-        // --- PDF ---
+        // --- PDF ESPORTAZIONE ---
         function exportPDF() {
             try {
                 const { jsPDF } = window.jspdf;
@@ -2811,7 +3137,11 @@
                 doc.setFontSize(11);
                 doc.setTextColor(100, 116, 139);
                 doc.setFont('helvetica', 'normal');
-                const dateStr = new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const dateStr = new Date().toLocaleDateString('it-IT', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
                 doc.text(`Generato il ${dateStr}`, 14, 35);
                 
                 const tableData = [];
@@ -2823,7 +3153,9 @@
                     let shiftDisplay = '-';
                     if (shiftsList.length > 0) {
                         shiftDisplay = shiftsList.map(s => {
-                            if (shifts[s] && shifts[s].isOvertime) return `⚡${s}`;
+                            if (shifts[s] && shifts[s].isOvertime) {
+                                return `⚡${s}`;
+                            }
                             return s;
                         }).join(', ');
                     }
@@ -2843,10 +3175,25 @@
                     body: tableData,
                     startY: 42,
                     theme: 'striped',
-                    headStyles: { fillColor: [37, 99, 235], textColor: [255, 255, 255], fontSize: 9, fontStyle: 'bold', halign: 'center' },
-                    bodyStyles: { fontSize: 8, cellPadding: 3 },
-                    columnStyles: { 0: { cellWidth: 20, halign: 'center' }, 1: { cellWidth: 50, halign: 'left' }, 2: { cellWidth: 70, halign: 'left' } },
-                    alternateRowStyles: { fillColor: [241, 245, 249] },
+                    headStyles: {
+                        fillColor: [37, 99, 235],
+                        textColor: [255, 255, 255],
+                        fontSize: 9,
+                        fontStyle: 'bold',
+                        halign: 'center'
+                    },
+                    bodyStyles: {
+                        fontSize: 8,
+                        cellPadding: 3
+                    },
+                    columnStyles: {
+                        0: { cellWidth: 20, halign: 'center' },
+                        1: { cellWidth: 50, halign: 'left' },
+                        2: { cellWidth: 70, halign: 'left' }
+                    },
+                    alternateRowStyles: {
+                        fillColor: [241, 245, 249]
+                    },
                     margin: { left: 14, right: 14 }
                 });
                 
@@ -2858,15 +3205,17 @@
                     doc.text(`AppTurni - Pagina ${i} di ${pageCount}`, 14, 285);
                 }
                 
-                doc.save(`calendario_${currentYear}_${currentMonth + 1}.pdf`);
-                showToast('📄 PDF generato!', 'success');
+                const fileName = `calendario_${currentYear}_${currentMonth + 1}.pdf`;
+                doc.save(fileName);
+                showToast('📄 PDF generato con successo!', 'success');
+                
             } catch (error) {
                 console.error('Errore PDF:', error);
-                showToast('❌ Errore PDF', 'error');
+                showToast('❌ Errore durante la generazione del PDF', 'error');
             }
         }
 
-        // --- EXCEL ---
+        // --- EXCEL ESPORTAZIONE ---
         function exportExcel() {
             try {
                 if (typeof XLSX === 'undefined') {
@@ -2878,13 +3227,15 @@
                 const days = new Date(currentYear, currentMonth + 1, 0).getDate();
 
                 const rows = [['Giorno', 'Festivo', 'Turni', 'Ore', 'Straordinario', 'Note']];
-                let monthTotalHours = 0, monthOvertime = 0;
+                let monthTotalHours = 0;
+                let monthOvertime = 0;
 
                 for (let d = 1; d <= days; d++) {
                     const shiftKey = `shift_${currentYear}_${currentMonth}_${d}`;
                     const shiftsList = loadShift(shiftKey);
                     const shiftNames = shiftsList.length > 0 ? shiftsList.join(', ') : '-';
-                    let dayHours = 0, dayOvertime = 0;
+                    let dayHours = 0;
+                    let dayOvertime = 0;
                     shiftsList.forEach(sName => { 
                         if (shifts[sName]) {
                             dayHours += shifts[sName].hours;
@@ -2913,11 +3264,12 @@
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, `${monthName} ${currentYear}`.slice(0,31));
 
-                XLSX.writeFile(workbook, `calendario_${currentYear}_${currentMonth + 1}.xlsx`);
-                showToast('📊 Excel generato!', 'success');
+                const fileName = `calendario_${currentYear}_${currentMonth + 1}.xlsx`;
+                XLSX.writeFile(workbook, fileName);
+                showToast('📊 Excel generato con successo!', 'success');
             } catch (error) {
                 console.error('Errore Excel:', error);
-                showToast('❌ Errore Excel', 'error');
+                showToast('❌ Errore durante la generazione del file Excel', 'error');
             }
         }
 
@@ -2935,8 +3287,12 @@
             
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key && key.startsWith('note_')) data.notes[key] = JSON.parse(localStorage.getItem(key));
-                if (key && key.startsWith('shift_')) data.shiftsData[key] = JSON.parse(localStorage.getItem(key));
+                if (key && key.startsWith('note_')) {
+                    data.notes[key] = JSON.parse(localStorage.getItem(key));
+                }
+                if (key && key.startsWith('shift_')) {
+                    data.shiftsData[key] = JSON.parse(localStorage.getItem(key));
+                }
             }
             
             const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
@@ -3028,7 +3384,13 @@
             const menu = document.getElementById('language-menu');
             const flag = document.getElementById('language-flag');
             const saved = localStorage.getItem('selectedLanguage') || 'it';
-            const map = { 'it': '🇮🇹', 'en': '🇬🇧', 'es': '🇪🇸', 'de': '🇩🇪', 'fr': '🇫🇷' };
+            const map = {
+                'it': '🇮🇹',
+                'en': '🇬🇧',
+                'es': '🇪🇸',
+                'de': '🇩🇪',
+                'fr': '🇫🇷'
+            };
             if (flag) flag.textContent = map[saved] || '🇮🇹';
             updateTranslations(saved);
 
@@ -3095,7 +3457,9 @@
 
         // --- GESTURES ---
         function setupGestures() {
-            document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+            document.addEventListener('touchstart', e => {
+                touchStartX = e.touches[0].clientX;
+            });
 
             document.addEventListener('touchend', e => {
                 const diff = e.changedTouches[0].clientX - touchStartX;
