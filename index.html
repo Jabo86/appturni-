@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>AppTurni - Chat</title>
+    <title>AppTurni - Chat E2EE</title>
 
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -14,9 +13,10 @@
         html, body {
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
+            background: #e5ddd5;
             overflow: hidden;
         }
+
         .app-container {
             max-width: 480px;
             width: 100%;
@@ -25,8 +25,9 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            background: white;
+            background: #ffffff;
             overflow: hidden;
+            position: relative;
         }
 
         #registration-view {
@@ -36,7 +37,7 @@
             align-items: center;
             justify-content: center;
             padding: 30px 24px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
+            background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
             color: white;
         }
         #registration-view .logo { font-size: 4rem; margin-bottom: 16px; }
@@ -69,7 +70,7 @@
             border: none;
             border-radius: 12px;
             background: white;
-            color: #6366f1;
+            color: #075e54;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
@@ -102,90 +103,177 @@
             flex: 1;
             flex-direction: column;
             overflow: hidden;
+            background: #e5ddd5;
         }
         #main-app.active { display: flex; }
 
-        .header {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
-            padding: 12px 16px;
+        .whatsapp-header {
+            background: #075e54;
+            padding: 10px 16px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-shrink: 0;
-            min-height: 56px;
+            min-height: 60px;
         }
-        .header .user-info { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; }
-        .header .user-info .username { font-size: 0.7rem; opacity: 0.8; font-weight: 400; }
-        .header .logout-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-        .header .logout-btn:hover { background: rgba(255,255,255,0.15); }
-
-        .chat-home {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-        }
-        .section-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #94a3b8;
-            margin: 12px 0 8px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .invite-item {
+        .whatsapp-header .left {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            background: #fef3c7;
-            border-radius: 12px;
-            margin-bottom: 6px;
-            border-left: 4px solid #f59e0b;
+            gap: 10px;
         }
-        .invite-item .info { flex: 1; min-width: 0; }
-        .invite-item .info .group-name { font-weight: 700; font-size: 0.9rem; }
-        .invite-item .info .from { font-size: 0.7rem; color: #94a3b8; }
-        .invite-item .actions { display: flex; gap: 6px; }
-        .invite-item .actions button {
-            padding: 4px 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-        .invite-item .actions .accept { background: #10b981; color: white; }
-        .invite-item .actions .accept:hover { opacity: 0.9; }
-        .invite-item .actions .reject { background: #ef4444; color: white; }
-        .invite-item .actions .reject:hover { opacity: 0.9; }
-
-        .group-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 14px;
-            background: #f8fafc;
-            border-radius: 12px;
-            margin-bottom: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-        .group-item:hover { background: #eef2ff; border-color: #6366f1; }
-        .group-item .avatar {
+        .whatsapp-header .left .avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .whatsapp-header .left .info .name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .whatsapp-header .left .info .status {
+            font-size: 0.65rem;
+            opacity: 0.8;
+        }
+        .whatsapp-header .right {
+            display: flex;
+            gap: 8px;
+        }
+        .whatsapp-header .right button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .whatsapp-header .right button:hover { background: rgba(255,255,255,0.15); }
+
+        .whatsapp-tabs {
+            display: flex;
+            background: #075e54;
+            color: white;
+            flex-shrink: 0;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+        .whatsapp-tabs .tab {
+            flex: 1;
+            padding: 10px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .whatsapp-tabs .tab.active {
+            opacity: 1;
+            border-bottom-color: white;
+        }
+        .whatsapp-tabs .tab:hover { opacity: 0.8; }
+
+        .tab-content {
+            flex: 1;
+            overflow: hidden;
+            background: #ffffff;
+            display: none;
+            flex-direction: column;
+        }
+        .tab-content.active { display: flex; }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .chat-list .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .chat-list .chat-item:hover { background: #f5f5f5; }
+        .chat-list .chat-item .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-right: 14px;
+        }
+        .chat-list .chat-item .avatar-wrapper {
+            position: relative;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        .chat-list .chat-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .chat-list .chat-item .info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1b1e2e;
+        }
+        .chat-list .chat-item .info .last-msg {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chat-list .chat-item .time {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .chat-list .chat-item .status-icon {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            margin-left: 4px;
+        }
+        .chat-list .chat-item .status-icon.read { color: #34b7f1; }
+
+        .contacts-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+            background: #ffffff;
+        }
+        .contacts-list .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .contacts-list .contact-item:hover { background: #f5f5f5; }
+        .contacts-list .contact-item .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -193,139 +281,312 @@
             font-weight: 700;
             font-size: 1rem;
             flex-shrink: 0;
-            margin-right: 12px;
+            margin-right: 14px;
         }
-        .group-item .info { flex: 1; min-width: 0; }
-        .group-item .info .name { font-weight: 700; font-size: 0.95rem; }
-        .group-item .info .members { font-size: 0.7rem; color: #94a3b8; }
-        .group-item .badge {
-            font-size: 0.6rem;
-            background: #6366f1;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        .create-group {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-        .create-group .row { display: flex; gap: 6px; flex-wrap: wrap; }
-        .create-group input {
+        .contacts-list .contact-item .info {
             flex: 1;
+            min-width: 0;
+        }
+        .contacts-list .contact-item .info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1b1e2e;
+        }
+        .contacts-list .contact-item .info .sub {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .contacts-list .contact-item .action-btn {
+            padding: 4px 14px;
+            border: none;
+            border-radius: 20px;
+            background: #25d366;
+            color: white;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        .contacts-list .contact-item .action-btn:hover { opacity: 0.9; }
+
+        .search-bar {
             padding: 8px 12px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 8px;
+            background: #f5f5f5;
+            flex-shrink: 0;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-family: inherit;
             outline: none;
-            min-width: 80px;
+            background: white;
+            color: #1b1e2e;
         }
-        .create-group input:focus { border-color: #6366f1; }
-        .create-group .create-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-        .create-group .create-btn:hover { opacity: 0.9; }
-        .create-group .hint { font-size: 0.6rem; color: #94a3b8; margin-top: 6px; }
 
         .empty-state {
             text-align: center;
             color: #94a3b8;
-            padding: 40px 16px;
+            padding: 60px 20px;
         }
-        .empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
-        .empty-state .title { font-weight: 700; font-size: 1rem; }
-        .empty-state .sub { font-size: 0.8rem; opacity: 0.7; }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
+        .empty-state .title { font-weight: 700; font-size: 1.1rem; color: #1b1e2e; }
+        .empty-state .sub { font-size: 0.85rem; opacity: 0.7; }
 
         #chat-view {
             display: none;
             flex-direction: column;
             flex: 1;
             overflow: hidden;
-            background: #f0f2f5;
+            background: #e5ddd5;
         }
         #chat-view.active { display: flex; }
 
-        .chat-header {
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
+        .chat-view-header {
+            background: #075e54;
+            padding: 8px 12px;
             color: white;
             display: flex;
             align-items: center;
             flex-shrink: 0;
-            min-height: 48px;
+            min-height: 56px;
             gap: 10px;
         }
-        .chat-header .back {
+        .chat-view-header .back {
             background: none;
             border: none;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             cursor: pointer;
+            padding: 4px 6px;
         }
-        .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info .name { font-weight: 700; font-size: 0.95rem; }
-        .chat-header .info .members { font-size: 0.6rem; opacity: 0.8; }
+        .chat-view-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .chat-view-header .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .chat-view-header .info .name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .chat-view-header .info .sub {
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
+        .chat-view-header .info .members-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+        .chat-view-header .info .members-btn:hover { background: rgba(255,255,255,0.25); }
+        .chat-view-header .header-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .chat-view-header .header-actions button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 50%;
+        }
+        .chat-view-header .header-actions button:hover { background: rgba(255,255,255,0.15); }
 
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 10px 12px;
+            padding: 12px 16px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4c4c4' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         .chat-msg {
-            max-width: 85%;
+            max-width: 80%;
             padding: 8px 12px;
-            border-radius: 16px;
+            border-radius: 8px;
             word-wrap: break-word;
             animation: fadeIn 0.2s ease;
             font-size: 0.9rem;
             line-height: 1.4;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            position: relative;
         }
         @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
         .chat-msg.me {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
-            color: white;
+            background: #dcf8c6;
+            color: #1b1e2e;
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 2px;
         }
         .chat-msg.other {
             background: white;
             color: #1b1e2e;
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 2px;
         }
-        .chat-msg .sender { font-size: 0.6rem; font-weight: 700; opacity: 0.7; margin-bottom: 2px; }
-        .chat-msg .time { font-size: 0.5rem; opacity: 0.5; margin-top: 2px; text-align: right; }
-        .chat-msg.system {
-            align-self: center;
-            font-size: 0.65rem;
-            background: rgba(148,163,184,0.1);
-            padding: 4px 14px;
-            border-radius: 16px;
-            color: #94a3b8;
-            max-width: 90%;
-            text-align: center;
+        .chat-msg .sender {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #075e54;
+            margin-bottom: 2px;
+        }
+        .chat-msg .time {
+            font-size: 0.5rem;
+            opacity: 0.5;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+        .chat-msg .time .status {
+            font-size: 0.7rem;
+        }
+        .chat-msg .time .status.sent { color: #94a3b8; }
+        .chat-msg .time .status.delivered { color: #94a3b8; }
+        .chat-msg .time .status.read { color: #34b7f1; }
+        .chat-msg .timer-badge {
+            font-size: 0.5rem;
+            background: rgba(0,0,0,0.05);
+            padding: 1px 6px;
+            border-radius: 8px;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        /* ===== MSG ACTIONS ===== */
+        .chat-msg .msg-actions {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            display: none;
+            gap: 4px;
+            background: white;
+            border-radius: 20px;
+            padding: 2px 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .chat-msg:hover .msg-actions {
+            display: flex;
+        }
+        .chat-msg .msg-actions button {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+        .chat-msg .msg-actions button:hover { background: #f0f0f0; }
+        .chat-msg .msg-actions .reply-btn { color: #075e54; }
+        .chat-msg .msg-actions .delete-btn { color: #ef4444; }
+
+        .chat-msg .quoted {
+            background: rgba(0,0,0,0.05);
+            border-left: 3px solid #075e54;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .chat-msg .quoted .q-sender {
+            font-weight: 700;
+            color: #075e54;
+        }
+
+        .chat-msg .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 4px 10px;
+        }
+        .chat-msg .audio-player button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .chat-msg .audio-player .progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .chat-msg .audio-player .progress .fill {
+            height: 100%;
+            background: #075e54;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .chat-msg .audio-player .duration {
+            font-size: 0.6rem;
+            opacity: 0.6;
+        }
+
+        .chat-msg .file-attachment {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 6px;
+            margin-top: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chat-msg .file-attachment:hover { background: rgba(0,0,0,0.08); }
+        .chat-msg .file-attachment .file-icon { font-size: 1.2rem; }
+        .chat-msg .file-attachment .file-name {
+            flex: 1;
+            font-size: 0.7rem;
+            word-break: break-all;
+            opacity: 0.8;
+        }
+        .chat-msg .file-attachment .file-size {
+            font-size: 0.55rem;
+            opacity: 0.5;
+        }
+        .chat-msg .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 6px;
+            margin-top: 4px;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.08);
         }
 
         .chat-input-container {
-            padding: 8px 12px;
-            background: white;
-            border-top: 1px solid #e2e8f0;
+            padding: 6px 10px;
+            background: #f0f0f0;
+            border-top: 1px solid #d1d1d1;
             display: flex;
             gap: 6px;
             align-items: center;
@@ -335,13 +596,13 @@
             flex: 1;
             display: flex;
             gap: 4px;
-            background: #f1f5f9;
+            background: white;
             border-radius: 24px;
             padding: 2px 4px;
             align-items: center;
-            border: 1.5px solid transparent;
+            border: 1px solid #d1d1d1;
         }
-        .chat-input-container .wrapper:focus-within { border-color: #6366f1; }
+        .chat-input-container .wrapper:focus-within { border-color: #075e54; }
         .chat-input-container input {
             flex: 1;
             padding: 8px 12px;
@@ -353,21 +614,52 @@
             outline: none;
         }
         .chat-input-container input::placeholder { color: #94a3b8; }
+        .chat-input-container .attach-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 50%;
+            color: #075e54;
+        }
+        .chat-input-container .attach-btn:hover { background: rgba(7,94,84,0.1); }
         .chat-input-container .btn-send {
             padding: 8px 16px;
             border: none;
             border-radius: 20px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
+            background: #075e54;
             color: white;
             font-weight: 700;
             cursor: pointer;
             font-size: 0.8rem;
         }
         .chat-input-container .btn-send:hover { opacity: 0.9; }
+        .chat-input-container .mic-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 50%;
+            color: #075e54;
+            transition: all 0.2s;
+        }
+        .chat-input-container .mic-btn:hover { background: rgba(7,94,84,0.1); }
+        .chat-input-container .mic-btn.recording {
+            color: #ef4444;
+            animation: pulse 0.8s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        #file-input { display: none; }
 
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
             padding: 10px 20px;
@@ -382,9 +674,10 @@
             text-align: center;
             pointer-events: none;
         }
-        .toast.success { background: #10b981; }
+        .toast.success { background: #25d366; }
         .toast.error { background: #ef4444; }
-        .toast.info { background: #6366f1; }
+        .toast.info { background: #075e54; }
+        .toast.warning { background: #f59e0b; }
         @keyframes slideUp {
             from { opacity:0; transform:translateX(-50%) translateY(20px); }
             to { opacity:1; transform:translateX(-50%) translateY(0); }
@@ -415,7 +708,7 @@
         @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
         .modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
         .modal label { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px; }
-        .modal input {
+        .modal input, .modal select {
             width: 100%;
             padding: 8px 12px;
             border: 1.5px solid #e2e8f0;
@@ -424,7 +717,7 @@
             font-size: 0.9rem;
             font-family: inherit;
         }
-        .modal input:focus { border-color: #6366f1; outline: none; }
+        .modal input:focus, .modal select:focus { border-color: #075e54; outline: none; }
         .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
         .modal-actions button {
             padding: 8px 16px;
@@ -435,8 +728,120 @@
         }
         .modal-actions .btn-secondary { background: #e2e8f0; color: #1b1e2e; }
         .modal-actions .btn-secondary:hover { background: #cbd5e1; }
-        .modal-actions .btn-primary { background: #6366f1; color: white; }
+        .modal-actions .btn-primary { background: #075e54; color: white; }
         .modal-actions .btn-primary:hover { opacity: 0.9; }
+
+        .user-verification {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .user-verification.valid { color: #25d366; }
+        .user-verification.invalid { color: #ef4444; }
+        .user-verification.checking { color: #075e54; }
+        .user-verification .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(7,94,84,0.2);
+            border-top-color: #075e54;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px 0;
+        }
+        .members-list .member {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .members-list .member .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        .members-list .member .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .members-list .member .badge {
+            font-size: 0.55rem;
+            background: #075e54;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .timer-selector {
+            display: flex;
+            gap: 4px;
+            margin: 4px 0;
+            flex-wrap: wrap;
+        }
+        .timer-selector button {
+            padding: 2px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1b1e2e;
+        }
+        .timer-selector button:hover { background: #f0f0f0; }
+        .timer-selector button.active {
+            background: #075e54;
+            color: white;
+            border-color: #075e54;
+        }
+
+        .quote-bar {
+            display: none;
+            padding: 6px 12px;
+            background: #e5e5e5;
+            border-left: 3px solid #075e54;
+            margin: 0 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            align-items: center;
+            gap: 8px;
+        }
+        .quote-bar.show { display: flex; }
+        .quote-bar .quote-text {
+            flex: 1;
+            color: #1b1e2e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .quote-bar .quote-close {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
@@ -444,73 +849,111 @@
 
         <!-- ===== REGISTRAZIONE ===== -->
         <div id="registration-view">
-            <div class="logo">⏱</div>
+            <div class="logo">💬</div>
             <h1>AppTurni</h1>
-            <p class="subtitle">Chat e gestione turni per famiglie e team</p>
+            <p class="subtitle">Chat E2EE con messaggi autodistruttivi</p>
             
             <div class="input-group">
                 <span>@</span>
                 <input type="text" id="register-username" placeholder="nome.cognome" autocomplete="off" />
             </div>
-            <div class="status-msg" id="register-status">⏳ Connessione a Firebase...</div>
+            <div class="status-msg" id="register-status">⏳ Inizializzazione...</div>
             <button class="register-btn" id="register-btn" onclick="registerUser()" disabled>
                 🔓 Inizia
             </button>
-            <p class="hint">Scegli un nome unico. Sarà il tuo identificativo permanente.</p>
+            <p class="hint">🔐 Tutti i messaggi sono crittografati end-to-end</p>
         </div>
 
         <!-- ===== MAIN APP ===== -->
         <div id="main-app">
-            <div class="header">
-                <div class="user-info">
-                    <span>👤</span>
-                    <div>
-                        <div id="header-username" style="font-weight:700;">@nome</div>
-                        <div class="username" id="header-status">🟢 Online</div>
-                    </div>
-                </div>
-                <button class="logout-btn" onclick="logout()">🚪</button>
-            </div>
-
-            <div id="chat-home" class="chat-home">
-                <div id="invites-section" style="display:none;">
-                    <div class="section-title">📩 Inviti in sospeso</div>
-                    <div id="invites-list"></div>
-                </div>
-
-                <div class="create-group">
-                    <div class="row">
-                        <input type="text" id="new-group-name" placeholder="Nome gruppo..." />
-                        <button class="create-btn" onclick="showCreateGroupModal()">➕ Crea</button>
-                    </div>
-                    <div class="hint">💡 Crea un gruppo e invita altri utenti con il loro @nome</div>
-                </div>
-
-                <div class="section-title">📁 I tuoi gruppi</div>
-                <div id="groups-list">
-                    <div class="empty-state">
-                        <div class="icon">📁</div>
-                        <div class="title">Nessun gruppo</div>
-                        <div class="sub">Crea o accetta un invito per iniziare!</div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="chat-view">
-                <div class="chat-header">
-                    <button class="back" onclick="closeChatView()">←</button>
+            <div class="whatsapp-header">
+                <div class="left">
+                    <div class="avatar" id="header-avatar">🧑</div>
                     <div class="info">
-                        <div class="name" id="chat-group-name">Gruppo</div>
-                        <div class="members" id="chat-group-members">0 membri</div>
+                        <div class="name" id="header-name">@nome</div>
+                        <div class="status" id="header-status">🟢 Online</div>
                     </div>
                 </div>
-                <div id="chat-messages" class="chat-messages"></div>
-                <div class="chat-input-container">
-                    <div class="wrapper">
-                        <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." />
-                    </div>
-                    <button class="btn-send" onclick="sendChatMessage()">Invia</button>
+                <div class="right">
+                    <button onclick="logout()" title="Esci">🚪</button>
                 </div>
+            </div>
+
+            <div class="whatsapp-tabs">
+                <div class="tab active" data-tab="chats" onclick="switchTab('chats')">💬 Chat</div>
+                <div class="tab" data-tab="contacts" onclick="switchTab('contacts')">📇 Rubrica</div>
+                <div class="tab" data-tab="groups" onclick="switchTab('groups')">👥 Gruppi</div>
+            </div>
+
+            <div class="tab-content active" id="tab-chats">
+                <div class="chat-list" id="chats-list">
+                    <div class="empty-state">
+                        <div class="icon">💬</div>
+                        <div class="title">Nessuna chat</div>
+                        <div class="sub">Inizia una conversazione dalla rubrica</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-contacts">
+                <div class="search-bar">
+                    <input type="text" id="contacts-search" placeholder="🔍 Cerca contatto..." oninput="filterContacts()" />
+                </div>
+                <div class="contacts-list" id="contacts-list">
+                    <div class="empty-state">
+                        <div class="icon">📇</div>
+                        <div class="title">Caricamento contatti...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-groups">
+                <div style="padding:12px;background:#f5f5f5;flex-shrink:0;">
+                    <div style="display:flex;gap:6px;">
+                        <input type="text" id="new-group-name" placeholder="Nome gruppo..." style="flex:1;padding:8px 14px;border:none;border-radius:20px;font-size:0.85rem;font-family:inherit;outline:none;" />
+                        <button onclick="showCreateGroupModal()" style="padding:8px 16px;border:none;border-radius:20px;background:#075e54;color:white;font-weight:700;cursor:pointer;font-size:0.8rem;">➕ Crea</button>
+                    </div>
+                    <div style="font-size:0.6rem;color:#94a3b8;margin-top:4px;">💡 Crea un gruppo e invita altri utenti</div>
+                </div>
+                <div class="chat-list" id="groups-list">
+                    <div class="empty-state">
+                        <div class="icon">👥</div>
+                        <div class="title">Nessun gruppo</div>
+                        <div class="sub">Crea un gruppo per iniziare</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CHAT VIEW ===== -->
+        <div id="chat-view">
+            <div class="chat-view-header">
+                <button class="back" onclick="closeChatView()">←</button>
+                <div class="avatar" id="chat-avatar">👤</div>
+                <div class="info">
+                    <div class="name" id="chat-name">Nome</div>
+                    <div class="sub" id="chat-sub">online</div>
+                    <button class="members-btn" id="members-btn" onclick="showMembers()" style="display:none;">👥 Membri</button>
+                </div>
+                <div class="header-actions">
+                    <button onclick="document.getElementById('file-input').click()" title="Allega file">📎</button>
+                    <button onclick="showTimerSelector()" title="Timer autodistruzione">⏱️</button>
+                </div>
+                <input type="file" id="file-input" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip" style="display:none" onchange="handleFileUpload(event)">
+            </div>
+            
+            <div class="quote-bar" id="quote-bar">
+                <span class="quote-text" id="quote-text">Rispondi a: ...</span>
+                <button class="quote-close" onclick="clearQuote()">✕</button>
+            </div>
+            
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input-container">
+                <div class="wrapper">
+                    <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." />
+                </div>
+                <button class="mic-btn" id="mic-btn" onclick="toggleRecording()" title="Messaggio vocale">🎤</button>
+                <button class="btn-send" onclick="sendChatMessage()">Invia</button>
             </div>
         </div>
     </div>
@@ -521,15 +964,48 @@
             <h3>✨ Crea nuovo gruppo</h3>
             <label>Nome del gruppo</label>
             <input type="text" id="modal-group-name" placeholder="es. Famiglia" />
-            <label>Invita membri (inserisci @nome e premi Aggiungi)</label>
+            
+            <label>Invita membri (inserisci @nome)</label>
             <div style="display:flex;gap:4px;margin-bottom:4px;">
                 <input type="text" id="modal-invite-input" placeholder="@nome.cognome" style="flex:1;margin-bottom:0;" />
-                <button class="btn-secondary" onclick="addInviteUser()" style="white-space:nowrap;">➕ Aggiungi</button>
+                <button class="btn-secondary" id="add-invite-btn" onclick="addInviteUser()" style="white-space:nowrap;">➕ Aggiungi</button>
             </div>
+            
+            <div id="user-verification" class="user-verification" style="display:none;"></div>
             <div id="modal-invite-list" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:20px;"></div>
+            
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeCreateGroupModal()">Annulla</button>
                 <button class="btn-primary" onclick="confirmCreateGroup()">Crea e invita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALE MEMBRI ===== -->
+    <div id="members-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>👥 Membri del gruppo</h3>
+            <div id="members-list" class="members-list"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="document.getElementById('members-modal').classList.add('hidden')">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALE TIMER ===== -->
+    <div id="timer-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>⏱️ Timer autodistruzione</h3>
+            <p style="font-size:0.8rem;color:#64748b;margin-bottom:12px;">I messaggi inviati si autodistruggeranno dopo il tempo selezionato.</p>
+            <div class="timer-selector">
+                <button onclick="selectTimer('0')" data-value="0" class="active">🔴 Nessun timer</button>
+                <button onclick="selectTimer('3600')" data-value="3600">⏱️ 1 ora</button>
+                <button onclick="selectTimer('86400')" data-value="86400">📅 24 ore</button>
+                <button onclick="selectTimer('604800')" data-value="604800">📆 7 giorni</button>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="document.getElementById('timer-modal').classList.add('hidden')">Chiudi</button>
+                <button class="btn-primary" onclick="saveTimer()">Salva</button>
             </div>
         </div>
     </div>
@@ -548,8 +1024,7 @@
             appId: "1:1059420023475:web:ac433afd69facf61e21ec6"
         };
 
-        console.log('🚀 Avvio AppTurni...');
-        console.log('📡 Database URL:', firebaseConfig.databaseURL);
+        console.log('🚀 Avvio AppTurni Chat E2EE...');
 
         // ============================================================
         // INIZIALIZZA FIREBASE
@@ -563,8 +1038,8 @@
             db = firebase.database();
             firebaseReady = true;
             console.log('✅ Firebase inizializzato!');
-            document.getElementById('register-status').textContent = '✅ Firebase inizializzato, connessione...';
-            document.getElementById('register-status').className = 'status-msg info';
+            document.getElementById('register-status').textContent = '✅ Firebase inizializzato';
+            document.getElementById('register-status').className = 'status-msg success';
         } catch (e) {
             console.error('❌ Errore Firebase:', e);
             document.getElementById('register-status').textContent = '❌ Errore: ' + e.message;
@@ -572,60 +1047,135 @@
         }
 
         // ============================================================
-        // VERIFICA CONNESSIONE CON RETRY
+        // VERIFICA CONNESSIONE
         // ============================================================
-        let connectionAttempts = 0;
-        const maxAttempts = 5;
-
-        function checkFirebaseConnection() {
+        function testFirebaseConnection() {
             if (!firebaseReady || !db) {
                 document.getElementById('register-status').textContent = '❌ Firebase non disponibile';
                 document.getElementById('register-status').className = 'status-msg error';
                 return;
             }
 
-            connectionAttempts++;
-            console.log(`⏳ Tentativo connessione ${connectionAttempts}/${maxAttempts}...`);
-            document.getElementById('register-status').textContent = `⏳ Connessione a Firebase (${connectionAttempts}/${maxAttempts})...`;
+            document.getElementById('register-status').textContent = '⏳ Test connessione...';
             document.getElementById('register-status').className = 'status-msg info';
 
-            // Prova a scrivere un dato di test
-            const testRef = db.ref('_test_connection');
-            testRef.set({
-                connected: true,
-                timestamp: Date.now()
-            })
-            .then(() => {
-                console.log('✅ Scrittura test riuscita!');
-                connectionEstablished = true;
-                document.getElementById('register-status').textContent = '🟢 Connesso a Firebase!';
-                document.getElementById('register-status').className = 'status-msg success';
-                document.getElementById('register-btn').disabled = false;
-                checkExistingUser();
-                // Rimuovi il dato di test
-                testRef.remove().catch(() => {});
-            })
-            .catch((err) => {
-                console.error('❌ Errore scrittura test:', err.message);
-                if (connectionAttempts < maxAttempts) {
-                    // Riprova dopo 2 secondi
-                    setTimeout(checkFirebaseConnection, 2000);
-                } else {
-                    document.getElementById('register-status').textContent = '❌ Impossibile connettersi al database. Verifica che il database sia stato creato.';
+            const testRef = db.ref('_test_' + Date.now());
+            
+            testRef.set({ test: true, timestamp: Date.now() })
+                .then(() => {
+                    console.log('✅ Connessione Firebase OK!');
+                    connectionEstablished = true;
+                    document.getElementById('register-status').textContent = '🟢 Connesso a Firebase!';
+                    document.getElementById('register-status').className = 'status-msg success';
+                    document.getElementById('register-btn').disabled = false;
+                    testRef.remove().catch(() => {});
+                    checkExistingUser();
+                })
+                .catch((err) => {
+                    console.error('❌ Errore connessione:', err);
+                    document.getElementById('register-status').textContent = '❌ Errore: ' + err.message;
                     document.getElementById('register-status').className = 'status-msg error';
-                    document.getElementById('register-btn').disabled = true;
-                }
-            });
+                });
+        }
+
+        // ============================================================
+        // CRITTOGRAFIA E2EE
+        // ============================================================
+        async function deriveKey(secret, salt) {
+            const encoder = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                "raw",
+                encoder.encode(secret),
+                { name: "PBKDF2" },
+                false,
+                ["deriveKey"]
+            );
+            return await crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    salt: encoder.encode(salt || "AppTurniE2EE_Salt_2024"),
+                    iterations: 100000,
+                    hash: "SHA-256"
+                },
+                keyMaterial,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        async function encryptMessage(text, password) {
+            if (!password) return { encrypted: null, iv: null, error: 'No password' };
+            try {
+                const encoder = new TextEncoder();
+                const key = await deriveKey(password);
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const encrypted = await crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    encoder.encode(text)
+                );
+                return {
+                    encrypted: btoa(String.fromCharCode(...new Uint8Array(encrypted))),
+                    iv: btoa(String.fromCharCode(...iv))
+                };
+            } catch (e) {
+                console.error('Errore crittografia:', e);
+                return { encrypted: null, iv: null, error: e.message };
+            }
+        }
+
+        async function decryptMessage(encryptedData, ivData, password) {
+            if (!password || !encryptedData) return null;
+            try {
+                const key = await deriveKey(password);
+                const encrypted = Uint8Array.from(atob(encryptedData), c => c.charCodeAt(0));
+                const iv = Uint8Array.from(atob(ivData), c => c.charCodeAt(0));
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    encrypted
+                );
+                return new TextDecoder().decode(decrypted);
+            } catch (e) {
+                console.error('Errore decrittografia:', e);
+                return null;
+            }
+        }
+
+        // ============================================================
+        // FUNZIONI UTENTE
+        // ============================================================
+        function encodeUsername(username) {
+            return username.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
+        }
+
+        function getChatPassword(chatId, type) {
+            if (type === 'private') {
+                const parts = chatId.split('_');
+                return parts.sort().join('_') + '_private_chat';
+            }
+            return chatId + '_group_password';
         }
 
         // ============================================================
         // VARIABILI
         // ============================================================
         let currentUser = null;
-        let currentGroupId = null;
-        let allGroups = {};
+        let currentChatId = null;
+        let currentChatType = null;
+        let currentChatName = null;
         let messagesListener = null;
         let inviteList = [];
+        let allUsers = {};
+        let currentMembers = [];
+        let selectedTimer = 0;
+        let replyToMsg = null;
+        let audioChunks = [];
+        let mediaRecorder = null;
+        let isRecording = false;
+        let messageStatuses = {};
+        let processedMsgIds = new Set();
 
         // ============================================================
         // TOAST
@@ -653,6 +1203,7 @@
             clearTimeout(checkTimeout);
             const status = document.getElementById('register-status');
             const username = this.value.trim();
+            
             if (!username) {
                 status.textContent = 'Inserisci un nome';
                 status.className = 'status-msg';
@@ -665,6 +1216,7 @@
                 document.getElementById('register-btn').disabled = true;
                 return;
             }
+            
             if (!/^[a-zA-Z0-9._]+$/.test(username)) {
                 status.textContent = '❌ Solo lettere, numeri, . e _';
                 status.className = 'status-msg error';
@@ -683,7 +1235,10 @@
             document.getElementById('register-btn').disabled = true;
 
             checkTimeout = setTimeout(() => {
-                db.ref(`users/${username}`).once('value')
+                const encodedName = encodeUsername(username);
+                console.log('🔍 Verifica nome:', username);
+                
+                db.ref(`users/${encodedName}`).once('value')
                     .then((snapshot) => {
                         if (snapshot.exists()) {
                             status.textContent = '❌ Nome già in uso';
@@ -696,6 +1251,7 @@
                         }
                     })
                     .catch((err) => {
+                        console.error('❌ Errore verifica:', err);
                         status.textContent = '❌ Errore verifica: ' + err.message;
                         status.className = 'status-msg error';
                         document.getElementById('register-btn').disabled = true;
@@ -729,23 +1285,30 @@
             status.textContent = '⏳ Registrazione in corso...';
             status.className = 'status-msg info';
 
+            const encodedName = encodeUsername(username);
+            console.log('📝 Registrazione:', username);
+
             const userData = {
                 username: username,
+                encoded: encodedName,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
                 groups: {},
-                invites: {}
+                privateChats: {}
             };
 
-            db.ref(`users/${username}`).set(userData)
+            db.ref(`users/${encodedName}`).set(userData)
                 .then(() => {
                     currentUser = username;
                     localStorage.setItem('appturni_user', username);
+                    localStorage.setItem('appturni_encoded', encodedName);
+                    console.log('✅ Utente registrato:', username);
                     status.textContent = '✅ Registrato!';
                     status.className = 'status-msg success';
                     showToast('✅ Benvenuto ' + username + '!', 'success');
                     enterApp();
                 })
                 .catch((err) => {
+                    console.error('❌ Errore registrazione:', err);
                     status.textContent = '❌ Errore: ' + err.message;
                     status.className = 'status-msg error';
                     btn.disabled = false;
@@ -758,22 +1321,63 @@
         // ============================================================
         function checkExistingUser() {
             const savedUser = localStorage.getItem('appturni_user');
-            if (savedUser && firebaseReady && connectionEstablished) {
-                db.ref(`users/${savedUser}`).once('value')
+            const savedEncoded = localStorage.getItem('appturni_encoded');
+            
+            if (savedUser && savedEncoded && firebaseReady && connectionEstablished) {
+                console.log('🔍 Verifica utente esistente:', savedUser);
+                db.ref(`users/${savedEncoded}`).once('value')
                     .then((snapshot) => {
                         if (snapshot.exists()) {
                             currentUser = savedUser;
+                            console.log('✅ Utente trovato:', currentUser);
                             enterApp();
                         } else {
                             localStorage.removeItem('appturni_user');
+                            localStorage.removeItem('appturni_encoded');
                             document.getElementById('register-status').textContent = '✅ Pronto per registrarti';
                             document.getElementById('register-status').className = 'status-msg success';
                         }
                     })
                     .catch(() => {
                         localStorage.removeItem('appturni_user');
+                        localStorage.removeItem('appturni_encoded');
                     });
             }
+        }
+
+        // ============================================================
+        // VERIFICA UTENTE
+        // ============================================================
+        function verifyUser(username) {
+            return new Promise((resolve, reject) => {
+                if (!username || username.length < 3) {
+                    reject({ message: 'Inserisci un nome valido (minimo 3 caratteri)' });
+                    return;
+                }
+                
+                const encodedName = encodeUsername(username);
+                
+                db.ref(`users/${encodedName}`).once('value')
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            resolve({ 
+                                exists: true, 
+                                username: userData.username || username,
+                                displayName: userData.username || username,
+                                encoded: encodedName
+                            });
+                        } else {
+                            reject({ 
+                                message: '❌ Utente @' + username + ' non trovato',
+                                notFound: true
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        reject({ message: '❌ Errore di connessione: ' + err.message });
+                    });
+            });
         }
 
         // ============================================================
@@ -782,70 +1386,221 @@
         function enterApp() {
             document.getElementById('registration-view').style.display = 'none';
             document.getElementById('main-app').classList.add('active');
-            document.getElementById('header-username').textContent = '@' + currentUser;
+            document.getElementById('header-name').textContent = '@' + currentUser;
+            document.getElementById('header-avatar').textContent = currentUser.charAt(0).toUpperCase();
             
-            loadMyGroups();
+            loadAllUsers();
+            loadChats();
+            loadGroups();
             loadInvites();
             showToast('👋 Bentornato ' + currentUser + '!', 'success');
         }
 
         // ============================================================
-        // CARICA GRUPPI
+        // CARICA TUTTI GLI UTENTI
         // ============================================================
-        function loadMyGroups() {
+        function loadAllUsers() {
+            db.ref('users').on('value', (snapshot) => {
+                const data = snapshot.val() || {};
+                allUsers = {};
+                const myEncoded = encodeUsername(currentUser);
+                
+                Object.keys(data).forEach(key => {
+                    const user = data[key];
+                    if (key !== myEncoded && user.username) {
+                        allUsers[key] = {
+                            username: user.username,
+                            encoded: key,
+                            displayName: user.username
+                        };
+                    }
+                });
+                
+                renderContacts();
+            });
+        }
+
+        function renderContacts() {
+            const container = document.getElementById('contacts-list');
+            const search = document.getElementById('contacts-search')?.value?.toLowerCase() || '';
+            
+            const filtered = Object.values(allUsers).filter(u => 
+                u.username.toLowerCase().includes(search)
+            );
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📇</div>
+                        <div class="title">Nessun contatto trovato</div>
+                        <div class="sub">${search ? 'Prova con un altro nome' : 'Invita i tuoi amici a registrarsi!'}</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(u => `
+                <div class="contact-item" onclick="startPrivateChat('${u.encoded}')">
+                    <div class="avatar">${u.username.charAt(0).toUpperCase()}</div>
+                    <div class="info">
+                        <div class="name">@${u.username}</div>
+                        <div class="sub">Clicca per chattare 🔐</div>
+                    </div>
+                    <button class="action-btn">💬</button>
+                </div>
+            `).join('');
+        }
+
+        function filterContacts() {
+            renderContacts();
+        }
+
+        // ============================================================
+        // CARICA CHAT
+        // ============================================================
+        function loadChats() {
             if (!connectionEstablished) return;
             
-            db.ref(`users/${currentUser}/groups`).on('value', (snapshot) => {
-                const myGroups = snapshot.val() || {};
-                const groupIds = Object.keys(myGroups);
-                const container = document.getElementById('groups-list');
+            const myEncoded = encodeUsername(currentUser);
+            
+            db.ref(`users/${myEncoded}/privateChats`).on('value', (snapshot) => {
+                const privateData = snapshot.val() || {};
+                const chatKeys = Object.keys(privateData);
+                const container = document.getElementById('chats-list');
                 
-                if (groupIds.length === 0) {
+                let html = '';
+                let loaded = 0;
+                const total = chatKeys.length;
+                
+                if (total === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
-                            <div class="icon">📁</div>
-                            <div class="title">Nessun gruppo</div>
-                            <div class="sub">Crea o accetta un invito per iniziare!</div>
+                            <div class="icon">💬</div>
+                            <div class="title">Nessuna chat</div>
+                            <div class="sub">Inizia una conversazione dalla rubrica</div>
                         </div>
                     `;
                     return;
                 }
-
-                let loaded = 0;
-                allGroups = {};
-                groupIds.forEach(groupId => {
-                    db.ref(`chat_groups/${groupId}`).once('value', (gSnapshot) => {
-                        const group = gSnapshot.val();
-                        if (group) {
-                            allGroups[groupId] = group;
-                        }
-                        loaded++;
-                        if (loaded === groupIds.length) {
-                            renderGroupsList();
-                        }
+                
+                chatKeys.forEach(otherEncoded => {
+                    db.ref(`users/${otherEncoded}/username`).once('value', (snapshot) => {
+                        const username = snapshot.val() || otherEncoded;
+                        
+                        const chatKey = [myEncoded, otherEncoded].sort().join('_');
+                        const chatRef = db.ref(`private_messages/${chatKey}`);
+                        chatRef.limitToLast(1).on('value', (msgSnapshot) => {
+                            const msgs = msgSnapshot.val();
+                            let lastMsg = null;
+                            let lastTime = null;
+                            let status = '';
+                            
+                            if (msgs) {
+                                const keys = Object.keys(msgs);
+                                const lastKey = keys[keys.length - 1];
+                                lastMsg = msgs[lastKey];
+                                lastTime = lastMsg.timestamp;
+                                status = lastMsg.status || 'sent';
+                            }
+                            
+                            const timeStr = lastTime ? new Date(lastTime).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                            let lastText = 'Nessun messaggio';
+                            if (lastMsg) {
+                                if (lastMsg.isAudio) {
+                                    lastText = '🎤 Messaggio vocale';
+                                } else if (lastMsg.isFile) {
+                                    lastText = '📎 File allegato';
+                                } else {
+                                    // Decifra il testo (se possibile)
+                                    lastText = lastMsg.text || 'Messaggio';
+                                }
+                            }
+                            const sender = lastMsg ? (lastMsg.sender === currentUser ? 'Tu: ' : '') : '';
+                            
+                            let statusIcon = '';
+                            if (lastMsg) {
+                                const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
+                                const color = status === 'read' ? '#34b7f1' : '#94a3b8';
+                                statusIcon = `<span class="status-icon ${status}" style="color:${color};">${icon}</span>`;
+                            }
+                            
+                            html += `
+                                <div class="chat-item" onclick="openPrivateChat('${otherEncoded}')">
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar">${username.charAt(0).toUpperCase()}</div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="name">@${username}</div>
+                                        <div class="last-msg"><span class="sender">${sender}</span>${lastText}</div>
+                                    </div>
+                                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;">
+                                        <div class="time">${timeStr}</div>
+                                        ${statusIcon}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            loaded++;
+                            if (loaded === total) {
+                                container.innerHTML = html;
+                            }
+                        });
                     });
                 });
             });
         }
 
-        function renderGroupsList() {
-            const container = document.getElementById('groups-list');
-            const groups = Object.entries(allGroups);
-            if (groups.length === 0) return;
+        // ============================================================
+        // CARICA GRUPPI
+        // ============================================================
+        function loadGroups() {
+            if (!connectionEstablished) return;
             
-            container.innerHTML = groups.map(([id, group]) => {
-                const memberCount = Object.keys(group.members || {}).length;
-                return `
-                    <div class="group-item" onclick="openGroupChat('${id}')">
-                        <div class="avatar">${group.name.charAt(0).toUpperCase()}</div>
-                        <div class="info">
-                            <div class="name">${group.name}</div>
-                            <div class="members">👥 ${memberCount} membri</div>
+            const myEncoded = encodeUsername(currentUser);
+            
+            db.ref(`users/${myEncoded}/groups`).on('value', (snapshot) => {
+                const groupsData = snapshot.val() || {};
+                const groupIds = Object.keys(groupsData);
+                const container = document.getElementById('groups-list');
+                
+                if (groupIds.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">👥</div>
+                            <div class="title">Nessun gruppo</div>
+                            <div class="sub">Crea un gruppo per iniziare</div>
                         </div>
-                        <div class="badge">💬</div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                    return;
+                }
+                
+                let loaded = 0;
+                let html = '';
+                
+                groupIds.forEach(groupId => {
+                    db.ref(`chat_groups/${groupId}`).once('value', (gSnapshot) => {
+                        const group = gSnapshot.val();
+                        if (group) {
+                            const memberCount = Object.keys(group.members || {}).length;
+                            html += `
+                                <div class="chat-item" onclick="openGroupChat('${groupId}')">
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar">${group.name.charAt(0).toUpperCase()}</div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="name">${group.name}</div>
+                                        <div class="last-msg">👥 ${memberCount} membri</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        loaded++;
+                        if (loaded === groupIds.length) {
+                            container.innerHTML = html;
+                        }
+                    });
+                });
+            });
         }
 
         // ============================================================
@@ -854,33 +1609,14 @@
         function loadInvites() {
             if (!connectionEstablished) return;
             
-            db.ref(`users/${currentUser}/invites`).on('value', (snapshot) => {
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/invites`).on('value', (snapshot) => {
                 const invites = snapshot.val() || {};
                 const keys = Object.keys(invites);
-                const section = document.getElementById('invites-section');
-                const list = document.getElementById('invites-list');
                 
-                if (keys.length === 0) {
-                    section.style.display = 'none';
-                    return;
+                if (keys.length > 0) {
+                    showToast(`📩 Hai ${keys.length} invito${keys.length > 1 ? 'i' : ''} in sospeso!`, 'info');
                 }
-                
-                section.style.display = 'block';
-                list.innerHTML = keys.map(groupId => {
-                    const inv = invites[groupId];
-                    return `
-                        <div class="invite-item">
-                            <div class="info">
-                                <div class="group-name">📩 ${inv.groupName}</div>
-                                <div class="from">da ${inv.invitedBy}</div>
-                            </div>
-                            <div class="actions">
-                                <button class="accept" onclick="acceptInvite('${groupId}')">✅ Accetta</button>
-                                <button class="reject" onclick="rejectInvite('${groupId}')">✕</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
             });
         }
 
@@ -893,29 +1629,759 @@
                 return;
             }
             
-            db.ref(`chat_groups/${groupId}/members/${currentUser}`).set({
-                joinedAt: firebase.database.ServerValue.TIMESTAMP
+            const encodedName = encodeUsername(currentUser);
+            
+            db.ref(`chat_groups/${groupId}/members/${encodedName}`).set({
+                joinedAt: firebase.database.ServerValue.TIMESTAMP,
+                displayName: currentUser
             });
-            db.ref(`users/${currentUser}/invites/${groupId}`).remove();
-            db.ref(`chat_groups/${groupId}/invites/${currentUser}`).remove();
-            db.ref(`users/${currentUser}/groups/${groupId}`).set(true);
+            db.ref(`users/${encodedName}/invites/${groupId}`).remove();
+            db.ref(`chat_groups/${groupId}/invites/${encodedName}`).remove();
+            db.ref(`users/${encodedName}/groups/${groupId}`).set(true);
             
             db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
                 const group = snapshot.val();
                 if (group) {
-                    allGroups[groupId] = group;
-                    renderGroupsList();
                     showToast('✅ Sei entrato in ' + group.name, 'success');
-                    setTimeout(() => openGroupChat(groupId), 500);
+                    loadGroups();
+                    loadChats();
                 }
             });
         }
 
-        function rejectInvite(groupId) {
-            if (!confirm('Rifiutare l\'invito?')) return;
-            db.ref(`users/${currentUser}/invites/${groupId}`).remove();
-            db.ref(`chat_groups/${groupId}/invites/${currentUser}`).remove();
-            showToast('❌ Invito rifiutato', 'error');
+        // ============================================================
+        // QUOTE / RISPOSTA
+        // ============================================================
+        function setReply(msgId, sender, text, isAudio, isFile) {
+            replyToMsg = { msgId, sender, text, isAudio, isFile };
+            const bar = document.getElementById('quote-bar');
+            const textEl = document.getElementById('quote-text');
+            let displayText = text || '';
+            if (isAudio) displayText = '🎤 Messaggio vocale';
+            if (isFile) displayText = '📎 File allegato';
+            textEl.textContent = `Rispondi a ${sender}: ${displayText}`;
+            bar.classList.add('show');
+            document.getElementById('chat-input').focus();
+        }
+
+        function clearQuote() {
+            replyToMsg = null;
+            document.getElementById('quote-bar').classList.remove('show');
+        }
+
+        // ============================================================
+        // ELIMINA MESSAGGIO
+        // ============================================================
+        function deleteMessage(chatId, msgKey, type) {
+            if (!confirm('Eliminare questo messaggio per tutti?')) return;
+            
+            let path;
+            if (type === 'private') {
+                const myEncoded = encodeUsername(currentUser);
+                const chatKey = [myEncoded, chatId].sort().join('_');
+                path = `private_messages/${chatKey}/${msgKey}`;
+            } else {
+                path = `chat_messages/${chatId}/${msgKey}`;
+            }
+            
+            db.ref(path).remove()
+                .then(() => {
+                    showToast('🗑️ Messaggio eliminato', 'success');
+                })
+                .catch((err) => {
+                    console.error('Errore eliminazione:', err);
+                    showToast('❌ Errore eliminazione', 'error');
+                });
+        }
+
+        // ============================================================
+        // CHAT PRIVATA
+        // ============================================================
+        function startPrivateChat(otherEncoded) {
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/privateChats/${otherEncoded}`).set(true);
+            db.ref(`users/${otherEncoded}/privateChats/${myEncoded}`).set(true);
+            
+            openPrivateChat(otherEncoded);
+        }
+
+        function openPrivateChat(otherEncoded) {
+            db.ref(`users/${otherEncoded}/username`).once('value', (snapshot) => {
+                const username = snapshot.val() || otherEncoded;
+                
+                currentChatId = otherEncoded;
+                currentChatType = 'private';
+                currentChatName = '@' + username;
+                clearQuote();
+                processedMsgIds = new Set();
+                
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('chat-view').classList.add('active');
+                document.getElementById('chat-name').textContent = '@' + username;
+                document.getElementById('chat-sub').textContent = '🔐 Crittografato E2EE';
+                document.getElementById('chat-avatar').textContent = username.charAt(0).toUpperCase();
+                document.getElementById('members-btn').style.display = 'none';
+                
+                loadMessagesPrivate(otherEncoded);
+                setTimeout(() => document.getElementById('chat-input').focus(), 300);
+            });
+        }
+
+        function loadMessagesPrivate(otherEncoded) {
+            if (messagesListener) {
+                db.ref(`private_messages`).off();
+                messagesListener = null;
+            }
+
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+
+            const myEncoded = encodeUsername(currentUser);
+            const chatKey = [myEncoded, otherEncoded].sort().join('_');
+            
+            const messagesRef = db.ref(`private_messages/${chatKey}`);
+            messagesListener = messagesRef.limitToLast(50);
+            
+            messagesListener.on('child_added', (snapshot) => {
+                const msgKey = snapshot.key;
+                const msg = snapshot.val();
+                if (!msg) return;
+                
+                // Evita duplicati
+                if (processedMsgIds.has(msgKey)) {
+                    console.log('⏭️ Messaggio già processato:', msgKey);
+                    return;
+                }
+                processedMsgIds.add(msgKey);
+                
+                const isMe = msg.sender === currentUser;
+                const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                
+                // Aggiorna lo stato a letto
+                if (!isMe && msg.status !== 'read') {
+                    db.ref(`private_messages/${chatKey}/${msgKey}/status`).set('read');
+                }
+                
+                let statusHtml = '';
+                if (isMe) {
+                    const status = msg.status || 'sent';
+                    const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
+                    const color = status === 'read' ? '#34b7f1' : '#94a3b8';
+                    statusHtml = `<span class="status" style="color:${color};">${icon}</span>`;
+                }
+
+                let timerHtml = '';
+                if (msg.timer && msg.timer > 0) {
+                    const timeStr = msg.timer === 3600 ? '1h' : msg.timer === 86400 ? '24h' : '7d';
+                    timerHtml = `<span class="timer-badge">⏱️ ${timeStr}</span>`;
+                }
+                
+                // Decifra il contenuto
+                let contentHtml = '';
+                const password = getChatPassword(chatKey, 'private');
+                decryptMessage(msg.encrypted, msg.iv, password).then(decrypted => {
+                    if (msg.isAudio) {
+                        try {
+                            const audioData = JSON.parse(decrypted);
+                            const audioUrl = audioData.data;
+                            const duration = audioData.duration || 3;
+                            contentHtml = `
+                                <div class="audio-player">
+                                    <button onclick="playAudio('${audioUrl}')">▶️</button>
+                                    <div class="progress">
+                                        <div class="fill" id="audio-progress-${msgKey}"></div>
+                                    </div>
+                                    <span class="duration">${Math.floor(duration/60)}:${String(duration%60).padStart(2,'0')}</span>
+                                </div>
+                            `;
+                        } catch (e) {
+                            contentHtml = '<div>🎤 Messaggio vocale</div>';
+                        }
+                    } else if (msg.isFile) {
+                        try {
+                            const fileData = JSON.parse(decrypted);
+                            const icon = fileData.isImage ? '🖼️' : '📄';
+                            contentHtml = `
+                                <div class="file-attachment" onclick="downloadFile('${fileData.data}', '${fileData.name}')">
+                                    <span class="file-icon">${icon}</span>
+                                    <span class="file-name">${fileData.name}</span>
+                                    <span class="file-size">${formatFileSize(fileData.size)}</span>
+                                </div>
+                            `;
+                        } catch (e) {
+                            contentHtml = '<div>📎 File allegato</div>';
+                        }
+                    } else {
+                        const text = decrypted || '🔐 Messaggio cifrato';
+                        contentHtml = `<div>${text}</div>`;
+                    }
+
+                    // Quoted message
+                    let quotedHtml = '';
+                    if (msg.replyTo) {
+                        quotedHtml = `
+                            <div class="quoted">
+                                <span class="q-sender">${msg.replyTo.sender}:</span>
+                                ${msg.replyTo.isAudio ? '🎤 Messaggio vocale' : msg.replyTo.isFile ? '📎 File allegato' : msg.replyTo.text || ''}
+                            </div>
+                        `;
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = `chat-msg ${isMe ? 'me' : 'other'}`;
+                    div.innerHTML = `
+                        ${!isMe ? `<div class="sender">${msg.sender}</div>` : ''}
+                        ${quotedHtml}
+                        ${contentHtml}
+                        <div class="time">${time} ${statusHtml} ${timerHtml}</div>
+                        <div class="msg-actions">
+                            <button class="reply-btn" onclick="setReply('${msgKey}', '${msg.sender}', '${decrypted || ''}', ${msg.isAudio || false}, ${msg.isFile || false})" title="Rispondi">↩️</button>
+                            <button class="delete-btn" onclick="deleteMessage('${currentChatId}', '${msgKey}', 'private')" title="Elimina">🗑️</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                    container.scrollTop = container.scrollHeight;
+                });
+            });
+        }
+
+        // ============================================================
+        // GRUPPI
+        // ============================================================
+        function openGroupChat(groupId) {
+            db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
+                const group = snapshot.val();
+                if (!group) {
+                    showToast('❌ Gruppo non trovato', 'error');
+                    return;
+                }
+                
+                currentChatId = groupId;
+                currentChatType = 'group';
+                currentChatName = group.name;
+                currentMembers = Object.keys(group.members || {});
+                clearQuote();
+                processedMsgIds = new Set();
+                
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('chat-view').classList.add('active');
+                document.getElementById('chat-name').textContent = group.name;
+                const memberCount = Object.keys(group.members || {}).length;
+                document.getElementById('chat-sub').textContent = '👥 ' + memberCount + ' membri • 🔐 E2EE';
+                document.getElementById('chat-avatar').textContent = group.name.charAt(0).toUpperCase();
+                document.getElementById('members-btn').style.display = 'inline-block';
+                
+                loadMessagesGroup(groupId);
+                setTimeout(() => document.getElementById('chat-input').focus(), 300);
+            });
+        }
+
+        function loadMessagesGroup(groupId) {
+            if (messagesListener) {
+                db.ref(`chat_messages/${groupId}`).off();
+                messagesListener = null;
+            }
+
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+
+            const messagesRef = db.ref(`chat_messages/${groupId}`);
+            messagesListener = messagesRef.limitToLast(50);
+            
+            db.ref(`chat_groups/${groupId}/password`).once('value', (pSnapshot) => {
+                const password = pSnapshot.val() || groupId;
+                
+                messagesListener.on('child_added', (snapshot) => {
+                    const msgKey = snapshot.key;
+                    const msg = snapshot.val();
+                    if (!msg) return;
+                    
+                    if (processedMsgIds.has(msgKey)) {
+                        console.log('⏭️ Messaggio già processato:', msgKey);
+                        return;
+                    }
+                    processedMsgIds.add(msgKey);
+                    
+                    const isMe = msg.sender === currentUser;
+                    const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                    
+                    if (!isMe && msg.status !== 'read') {
+                        db.ref(`chat_messages/${groupId}/${msgKey}/status`).set('read');
+                    }
+                    
+                    let statusHtml = '';
+                    if (isMe) {
+                        const status = msg.status || 'sent';
+                        const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
+                        const color = status === 'read' ? '#34b7f1' : '#94a3b8';
+                        statusHtml = `<span class="status" style="color:${color};">${icon}</span>`;
+                    }
+
+                    let timerHtml = '';
+                    if (msg.timer && msg.timer > 0) {
+                        const timeStr = msg.timer === 3600 ? '1h' : msg.timer === 86400 ? '24h' : '7d';
+                        timerHtml = `<span class="timer-badge">⏱️ ${timeStr}</span>`;
+                    }
+                    
+                    decryptMessage(msg.encrypted, msg.iv, password).then(decrypted => {
+                        let contentHtml = '';
+                        if (msg.isAudio) {
+                            try {
+                                const audioData = JSON.parse(decrypted);
+                                const audioUrl = audioData.data;
+                                const duration = audioData.duration || 3;
+                                contentHtml = `
+                                    <div class="audio-player">
+                                        <button onclick="playAudio('${audioUrl}')">▶️</button>
+                                        <div class="progress">
+                                            <div class="fill" id="audio-progress-${msgKey}"></div>
+                                        </div>
+                                        <span class="duration">${Math.floor(duration/60)}:${String(duration%60).padStart(2,'0')}</span>
+                                    </div>
+                                `;
+                            } catch (e) {
+                                contentHtml = '<div>🎤 Messaggio vocale</div>';
+                            }
+                        } else if (msg.isFile) {
+                            try {
+                                const fileData = JSON.parse(decrypted);
+                                const icon = fileData.isImage ? '🖼️' : '📄';
+                                contentHtml = `
+                                    <div class="file-attachment" onclick="downloadFile('${fileData.data}', '${fileData.name}')">
+                                        <span class="file-icon">${icon}</span>
+                                        <span class="file-name">${fileData.name}</span>
+                                        <span class="file-size">${formatFileSize(fileData.size)}</span>
+                                    </div>
+                                `;
+                            } catch (e) {
+                                contentHtml = '<div>📎 File allegato</div>';
+                            }
+                        } else {
+                            const text = decrypted || '🔐 Messaggio cifrato';
+                            contentHtml = `<div>${text}</div>`;
+                        }
+
+                        let quotedHtml = '';
+                        if (msg.replyTo) {
+                            quotedHtml = `
+                                <div class="quoted">
+                                    <span class="q-sender">${msg.replyTo.sender}:</span>
+                                    ${msg.replyTo.isAudio ? '🎤 Messaggio vocale' : msg.replyTo.isFile ? '📎 File allegato' : msg.replyTo.text || ''}
+                                </div>
+                            `;
+                        }
+
+                        const div = document.createElement('div');
+                        div.className = `chat-msg ${isMe ? 'me' : 'other'}`;
+                        div.innerHTML = `
+                            ${!isMe ? `<div class="sender">${msg.sender}</div>` : ''}
+                            ${quotedHtml}
+                            ${contentHtml}
+                            <div class="time">${time} ${statusHtml} ${timerHtml}</div>
+                            <div class="msg-actions">
+                                <button class="reply-btn" onclick="setReply('${msgKey}', '${msg.sender}', '${decrypted || ''}', ${msg.isAudio || false}, ${msg.isFile || false})" title="Rispondi">↩️</button>
+                                <button class="delete-btn" onclick="deleteMessage('${currentChatId}', '${msgKey}', 'group')" title="Elimina">🗑️</button>
+                            </div>
+                        `;
+                        container.appendChild(div);
+                        container.scrollTop = container.scrollHeight;
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // TIMER
+        // ============================================================
+        function showTimerSelector() {
+            document.getElementById('timer-modal').classList.remove('hidden');
+            document.querySelectorAll('.timer-selector button').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.value) === selectedTimer);
+            });
+        }
+
+        function selectTimer(value) {
+            document.querySelectorAll('.timer-selector button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value === value);
+            });
+        }
+
+        function saveTimer() {
+            const activeBtn = document.querySelector('.timer-selector button.active');
+            if (activeBtn) {
+                selectedTimer = parseInt(activeBtn.dataset.value);
+            }
+            document.getElementById('timer-modal').classList.add('hidden');
+            if (selectedTimer > 0) {
+                const timeStr = selectedTimer === 3600 ? '1 ora' : selectedTimer === 86400 ? '24 ore' : '7 giorni';
+                showToast(`⏱️ Timer attivo: ${timeStr}`, 'info');
+            } else {
+                showToast('🔴 Timer disattivato', 'info');
+            }
+        }
+
+        // ============================================================
+        // AUDIO
+        // ============================================================
+        async function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    sendAudioMessage(audioBlob);
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                document.getElementById('mic-btn').textContent = '⏹️';
+                document.getElementById('mic-btn').classList.add('recording');
+                showToast('🎤 Registrazione in corso...', 'info');
+            } catch (err) {
+                console.error('Errore registrazione:', err);
+                showToast('❌ Permesso microfono negato', 'error');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                document.getElementById('mic-btn').textContent = '🎤';
+                document.getElementById('mic-btn').classList.remove('recording');
+            }
+        }
+
+        async function sendAudioMessage(audioBlob) {
+            if (!currentChatId) return;
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const audioData = e.target.result;
+                
+                let password;
+                let path;
+                
+                if (currentChatType === 'private') {
+                    const myEncoded = encodeUsername(currentUser);
+                    const chatKey = [myEncoded, currentChatId].sort().join('_');
+                    password = getChatPassword(chatKey, 'private');
+                    path = `private_messages/${chatKey}`;
+                } else if (currentChatType === 'group') {
+                    const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
+                    password = pSnapshot.val() || currentChatId;
+                    path = `chat_messages/${currentChatId}`;
+                } else {
+                    return;
+                }
+                
+                const audioObj = {
+                    data: audioData,
+                    duration: audioChunks.length ? Math.round(audioChunks.length * 0.02) : 3
+                };
+                
+                const audioJson = JSON.stringify(audioObj);
+                const { encrypted, iv } = await encryptMessage(audioJson, password);
+                
+                if (!encrypted) {
+                    showToast('❌ Errore crittografia audio', 'error');
+                    return;
+                }
+                
+                const msgData = {
+                    sender: currentUser,
+                    encrypted: encrypted,
+                    iv: iv,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    status: 'sent',
+                    isAudio: true,
+                    timer: selectedTimer,
+                    replyTo: replyToMsg ? {
+                        msgId: replyToMsg.msgId,
+                        sender: replyToMsg.sender,
+                        text: replyToMsg.text || '',
+                        isAudio: replyToMsg.isAudio || false,
+                        isFile: replyToMsg.isFile || false
+                    } : null
+                };
+
+                db.ref(path).push(msgData)
+                    .then(() => {
+                        clearQuote();
+                    })
+                    .catch((err) => {
+                        console.error('Errore invio audio:', err);
+                        showToast('❌ Errore invio audio', 'error');
+                    });
+            };
+            reader.readAsDataURL(audioBlob);
+        }
+
+        // ============================================================
+        // INVIA MESSAGGIO (FIX: UN SOLO MESSAGGIO)
+        // ============================================================
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !currentChatId) return;
+            
+            input.value = '';
+            
+            let password;
+            let path;
+            
+            if (currentChatType === 'private') {
+                const myEncoded = encodeUsername(currentUser);
+                const chatKey = [myEncoded, currentChatId].sort().join('_');
+                password = getChatPassword(chatKey, 'private');
+                path = `private_messages/${chatKey}`;
+            } else if (currentChatType === 'group') {
+                const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
+                password = pSnapshot.val() || currentChatId;
+                path = `chat_messages/${currentChatId}`;
+            } else {
+                return;
+            }
+            
+            const { encrypted, iv } = await encryptMessage(text, password);
+            
+            if (!encrypted) {
+                showToast('❌ Errore crittografia', 'error');
+                return;
+            }
+            
+            const msgData = {
+                sender: currentUser,
+                encrypted: encrypted,
+                iv: iv,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                status: 'sent',
+                timer: selectedTimer,
+                replyTo: replyToMsg ? {
+                    msgId: replyToMsg.msgId,
+                    sender: replyToMsg.sender,
+                    text: replyToMsg.text || '',
+                    isAudio: replyToMsg.isAudio || false,
+                    isFile: replyToMsg.isFile || false
+                } : null
+            };
+
+            // Invia un solo messaggio
+            db.ref(path).push(msgData)
+                .then(() => {
+                    clearQuote();
+                    // Aggiorna a "delivered" dopo 2 secondi
+                    setTimeout(() => {
+                        // Il listener aggiornerà lo stato
+                    }, 2000);
+                })
+                .catch((err) => {
+                    console.error('Errore invio:', err);
+                    showToast('❌ Errore invio messaggio', 'error');
+                });
+        }
+
+        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        // ============================================================
+        // ALLEGATI FILE
+        // ============================================================
+        async function handleFileUpload(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0 || !currentChatId) return;
+            
+            for (const file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    showToast(`❌ ${file.name} troppo grande (max 10MB)`, 'error');
+                    continue;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const fileData = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        data: e.target.result,
+                        isImage: file.type.startsWith('image/'),
+                        isVideo: file.type.startsWith('video/'),
+                        isAudio: file.type.startsWith('audio/')
+                    };
+                    
+                    const fileJson = JSON.stringify(fileData);
+                    let password;
+                    let path;
+                    
+                    if (currentChatType === 'private') {
+                        const myEncoded = encodeUsername(currentUser);
+                        const chatKey = [myEncoded, currentChatId].sort().join('_');
+                        password = getChatPassword(chatKey, 'private');
+                        path = `private_messages/${chatKey}`;
+                    } else if (currentChatType === 'group') {
+                        const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
+                        password = pSnapshot.val() || currentChatId;
+                        path = `chat_messages/${currentChatId}`;
+                    } else {
+                        return;
+                    }
+                    
+                    const { encrypted, iv } = await encryptMessage(fileJson, password);
+                    
+                    if (!encrypted) {
+                        showToast('❌ Errore crittografia file', 'error');
+                        return;
+                    }
+                    
+                    const msgData = {
+                        sender: currentUser,
+                        encrypted: encrypted,
+                        iv: iv,
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        status: 'sent',
+                        isFile: true,
+                        fileName: file.name,
+                        fileSize: file.size,
+                        fileType: file.type,
+                        isImage: file.type.startsWith('image/'),
+                        timer: selectedTimer,
+                        replyTo: replyToMsg ? {
+                            msgId: replyToMsg.msgId,
+                            sender: replyToMsg.sender,
+                            text: replyToMsg.text || '',
+                            isAudio: replyToMsg.isAudio || false,
+                            isFile: replyToMsg.isFile || false
+                        } : null
+                    };
+
+                    db.ref(path).push(msgData)
+                        .then(() => {
+                            clearQuote();
+                        })
+                        .catch((err) => {
+                            console.error('Errore invio file:', err);
+                            showToast('❌ Errore invio file', 'error');
+                        });
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            event.target.value = '';
+        }
+
+        // ============================================================
+        // FUNZIONI UTILI
+        // ============================================================
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        function downloadFile(dataUrl, fileName) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function playAudio(audioUrl) {
+            const audio = new Audio(audioUrl);
+            audio.play();
+        }
+
+        // ============================================================
+        // MOSTRA MEMBRI
+        // ============================================================
+        function showMembers() {
+            if (currentChatType !== 'group' || !currentChatId) return;
+            
+            const container = document.getElementById('members-list');
+            
+            db.ref(`chat_groups/${currentChatId}/members`).once('value', (snapshot) => {
+                const members = snapshot.val() || {};
+                const memberList = Object.keys(members);
+                
+                container.innerHTML = memberList.map(encoded => {
+                    const displayName = members[encoded]?.displayName || encoded;
+                    const isCreator = members[encoded]?.isCreator || false;
+                    const isMe = encoded === encodeUsername(currentUser);
+                    
+                    return `
+                        <div class="member">
+                            <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
+                            <div class="name">${displayName} ${isMe ? ' (tu)' : ''}</div>
+                            ${isCreator ? '<span class="badge">👑 Creatore</span>' : ''}
+                        </div>
+                    `;
+                }).join('');
+                
+                document.getElementById('members-modal').classList.remove('hidden');
+            });
+        }
+
+        // ============================================================
+        // CHIUDI CHAT
+        // ============================================================
+        function closeChatView() {
+            if (messagesListener) {
+                if (currentChatType === 'private') {
+                    db.ref(`private_messages`).off();
+                } else if (currentChatType === 'group') {
+                    db.ref(`chat_messages/${currentChatId}`).off();
+                }
+                messagesListener = null;
+            }
+            currentChatId = null;
+            currentChatType = null;
+            clearQuote();
+            document.getElementById('chat-view').classList.remove('active');
+            document.getElementById('main-app').style.display = 'flex';
+            
+            loadChats();
+            loadGroups();
+        }
+
+        // ============================================================
+        // SWITCH TAB
+        // ============================================================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tab}"]`)?.classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${tab}`)?.classList.add('active');
+            
+            if (tab === 'contacts') {
+                renderContacts();
+            }
+            if (tab === 'groups') {
+                loadGroups();
+            }
+            if (tab === 'chats') {
+                loadChats();
+            }
         }
 
         // ============================================================
@@ -931,49 +2397,140 @@
             document.getElementById('modal-group-name').value = '';
             document.getElementById('modal-invite-input').value = '';
             document.getElementById('modal-invite-list').innerHTML = '<span style="font-size:0.7rem;color:#94a3b8;">Nessun invitato</span>';
+            document.getElementById('user-verification').style.display = 'none';
+            document.getElementById('add-invite-btn').disabled = false;
             document.getElementById('create-group-modal').classList.remove('hidden');
             setTimeout(() => document.getElementById('modal-group-name').focus(), 300);
         }
 
         function closeCreateGroupModal() {
             document.getElementById('create-group-modal').classList.add('hidden');
+            document.getElementById('add-invite-btn').disabled = false;
         }
+
+        let verifyTimeoutGroup = null;
+
+        document.getElementById('modal-invite-input')?.addEventListener('input', function() {
+            clearTimeout(verifyTimeoutGroup);
+            const username = this.value.trim();
+            const verificationEl = document.getElementById('user-verification');
+            const addBtn = document.getElementById('add-invite-btn');
+            
+            if (!username) {
+                verificationEl.style.display = 'none';
+                addBtn.disabled = false;
+                return;
+            }
+            
+            if (!username.startsWith('@')) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = 'ℹ️ Inserisci il nome con @ (es. @nome.cognome)';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            
+            if (cleanUsername === currentUser) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = '❌ Non puoi invitare te stesso';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            if (inviteList.includes(cleanUsername)) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = '⚠️ @' + cleanUsername + ' è già nella lista';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            verificationEl.style.display = 'block';
+            verificationEl.className = 'user-verification checking';
+            verificationEl.innerHTML = '<span class="spinner"></span> Verifica @' + cleanUsername + '...';
+            addBtn.disabled = true;
+            
+            verifyTimeoutGroup = setTimeout(() => {
+                verifyUser(cleanUsername)
+                    .then((result) => {
+                        verificationEl.style.display = 'block';
+                        verificationEl.className = 'user-verification valid';
+                        verificationEl.innerHTML = '✅ @' + result.displayName + ' trovato!';
+                        addBtn.disabled = false;
+                    })
+                    .catch((error) => {
+                        verificationEl.style.display = 'block';
+                        verificationEl.className = 'user-verification invalid';
+                        verificationEl.innerHTML = error.message;
+                        addBtn.disabled = true;
+                    });
+            }, 500);
+        });
 
         function addInviteUser() {
             const input = document.getElementById('modal-invite-input');
             const username = input.value.trim();
+            const verificationEl = document.getElementById('user-verification');
+            const addBtn = document.getElementById('add-invite-btn');
+            
+            addBtn.disabled = true;
+            
             if (!username) {
                 showToast('❌ Inserisci un nome utente', 'error');
-                return;
-            }
-            if (!username.startsWith('@')) {
-                showToast('❌ Il nome deve iniziare con @', 'error');
-                return;
-            }
-            const cleanUsername = username.substring(1);
-            if (cleanUsername === currentUser) {
-                showToast('❌ Non puoi invitare te stesso', 'error');
-                return;
-            }
-            if (inviteList.includes(cleanUsername)) {
-                showToast('❌ Già invitato', 'error');
+                addBtn.disabled = false;
                 return;
             }
             
-            db.ref(`users/${cleanUsername}`).once('value')
-                .then((snapshot) => {
-                    if (!snapshot.exists()) {
-                        showToast('❌ Utente ' + username + ' non trovato', 'error');
-                        return;
-                    }
+            if (!username.startsWith('@')) {
+                showToast('❌ Il nome deve iniziare con @', 'error');
+                addBtn.disabled = false;
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            
+            if (cleanUsername === currentUser) {
+                showToast('❌ Non puoi invitare te stesso', 'error');
+                addBtn.disabled = false;
+                return;
+            }
+            
+            if (inviteList.includes(cleanUsername)) {
+                showToast('⚠️ @' + cleanUsername + ' è già nella lista', 'warning');
+                input.value = '';
+                addBtn.disabled = false;
+                verificationEl.style.display = 'none';
+                return;
+            }
+            
+            verificationEl.style.display = 'block';
+            verificationEl.className = 'user-verification checking';
+            verificationEl.innerHTML = '<span class="spinner"></span> Verifica @' + cleanUsername + '...';
+            
+            verifyUser(cleanUsername)
+                .then((result) => {
                     inviteList.push(cleanUsername);
                     renderInviteList();
                     input.value = '';
-                    input.focus();
-                    showToast('✅ ' + username + ' aggiunto', 'success');
+                    verificationEl.style.display = 'none';
+                    showToast('✅ @' + result.displayName + ' aggiunto!', 'success');
+                    addBtn.disabled = false;
                 })
-                .catch(() => {
-                    showToast('❌ Errore verifica utente', 'error');
+                .catch((error) => {
+                    verificationEl.style.display = 'block';
+                    verificationEl.className = 'user-verification invalid';
+                    verificationEl.innerHTML = error.message;
+                    showToast(error.message, 'error');
+                    addBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        if (verificationEl.style.display !== 'none') {
+                            verificationEl.style.display = 'none';
+                        }
+                    }, 4000);
                 });
         }
 
@@ -984,7 +2541,7 @@
                 return;
             }
             container.innerHTML = inviteList.map(user => `
-                <span style="background:#6366f1;color:white;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">
+                <span style="background:#075e54;color:white;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">
                     @${user}
                     <span onclick="removeInviteUser('${user}')" style="cursor:pointer;opacity:0.7;font-size:0.9rem;">×</span>
                 </span>
@@ -1004,21 +2561,31 @@
             }
 
             const groupId = 'g_' + Date.now();
+            const password = 'gpass_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            
             const groupData = {
                 name: name,
                 creator: currentUser,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
-                members: {
-                    [currentUser]: { joinedAt: firebase.database.ServerValue.TIMESTAMP }
-                },
+                password: password,
+                members: {},
                 invites: {}
             };
 
+            const encodedCreator = encodeUsername(currentUser);
+            groupData.members[encodedCreator] = {
+                joinedAt: firebase.database.ServerValue.TIMESTAMP,
+                displayName: currentUser,
+                isCreator: true
+            };
+
             inviteList.forEach(user => {
-                groupData.invites[user] = {
+                const encodedUser = encodeUsername(user);
+                groupData.invites[encodedUser] = {
                     invitedBy: currentUser,
                     at: firebase.database.ServerValue.TIMESTAMP,
-                    status: 'pending'
+                    status: 'pending',
+                    displayName: user
                 };
             });
 
@@ -1029,11 +2596,12 @@
 
             db.ref(`chat_groups/${groupId}`).set(groupData)
                 .then(() => {
-                    db.ref(`users/${currentUser}/groups/${groupId}`).set(true);
+                    db.ref(`users/${encodedCreator}/groups/${groupId}`).set(true);
                     
                     const updates = {};
                     inviteList.forEach(user => {
-                        updates[`users/${user}/invites/${groupId}`] = {
+                        const encodedUser = encodeUsername(user);
+                        updates[`users/${encodedUser}/invites/${groupId}`] = {
                             groupName: name,
                             invitedBy: currentUser,
                             at: firebase.database.ServerValue.TIMESTAMP
@@ -1041,7 +2609,6 @@
                         if (Notification.permission === 'granted') {
                             new Notification('📩 Nuovo invito da ' + currentUser, {
                                 body: currentUser + ' ti ha invitato in "' + name + '"',
-                                icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⏱</text></svg>'
                             });
                         }
                     });
@@ -1051,14 +2618,8 @@
                 .then(() => {
                     closeCreateGroupModal();
                     showToast('✅ Gruppo "' + name + '" creato e inviti inviati!', 'success');
-                    db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
-                        const group = snapshot.val();
-                        if (group) {
-                            allGroups[groupId] = group;
-                            renderGroupsList();
-                            setTimeout(() => openGroupChat(groupId), 500);
-                        }
-                    });
+                    loadGroups();
+                    switchTab('groups');
                 })
                 .catch((err) => {
                     console.error('Errore creazione gruppo:', err);
@@ -1071,114 +2632,25 @@
         }
 
         // ============================================================
-        // APRI CHAT
-        // ============================================================
-        function openGroupChat(groupId) {
-            const group = allGroups[groupId];
-            if (!group) {
-                showToast('❌ Gruppo non trovato', 'error');
-                return;
-            }
-
-            currentGroupId = groupId;
-            document.getElementById('chat-home').style.display = 'none';
-            document.getElementById('chat-view').classList.add('active');
-            
-            document.getElementById('chat-group-name').textContent = group.name;
-            const memberCount = Object.keys(group.members || {}).length;
-            document.getElementById('chat-group-members').textContent = memberCount + ' membri';
-
-            loadMessages(groupId);
-            setTimeout(() => document.getElementById('chat-input').focus(), 300);
-        }
-
-        function closeChatView() {
-            if (messagesListener) {
-                db.ref(`chat_messages/${currentGroupId}`).off();
-                messagesListener = null;
-            }
-            currentGroupId = null;
-            document.getElementById('chat-view').classList.remove('active');
-            document.getElementById('chat-home').style.display = 'block';
-        }
-
-        // ============================================================
-        // CARICA MESSAGGI
-        // ============================================================
-        function loadMessages(groupId) {
-            if (messagesListener) {
-                db.ref(`chat_messages/${groupId}`).off();
-                messagesListener = null;
-            }
-
-            const container = document.getElementById('chat-messages');
-            container.innerHTML = '';
-
-            const messagesRef = db.ref(`chat_messages/${groupId}`);
-            messagesListener = messagesRef.limitToLast(50);
-            
-            messagesListener.on('child_added', (snapshot) => {
-                const msg = snapshot.val();
-                if (!msg) return;
-                
-                const isMe = msg.sender === currentUser;
-                const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
-
-                const div = document.createElement('div');
-                div.className = `chat-msg ${isMe ? 'me' : 'other'}`;
-                div.innerHTML = `
-                    ${!isMe ? `<div class="sender">${msg.sender}</div>` : ''}
-                    <div>${msg.text || ''}</div>
-                    <div class="time">${time}</div>
-                `;
-                container.appendChild(div);
-                container.scrollTop = container.scrollHeight;
-            });
-        }
-
-        // ============================================================
-        // INVIA MESSAGGIO
-        // ============================================================
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text || !currentGroupId) return;
-
-            const msgData = {
-                sender: currentUser,
-                text: text,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
-
-            db.ref(`chat_messages/${currentGroupId}`).push(msgData)
-                .then(() => {
-                    input.value = '';
-                })
-                .catch((err) => {
-                    console.error('Errore invio:', err);
-                    showToast('❌ Errore invio messaggio', 'error');
-                });
-        }
-
-        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
-        });
-
-        // ============================================================
         // LOGOUT
         // ============================================================
         function logout() {
             if (!confirm('Uscire?')) return;
             
             if (messagesListener) {
-                db.ref(`chat_messages/${currentGroupId}`).off();
+                if (currentChatType === 'private') {
+                    db.ref(`private_messages`).off();
+                } else if (currentChatType === 'group') {
+                    db.ref(`chat_messages/${currentChatId}`).off();
+                }
                 messagesListener = null;
             }
             
             localStorage.removeItem('appturni_user');
+            localStorage.removeItem('appturni_encoded');
             currentUser = null;
-            currentGroupId = null;
-            allGroups = {};
+            currentChatId = null;
+            currentChatType = null;
             
             document.getElementById('main-app').classList.remove('active');
             document.getElementById('registration-view').style.display = 'flex';
@@ -1202,11 +2674,10 @@
         // INIT
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Avvio AppTurni Chat...');
+            console.log('🚀 Avvio AppTurni Chat E2EE...');
             
             if (firebaseReady) {
-                // Inizia il tentativo di connessione
-                checkFirebaseConnection();
+                setTimeout(testFirebaseConnection, 1000);
             } else {
                 document.getElementById('register-status').textContent = '❌ Firebase non disponibile';
                 document.getElementById('register-status').className = 'status-msg error';
