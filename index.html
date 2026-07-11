@@ -30,7 +30,8 @@
             position: relative;
         }
 
-        #registration-view {
+        /* ===== AUTH VIEW ===== */
+        #auth-view {
             display: flex;
             flex: 1;
             flex-direction: column;
@@ -40,10 +41,11 @@
             background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
             color: white;
         }
-        #registration-view .logo { font-size: 4rem; margin-bottom: 16px; }
-        #registration-view h1 { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
-        #registration-view .subtitle { font-size: 0.9rem; opacity: 0.8; margin-bottom: 24px; }
-        #registration-view .input-group {
+        #auth-view .logo { font-size: 4rem; margin-bottom: 16px; }
+        #auth-view h1 { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+        #auth-view .subtitle { font-size: 0.9rem; opacity: 0.8; margin-bottom: 24px; }
+        
+        #auth-view .input-group {
             width: 100%;
             max-width: 320px;
             background: rgba(255,255,255,0.15);
@@ -52,9 +54,10 @@
             display: flex;
             align-items: center;
             backdrop-filter: blur(10px);
+            margin-bottom: 8px;
         }
-        #registration-view .input-group span { font-size: 1rem; font-weight: 600; opacity: 0.8; }
-        #registration-view .input-group input {
+        #auth-view .input-group span { font-size: 1rem; font-weight: 600; opacity: 0.8; }
+        #auth-view .input-group input {
             flex: 1;
             padding: 14px 12px;
             border: none;
@@ -64,8 +67,10 @@
             font-family: inherit;
             outline: none;
         }
-        #registration-view .input-group input::placeholder { color: rgba(255,255,255,0.6); }
-        #registration-view .register-btn {
+        #auth-view .input-group input::placeholder { color: rgba(255,255,255,0.6); }
+        #auth-view .input-group input[type="password"] { letter-spacing: 2px; }
+        
+        #auth-view .auth-btn {
             padding: 14px 28px;
             border: none;
             border-radius: 12px;
@@ -75,22 +80,35 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s;
-            margin-top: 16px;
+            margin-top: 8px;
             width: 100%;
             max-width: 320px;
         }
-        #registration-view .register-btn:hover { transform: scale(1.02); }
-        #registration-view .register-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        #registration-view .status-msg {
+        #auth-view .auth-btn:hover { transform: scale(1.02); }
+        #auth-view .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        
+        #auth-view .toggle-auth {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 12px;
+            text-decoration: underline;
+        }
+        #auth-view .toggle-auth:hover { color: white; }
+        
+        #auth-view .status-msg {
             font-size: 0.85rem;
             margin-top: 8px;
             min-height: 28px;
             text-align: center;
         }
-        #registration-view .status-msg.error { color: #fca5a5; }
-        #registration-view .status-msg.success { color: #86efac; }
-        #registration-view .status-msg.info { color: #93c5fd; }
-        #registration-view .hint {
+        #auth-view .status-msg.error { color: #fca5a5; }
+        #auth-view .status-msg.success { color: #86efac; }
+        #auth-view .status-msg.info { color: #93c5fd; }
+        #auth-view .status-msg.warning { color: #fcd34d; }
+        #auth-view .hint {
             font-size: 0.65rem;
             opacity: 0.6;
             margin-top: 12px;
@@ -98,6 +116,21 @@
             text-align: center;
         }
 
+        /* ===== RESET BUTTON ===== */
+        #reset-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.65rem;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+        #reset-btn:hover { background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.4); color: #fca5a5; }
+
+        /* ===== MAIN APP ===== */
         #main-app {
             display: none;
             flex: 1;
@@ -385,17 +418,6 @@
             font-size: 0.6rem;
             opacity: 0.8;
         }
-        .chat-view-header .info .members-btn {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            font-size: 0.6rem;
-            padding: 2px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 2px;
-        }
-        .chat-view-header .info .members-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-view-header .header-actions {
             display: flex;
             gap: 4px;
@@ -476,7 +498,6 @@
             opacity: 0.6;
         }
 
-        /* ===== MSG ACTIONS ===== */
         .chat-msg .msg-actions {
             position: absolute;
             top: -10px;
@@ -614,16 +635,6 @@
             outline: none;
         }
         .chat-input-container input::placeholder { color: #94a3b8; }
-        .chat-input-container .attach-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 50%;
-            color: #075e54;
-        }
-        .chat-input-container .attach-btn:hover { background: rgba(7,94,84,0.1); }
         .chat-input-container .btn-send {
             padding: 8px 16px;
             border: none;
@@ -635,27 +646,6 @@
             font-size: 0.8rem;
         }
         .chat-input-container .btn-send:hover { opacity: 0.9; }
-        .chat-input-container .mic-btn {
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 50%;
-            color: #075e54;
-            transition: all 0.2s;
-        }
-        .chat-input-container .mic-btn:hover { background: rgba(7,94,84,0.1); }
-        .chat-input-container .mic-btn.recording {
-            color: #ef4444;
-            animation: pulse 0.8s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        #file-input { display: none; }
 
         .toast {
             position: fixed;
@@ -708,7 +698,7 @@
         @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
         .modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
         .modal label { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 4px; }
-        .modal input, .modal select {
+        .modal input {
             width: 100%;
             padding: 8px 12px;
             border: 1.5px solid #e2e8f0;
@@ -717,7 +707,7 @@
             font-size: 0.9rem;
             font-family: inherit;
         }
-        .modal input:focus, .modal select:focus { border-color: #075e54; outline: none; }
+        .modal input:focus { border-color: #075e54; outline: none; }
         .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
         .modal-actions button {
             padding: 8px 16px;
@@ -730,6 +720,56 @@
         .modal-actions .btn-secondary:hover { background: #cbd5e1; }
         .modal-actions .btn-primary { background: #075e54; color: white; }
         .modal-actions .btn-primary:hover { opacity: 0.9; }
+
+        .timer-selector {
+            display: flex;
+            gap: 4px;
+            margin: 4px 0;
+            flex-wrap: wrap;
+        }
+        .timer-selector button {
+            padding: 2px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1b1e2e;
+        }
+        .timer-selector button:hover { background: #f0f0f0; }
+        .timer-selector button.active {
+            background: #075e54;
+            color: white;
+            border-color: #075e54;
+        }
+
+        .quote-bar {
+            display: none;
+            padding: 6px 12px;
+            background: #e5e5e5;
+            border-left: 3px solid #075e54;
+            margin: 0 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            align-items: center;
+            gap: 8px;
+        }
+        .quote-bar.show { display: flex; }
+        .quote-bar .quote-text {
+            flex: 1;
+            color: #1b1e2e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .quote-bar .quote-close {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
 
         .user-verification {
             display: flex;
@@ -792,79 +832,42 @@
             border-radius: 10px;
             margin-left: auto;
         }
-
-        .timer-selector {
-            display: flex;
-            gap: 4px;
-            margin: 4px 0;
-            flex-wrap: wrap;
-        }
-        .timer-selector button {
-            padding: 2px 8px;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            background: white;
-            font-size: 0.6rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #1b1e2e;
-        }
-        .timer-selector button:hover { background: #f0f0f0; }
-        .timer-selector button.active {
-            background: #075e54;
-            color: white;
-            border-color: #075e54;
-        }
-
-        .quote-bar {
-            display: none;
-            padding: 6px 12px;
-            background: #e5e5e5;
-            border-left: 3px solid #075e54;
-            margin: 0 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            align-items: center;
-            gap: 8px;
-        }
-        .quote-bar.show { display: flex; }
-        .quote-bar .quote-text {
-            flex: 1;
-            color: #1b1e2e;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .quote-bar .quote-close {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            color: #94a3b8;
-        }
     </style>
 </head>
 <body>
     <div class="app-container">
 
-        <!-- ===== REGISTRAZIONE ===== -->
-        <div id="registration-view">
+        <!-- ===== AUTH VIEW ===== -->
+        <div id="auth-view">
             <div class="logo">💬</div>
-            <h1>AppTurni</h1>
-            <p class="subtitle">Chat E2EE con messaggi autodistruttivi</p>
+            <h1 id="auth-title">AppTurni</h1>
+            <p class="subtitle" id="auth-subtitle">Chat E2EE con messaggi autodistruttivi</p>
             
             <div class="input-group">
                 <span>@</span>
-                <input type="text" id="register-username" placeholder="nome.cognome" autocomplete="off" />
+                <input type="text" id="auth-username" placeholder="nome.cognome" autocomplete="off" />
             </div>
-            <div class="status-msg" id="register-status">⏳ Inizializzazione...</div>
-            <button class="register-btn" id="register-btn" onclick="registerUser()" disabled>
-                🔓 Inizia
+            <div class="input-group">
+                <span>🔑</span>
+                <input type="password" id="auth-password" placeholder="Password" />
+            </div>
+            
+            <div class="status-msg" id="auth-status">⏳ Inizializzazione...</div>
+            
+            <button class="auth-btn" id="auth-btn" onclick="handleAuth()">
+                🔓 Accedi
             </button>
-            <p class="hint">🔐 Tutti i messaggi sono crittografati end-to-end</p>
+            
+            <button class="toggle-auth" id="toggle-auth" onclick="toggleAuthMode()">
+                Non hai un account? Registrati
+            </button>
+            
+            <button id="reset-btn" onclick="resetAllData()">🗑️ Reset dati</button>
+            
+            <p class="hint">🔐 I tuoi dati sono al sicuro con crittografia end-to-end</p>
         </div>
 
-        <!-- ===== MAIN APP ===== -->
+        <!-- ===== MAIN APP (semplificata) ===== -->
         <div id="main-app">
             <div class="whatsapp-header">
                 <div class="left">
@@ -933,7 +936,6 @@
                 <div class="info">
                     <div class="name" id="chat-name">Nome</div>
                     <div class="sub" id="chat-sub">online</div>
-                    <button class="members-btn" id="members-btn" onclick="showMembers()" style="display:none;">👥 Membri</button>
                 </div>
                 <div class="header-actions">
                     <button onclick="document.getElementById('file-input').click()" title="Allega file">📎</button>
@@ -952,7 +954,6 @@
                 <div class="wrapper">
                     <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." />
                 </div>
-                <button class="mic-btn" id="mic-btn" onclick="toggleRecording()" title="Messaggio vocale">🎤</button>
                 <button class="btn-send" onclick="sendChatMessage()">Invia</button>
             </div>
         </div>
@@ -977,35 +978,6 @@
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeCreateGroupModal()">Annulla</button>
                 <button class="btn-primary" onclick="confirmCreateGroup()">Crea e invita</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== MODALE MEMBRI ===== -->
-    <div id="members-modal" class="modal-overlay hidden">
-        <div class="modal">
-            <h3>👥 Membri del gruppo</h3>
-            <div id="members-list" class="members-list"></div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="document.getElementById('members-modal').classList.add('hidden')">Chiudi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== MODALE TIMER ===== -->
-    <div id="timer-modal" class="modal-overlay hidden">
-        <div class="modal">
-            <h3>⏱️ Timer autodistruzione</h3>
-            <p style="font-size:0.8rem;color:#64748b;margin-bottom:12px;">I messaggi inviati si autodistruggeranno dopo il tempo selezionato.</p>
-            <div class="timer-selector">
-                <button onclick="selectTimer('0')" data-value="0" class="active">🔴 Nessun timer</button>
-                <button onclick="selectTimer('3600')" data-value="3600">⏱️ 1 ora</button>
-                <button onclick="selectTimer('86400')" data-value="86400">📅 24 ore</button>
-                <button onclick="selectTimer('604800')" data-value="604800">📆 7 giorni</button>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="document.getElementById('timer-modal').classList.add('hidden')">Chiudi</button>
-                <button class="btn-primary" onclick="saveTimer()">Salva</button>
             </div>
         </div>
     </div>
@@ -1038,12 +1010,12 @@
             db = firebase.database();
             firebaseReady = true;
             console.log('✅ Firebase inizializzato!');
-            document.getElementById('register-status').textContent = '✅ Firebase inizializzato';
-            document.getElementById('register-status').className = 'status-msg success';
+            document.getElementById('auth-status').textContent = '✅ Firebase inizializzato';
+            document.getElementById('auth-status').className = 'status-msg success';
         } catch (e) {
             console.error('❌ Errore Firebase:', e);
-            document.getElementById('register-status').textContent = '❌ Errore: ' + e.message;
-            document.getElementById('register-status').className = 'status-msg error';
+            document.getElementById('auth-status').textContent = '❌ Errore: ' + e.message;
+            document.getElementById('auth-status').className = 'status-msg error';
         }
 
         // ============================================================
@@ -1051,13 +1023,13 @@
         // ============================================================
         function testFirebaseConnection() {
             if (!firebaseReady || !db) {
-                document.getElementById('register-status').textContent = '❌ Firebase non disponibile';
-                document.getElementById('register-status').className = 'status-msg error';
+                document.getElementById('auth-status').textContent = '❌ Firebase non disponibile';
+                document.getElementById('auth-status').className = 'status-msg error';
                 return;
             }
 
-            document.getElementById('register-status').textContent = '⏳ Test connessione...';
-            document.getElementById('register-status').className = 'status-msg info';
+            document.getElementById('auth-status').textContent = '⏳ Test connessione...';
+            document.getElementById('auth-status').className = 'status-msg info';
 
             const testRef = db.ref('_test_' + Date.now());
             
@@ -1065,17 +1037,255 @@
                 .then(() => {
                     console.log('✅ Connessione Firebase OK!');
                     connectionEstablished = true;
-                    document.getElementById('register-status').textContent = '🟢 Connesso a Firebase!';
-                    document.getElementById('register-status').className = 'status-msg success';
-                    document.getElementById('register-btn').disabled = false;
+                    document.getElementById('auth-status').textContent = '🟢 Connesso a Firebase!';
+                    document.getElementById('auth-status').className = 'status-msg success';
+                    document.getElementById('auth-btn').disabled = false;
                     testRef.remove().catch(() => {});
-                    checkExistingUser();
                 })
                 .catch((err) => {
                     console.error('❌ Errore connessione:', err);
-                    document.getElementById('register-status').textContent = '❌ Errore: ' + err.message;
-                    document.getElementById('register-status').className = 'status-msg error';
+                    document.getElementById('auth-status').textContent = '❌ Errore: ' + err.message;
+                    document.getElementById('auth-status').className = 'status-msg error';
                 });
+        }
+
+        // ============================================================
+        // NORMALIZZA NOME (case-insensitive)
+        // ============================================================
+        function normalizeUsername(username) {
+            return username.toLowerCase().trim();
+        }
+
+        // ============================================================
+        // RESET TUTTI I DATI
+        // ============================================================
+        async function resetAllData() {
+            if (!confirm('⚠️ ATTENZIONE: Questa operazione eliminerà TUTTI i dati (utenti, chat, gruppi, messaggi). Sei sicuro?')) {
+                return;
+            }
+
+            if (!confirm('🔴 ULTIMO AVVISO: Tutti i dati saranno PERDUTI PER SEMPRE. Confermi?')) {
+                return;
+            }
+
+            const status = document.getElementById('auth-status');
+            status.textContent = '⏳ Eliminazione dati in corso...';
+            status.className = 'status-msg warning';
+
+            try {
+                // Elimina tutti i dati da Firebase
+                await db.ref().remove();
+                console.log('✅ Tutti i dati eliminati da Firebase!');
+                
+                // Elimina dati localStorage
+                localStorage.removeItem('appturni_user');
+                localStorage.removeItem('appturni_encoded');
+                localStorage.removeItem('appturni_password');
+                
+                // Reset variabili
+                currentUser = null;
+                currentChatId = null;
+                currentChatType = null;
+                allUsers = {};
+                
+                status.textContent = '✅ Tutti i dati sono stati eliminati! Ricarica la pagina.';
+                status.className = 'status-msg success';
+                
+                showToast('🗑️ Tutti i dati eliminati con successo!', 'success');
+                
+                // Ricarica la pagina dopo 2 secondi
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+                
+            } catch (err) {
+                console.error('Errore reset:', err);
+                status.textContent = '❌ Errore durante il reset: ' + err.message;
+                status.className = 'status-msg error';
+                showToast('❌ Errore reset dati', 'error');
+            }
+        }
+
+        // ============================================================
+        // AUTH MODE
+        // ============================================================
+        let isLoginMode = true;
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const btn = document.getElementById('auth-btn');
+            const toggle = document.getElementById('toggle-auth');
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            
+            if (isLoginMode) {
+                btn.textContent = '🔓 Accedi';
+                toggle.textContent = 'Non hai un account? Registrati';
+                title.textContent = 'AppTurni';
+                subtitle.textContent = 'Chat E2EE con messaggi autodistruttivi';
+            } else {
+                btn.textContent = '📝 Registrati';
+                toggle.textContent = 'Hai già un account? Accedi';
+                title.textContent = 'AppTurni - Registrazione';
+                subtitle.textContent = 'Crea il tuo account sicuro';
+            }
+            document.getElementById('auth-status').textContent = '';
+            document.getElementById('auth-status').className = 'status-msg';
+        }
+
+        // ============================================================
+        // CRITTOGRAFIA PASSWORD
+        // ============================================================
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // ============================================================
+        // AUTH HANDLER (con case-insensitive)
+        // ============================================================
+        async function handleAuth() {
+            const rawUsername = document.getElementById('auth-username').value.trim();
+            const password = document.getElementById('auth-password').value.trim();
+            const status = document.getElementById('auth-status');
+            const btn = document.getElementById('auth-btn');
+
+            // Normalizza il nome (case-insensitive)
+            const username = normalizeUsername(rawUsername);
+
+            if (!username) {
+                status.textContent = '❌ Inserisci un nome utente';
+                status.className = 'status-msg error';
+                return;
+            }
+
+            if (!password || password.length < 4) {
+                status.textContent = '❌ Inserisci una password (minimo 4 caratteri)';
+                status.className = 'status-msg error';
+                return;
+            }
+
+            if (!firebaseReady || !connectionEstablished) {
+                status.textContent = '⏳ Attendi connessione...';
+                status.className = 'status-msg info';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Caricamento...';
+            status.textContent = '⏳ Verifica credenziali...';
+            status.className = 'status-msg info';
+
+            const encodedName = encodeUsername(username);
+            const hashedPassword = await hashPassword(password);
+
+            try {
+                const snapshot = await db.ref(`users/${encodedName}`).once('value');
+                const userData = snapshot.val();
+
+                if (isLoginMode) {
+                    // LOGIN
+                    if (!userData) {
+                        status.textContent = '❌ Utente non trovato. Registrati prima.';
+                        status.className = 'status-msg error';
+                        btn.disabled = false;
+                        btn.textContent = '🔓 Accedi';
+                        return;
+                    }
+
+                    if (userData.password !== hashedPassword) {
+                        status.textContent = '❌ Password errata';
+                        status.className = 'status-msg error';
+                        btn.disabled = false;
+                        btn.textContent = '🔓 Accedi';
+                        return;
+                    }
+
+                    // Login riuscito - usa il nome originale dell'utente
+                    const displayName = userData.displayName || username;
+                    currentUser = displayName;
+                    localStorage.setItem('appturni_user', displayName);
+                    localStorage.setItem('appturni_encoded', encodedName);
+                    localStorage.setItem('appturni_password', password);
+                    status.textContent = '✅ Login effettuato!';
+                    status.className = 'status-msg success';
+                    showToast('👋 Bentornato ' + displayName + '!', 'success');
+                    enterApp();
+                } else {
+                    // REGISTRAZIONE
+                    if (userData) {
+                        status.textContent = '❌ Nome già in uso (non importa come lo scrivi)';
+                        status.className = 'status-msg error';
+                        btn.disabled = false;
+                        btn.textContent = '📝 Registrati';
+                        return;
+                    }
+
+                    // Crea nuovo utente
+                    const newUserData = {
+                        username: username,
+                        displayName: rawUsername, // Mantieni il formato originale per visualizzazione
+                        encoded: encodedName,
+                        password: hashedPassword,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                        groups: {},
+                        privateChats: {}
+                    };
+
+                    await db.ref(`users/${encodedName}`).set(newUserData);
+                    
+                    currentUser = rawUsername;
+                    localStorage.setItem('appturni_user', rawUsername);
+                    localStorage.setItem('appturni_encoded', encodedName);
+                    localStorage.setItem('appturni_password', password);
+                    status.textContent = '✅ Registrato con successo!';
+                    status.className = 'status-msg success';
+                    showToast('✅ Benvenuto ' + rawUsername + '!', 'success');
+                    enterApp();
+                }
+            } catch (err) {
+                console.error('Errore auth:', err);
+                status.textContent = '❌ Errore: ' + err.message;
+                status.className = 'status-msg error';
+                btn.disabled = false;
+                btn.textContent = isLoginMode ? '🔓 Accedi' : '📝 Registrati';
+            }
+        }
+
+        // ============================================================
+        // AUTO-LOGIN
+        // ============================================================
+        function autoLogin() {
+            const savedUser = localStorage.getItem('appturni_user');
+            const savedPassword = localStorage.getItem('appturni_password');
+            
+            if (savedUser && savedPassword && connectionEstablished) {
+                document.getElementById('auth-username').value = savedUser;
+                document.getElementById('auth-password').value = savedPassword;
+                setTimeout(() => {
+                    handleAuth();
+                }, 500);
+            }
+        }
+
+        // ============================================================
+        // FUNZIONI UTENTE
+        // ============================================================
+        function encodeUsername(username) {
+            // Normalizza prima di codificare
+            const normalized = normalizeUsername(username);
+            return normalized.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
+        }
+
+        function getChatPassword(chatId, type) {
+            if (type === 'private') {
+                const parts = chatId.split('_');
+                return parts.sort().join('_') + '_private_chat';
+            }
+            return chatId + '_group_password';
         }
 
         // ============================================================
@@ -1144,21 +1354,6 @@
         }
 
         // ============================================================
-        // FUNZIONI UTENTE
-        // ============================================================
-        function encodeUsername(username) {
-            return username.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
-        }
-
-        function getChatPassword(chatId, type) {
-            if (type === 'private') {
-                const parts = chatId.split('_');
-                return parts.sort().join('_') + '_private_chat';
-            }
-            return chatId + '_group_password';
-        }
-
-        // ============================================================
         // VARIABILI
         // ============================================================
         let currentUser = null;
@@ -1171,10 +1366,6 @@
         let currentMembers = [];
         let selectedTimer = 0;
         let replyToMsg = null;
-        let audioChunks = [];
-        let mediaRecorder = null;
-        let isRecording = false;
-        let messageStatuses = {};
         let processedMsgIds = new Set();
 
         // ============================================================
@@ -1195,196 +1386,10 @@
         }
 
         // ============================================================
-        // REGISTRAZIONE
-        // ============================================================
-        let checkTimeout = null;
-
-        document.getElementById('register-username')?.addEventListener('input', function() {
-            clearTimeout(checkTimeout);
-            const status = document.getElementById('register-status');
-            const username = this.value.trim();
-            
-            if (!username) {
-                status.textContent = 'Inserisci un nome';
-                status.className = 'status-msg';
-                document.getElementById('register-btn').disabled = true;
-                return;
-            }
-            if (!firebaseReady || !connectionEstablished) {
-                status.textContent = '⏳ Attendi connessione...';
-                status.className = 'status-msg info';
-                document.getElementById('register-btn').disabled = true;
-                return;
-            }
-            
-            if (!/^[a-zA-Z0-9._]+$/.test(username)) {
-                status.textContent = '❌ Solo lettere, numeri, . e _';
-                status.className = 'status-msg error';
-                document.getElementById('register-btn').disabled = true;
-                return;
-            }
-            if (username.length < 3) {
-                status.textContent = '❌ Minimo 3 caratteri';
-                status.className = 'status-msg error';
-                document.getElementById('register-btn').disabled = true;
-                return;
-            }
-
-            status.textContent = '⏳ Verifica...';
-            status.className = 'status-msg info';
-            document.getElementById('register-btn').disabled = true;
-
-            checkTimeout = setTimeout(() => {
-                const encodedName = encodeUsername(username);
-                console.log('🔍 Verifica nome:', username);
-                
-                db.ref(`users/${encodedName}`).once('value')
-                    .then((snapshot) => {
-                        if (snapshot.exists()) {
-                            status.textContent = '❌ Nome già in uso';
-                            status.className = 'status-msg error';
-                            document.getElementById('register-btn').disabled = true;
-                        } else {
-                            status.textContent = '✅ Nome disponibile';
-                            status.className = 'status-msg success';
-                            document.getElementById('register-btn').disabled = false;
-                        }
-                    })
-                    .catch((err) => {
-                        console.error('❌ Errore verifica:', err);
-                        status.textContent = '❌ Errore verifica: ' + err.message;
-                        status.className = 'status-msg error';
-                        document.getElementById('register-btn').disabled = true;
-                    });
-            }, 500);
-        });
-
-        document.getElementById('register-username')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') registerUser();
-        });
-
-        function registerUser() {
-            const username = document.getElementById('register-username').value.trim();
-            const status = document.getElementById('register-status');
-            const btn = document.getElementById('register-btn');
-
-            if (!username) {
-                status.textContent = '❌ Inserisci un nome';
-                status.className = 'status-msg error';
-                return;
-            }
-
-            if (!firebaseReady || !connectionEstablished) {
-                status.textContent = '❌ Attendi connessione...';
-                status.className = 'status-msg error';
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = '⏳ Registrazione...';
-            status.textContent = '⏳ Registrazione in corso...';
-            status.className = 'status-msg info';
-
-            const encodedName = encodeUsername(username);
-            console.log('📝 Registrazione:', username);
-
-            const userData = {
-                username: username,
-                encoded: encodedName,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                groups: {},
-                privateChats: {}
-            };
-
-            db.ref(`users/${encodedName}`).set(userData)
-                .then(() => {
-                    currentUser = username;
-                    localStorage.setItem('appturni_user', username);
-                    localStorage.setItem('appturni_encoded', encodedName);
-                    console.log('✅ Utente registrato:', username);
-                    status.textContent = '✅ Registrato!';
-                    status.className = 'status-msg success';
-                    showToast('✅ Benvenuto ' + username + '!', 'success');
-                    enterApp();
-                })
-                .catch((err) => {
-                    console.error('❌ Errore registrazione:', err);
-                    status.textContent = '❌ Errore: ' + err.message;
-                    status.className = 'status-msg error';
-                    btn.disabled = false;
-                    btn.textContent = '🔓 Inizia';
-                });
-        }
-
-        // ============================================================
-        // CHECK UTENTE ESISTENTE
-        // ============================================================
-        function checkExistingUser() {
-            const savedUser = localStorage.getItem('appturni_user');
-            const savedEncoded = localStorage.getItem('appturni_encoded');
-            
-            if (savedUser && savedEncoded && firebaseReady && connectionEstablished) {
-                console.log('🔍 Verifica utente esistente:', savedUser);
-                db.ref(`users/${savedEncoded}`).once('value')
-                    .then((snapshot) => {
-                        if (snapshot.exists()) {
-                            currentUser = savedUser;
-                            console.log('✅ Utente trovato:', currentUser);
-                            enterApp();
-                        } else {
-                            localStorage.removeItem('appturni_user');
-                            localStorage.removeItem('appturni_encoded');
-                            document.getElementById('register-status').textContent = '✅ Pronto per registrarti';
-                            document.getElementById('register-status').className = 'status-msg success';
-                        }
-                    })
-                    .catch(() => {
-                        localStorage.removeItem('appturni_user');
-                        localStorage.removeItem('appturni_encoded');
-                    });
-            }
-        }
-
-        // ============================================================
-        // VERIFICA UTENTE
-        // ============================================================
-        function verifyUser(username) {
-            return new Promise((resolve, reject) => {
-                if (!username || username.length < 3) {
-                    reject({ message: 'Inserisci un nome valido (minimo 3 caratteri)' });
-                    return;
-                }
-                
-                const encodedName = encodeUsername(username);
-                
-                db.ref(`users/${encodedName}`).once('value')
-                    .then((snapshot) => {
-                        if (snapshot.exists()) {
-                            const userData = snapshot.val();
-                            resolve({ 
-                                exists: true, 
-                                username: userData.username || username,
-                                displayName: userData.username || username,
-                                encoded: encodedName
-                            });
-                        } else {
-                            reject({ 
-                                message: '❌ Utente @' + username + ' non trovato',
-                                notFound: true
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        reject({ message: '❌ Errore di connessione: ' + err.message });
-                    });
-            });
-        }
-
-        // ============================================================
         // ENTRATA NELL'APP
         // ============================================================
         function enterApp() {
-            document.getElementById('registration-view').style.display = 'none';
+            document.getElementById('auth-view').style.display = 'none';
             document.getElementById('main-app').classList.add('active');
             document.getElementById('header-name').textContent = '@' + currentUser;
             document.getElementById('header-avatar').textContent = currentUser.charAt(0).toUpperCase();
@@ -1410,8 +1415,8 @@
                     if (key !== myEncoded && user.username) {
                         allUsers[key] = {
                             username: user.username,
-                            encoded: key,
-                            displayName: user.username
+                            displayName: user.displayName || user.username,
+                            encoded: key
                         };
                     }
                 });
@@ -1425,7 +1430,7 @@
             const search = document.getElementById('contacts-search')?.value?.toLowerCase() || '';
             
             const filtered = Object.values(allUsers).filter(u => 
-                u.username.toLowerCase().includes(search)
+                u.displayName.toLowerCase().includes(search) || u.username.includes(search)
             );
             
             if (filtered.length === 0) {
@@ -1441,9 +1446,9 @@
             
             container.innerHTML = filtered.map(u => `
                 <div class="contact-item" onclick="startPrivateChat('${u.encoded}')">
-                    <div class="avatar">${u.username.charAt(0).toUpperCase()}</div>
+                    <div class="avatar">${u.displayName.charAt(0).toUpperCase()}</div>
                     <div class="info">
-                        <div class="name">@${u.username}</div>
+                        <div class="name">@${u.displayName}</div>
                         <div class="sub">Clicca per chattare 🔐</div>
                     </div>
                     <button class="action-btn">💬</button>
@@ -1456,7 +1461,7 @@
         }
 
         // ============================================================
-        // CARICA CHAT
+        // CARICA CHAT E GRUPPI (semplificati)
         // ============================================================
         function loadChats() {
             if (!connectionEstablished) return;
@@ -1484,7 +1489,7 @@
                 }
                 
                 chatKeys.forEach(otherEncoded => {
-                    db.ref(`users/${otherEncoded}/username`).once('value', (snapshot) => {
+                    db.ref(`users/${otherEncoded}/displayName`).once('value', (snapshot) => {
                         const username = snapshot.val() || otherEncoded;
                         
                         const chatKey = [myEncoded, otherEncoded].sort().join('_');
@@ -1511,7 +1516,6 @@
                                 } else if (lastMsg.isFile) {
                                     lastText = '📎 File allegato';
                                 } else {
-                                    // Decifra il testo (se possibile)
                                     lastText = lastMsg.text || 'Messaggio';
                                 }
                             }
@@ -1706,7 +1710,7 @@
         }
 
         function openPrivateChat(otherEncoded) {
-            db.ref(`users/${otherEncoded}/username`).once('value', (snapshot) => {
+            db.ref(`users/${otherEncoded}/displayName`).once('value', (snapshot) => {
                 const username = snapshot.val() || otherEncoded;
                 
                 currentChatId = otherEncoded;
@@ -1720,7 +1724,6 @@
                 document.getElementById('chat-name').textContent = '@' + username;
                 document.getElementById('chat-sub').textContent = '🔐 Crittografato E2EE';
                 document.getElementById('chat-avatar').textContent = username.charAt(0).toUpperCase();
-                document.getElementById('members-btn').style.display = 'none';
                 
                 loadMessagesPrivate(otherEncoded);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -1738,6 +1741,7 @@
 
             const myEncoded = encodeUsername(currentUser);
             const chatKey = [myEncoded, otherEncoded].sort().join('_');
+            const password = getChatPassword(chatKey, 'private');
             
             const messagesRef = db.ref(`private_messages/${chatKey}`);
             messagesListener = messagesRef.limitToLast(50);
@@ -1747,7 +1751,6 @@
                 const msg = snapshot.val();
                 if (!msg) return;
                 
-                // Evita duplicati
                 if (processedMsgIds.has(msgKey)) {
                     console.log('⏭️ Messaggio già processato:', msgKey);
                     return;
@@ -1757,7 +1760,6 @@
                 const isMe = msg.sender === currentUser;
                 const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
                 
-                // Aggiorna lo stato a letto
                 if (!isMe && msg.status !== 'read') {
                     db.ref(`private_messages/${chatKey}/${msgKey}/status`).set('read');
                 }
@@ -1776,10 +1778,8 @@
                     timerHtml = `<span class="timer-badge">⏱️ ${timeStr}</span>`;
                 }
                 
-                // Decifra il contenuto
-                let contentHtml = '';
-                const password = getChatPassword(chatKey, 'private');
                 decryptMessage(msg.encrypted, msg.iv, password).then(decrypted => {
+                    let contentHtml = '';
                     if (msg.isAudio) {
                         try {
                             const audioData = JSON.parse(decrypted);
@@ -1816,7 +1816,6 @@
                         contentHtml = `<div>${text}</div>`;
                     }
 
-                    // Quoted message
                     let quotedHtml = '';
                     if (msg.replyTo) {
                         quotedHtml = `
@@ -1869,7 +1868,6 @@
                 const memberCount = Object.keys(group.members || {}).length;
                 document.getElementById('chat-sub').textContent = '👥 ' + memberCount + ' membri • 🔐 E2EE';
                 document.getElementById('chat-avatar').textContent = group.name.charAt(0).toUpperCase();
-                document.getElementById('members-btn').style.display = 'inline-block';
                 
                 loadMessagesGroup(groupId);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -2021,189 +2019,6 @@
         }
 
         // ============================================================
-        // AUDIO
-        // ============================================================
-        async function toggleRecording() {
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording();
-            }
-        }
-
-        async function startRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-                
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
-                
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    sendAudioMessage(audioBlob);
-                    stream.getTracks().forEach(track => track.stop());
-                };
-                
-                mediaRecorder.start();
-                isRecording = true;
-                document.getElementById('mic-btn').textContent = '⏹️';
-                document.getElementById('mic-btn').classList.add('recording');
-                showToast('🎤 Registrazione in corso...', 'info');
-            } catch (err) {
-                console.error('Errore registrazione:', err);
-                showToast('❌ Permesso microfono negato', 'error');
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && isRecording) {
-                mediaRecorder.stop();
-                isRecording = false;
-                document.getElementById('mic-btn').textContent = '🎤';
-                document.getElementById('mic-btn').classList.remove('recording');
-            }
-        }
-
-        async function sendAudioMessage(audioBlob) {
-            if (!currentChatId) return;
-            
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const audioData = e.target.result;
-                
-                let password;
-                let path;
-                
-                if (currentChatType === 'private') {
-                    const myEncoded = encodeUsername(currentUser);
-                    const chatKey = [myEncoded, currentChatId].sort().join('_');
-                    password = getChatPassword(chatKey, 'private');
-                    path = `private_messages/${chatKey}`;
-                } else if (currentChatType === 'group') {
-                    const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
-                    password = pSnapshot.val() || currentChatId;
-                    path = `chat_messages/${currentChatId}`;
-                } else {
-                    return;
-                }
-                
-                const audioObj = {
-                    data: audioData,
-                    duration: audioChunks.length ? Math.round(audioChunks.length * 0.02) : 3
-                };
-                
-                const audioJson = JSON.stringify(audioObj);
-                const { encrypted, iv } = await encryptMessage(audioJson, password);
-                
-                if (!encrypted) {
-                    showToast('❌ Errore crittografia audio', 'error');
-                    return;
-                }
-                
-                const msgData = {
-                    sender: currentUser,
-                    encrypted: encrypted,
-                    iv: iv,
-                    timestamp: firebase.database.ServerValue.TIMESTAMP,
-                    status: 'sent',
-                    isAudio: true,
-                    timer: selectedTimer,
-                    replyTo: replyToMsg ? {
-                        msgId: replyToMsg.msgId,
-                        sender: replyToMsg.sender,
-                        text: replyToMsg.text || '',
-                        isAudio: replyToMsg.isAudio || false,
-                        isFile: replyToMsg.isFile || false
-                    } : null
-                };
-
-                db.ref(path).push(msgData)
-                    .then(() => {
-                        clearQuote();
-                    })
-                    .catch((err) => {
-                        console.error('Errore invio audio:', err);
-                        showToast('❌ Errore invio audio', 'error');
-                    });
-            };
-            reader.readAsDataURL(audioBlob);
-        }
-
-        // ============================================================
-        // INVIA MESSAGGIO (FIX: UN SOLO MESSAGGIO)
-        // ============================================================
-        async function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text || !currentChatId) return;
-            
-            input.value = '';
-            
-            let password;
-            let path;
-            
-            if (currentChatType === 'private') {
-                const myEncoded = encodeUsername(currentUser);
-                const chatKey = [myEncoded, currentChatId].sort().join('_');
-                password = getChatPassword(chatKey, 'private');
-                path = `private_messages/${chatKey}`;
-            } else if (currentChatType === 'group') {
-                const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
-                password = pSnapshot.val() || currentChatId;
-                path = `chat_messages/${currentChatId}`;
-            } else {
-                return;
-            }
-            
-            const { encrypted, iv } = await encryptMessage(text, password);
-            
-            if (!encrypted) {
-                showToast('❌ Errore crittografia', 'error');
-                return;
-            }
-            
-            const msgData = {
-                sender: currentUser,
-                encrypted: encrypted,
-                iv: iv,
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                status: 'sent',
-                timer: selectedTimer,
-                replyTo: replyToMsg ? {
-                    msgId: replyToMsg.msgId,
-                    sender: replyToMsg.sender,
-                    text: replyToMsg.text || '',
-                    isAudio: replyToMsg.isAudio || false,
-                    isFile: replyToMsg.isFile || false
-                } : null
-            };
-
-            // Invia un solo messaggio
-            db.ref(path).push(msgData)
-                .then(() => {
-                    clearQuote();
-                    // Aggiorna a "delivered" dopo 2 secondi
-                    setTimeout(() => {
-                        // Il listener aggiornerà lo stato
-                    }, 2000);
-                })
-                .catch((err) => {
-                    console.error('Errore invio:', err);
-                    showToast('❌ Errore invio messaggio', 'error');
-                });
-        }
-
-        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendChatMessage();
-            }
-        });
-
-        // ============================================================
         // ALLEGATI FILE
         // ============================================================
         async function handleFileUpload(event) {
@@ -2289,6 +2104,69 @@
         }
 
         // ============================================================
+        // INVIA MESSAGGIO
+        // ============================================================
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !currentChatId) return;
+            
+            input.value = '';
+            
+            let password;
+            let path;
+            
+            if (currentChatType === 'private') {
+                const myEncoded = encodeUsername(currentUser);
+                const chatKey = [myEncoded, currentChatId].sort().join('_');
+                password = getChatPassword(chatKey, 'private');
+                path = `private_messages/${chatKey}`;
+            } else if (currentChatType === 'group') {
+                const pSnapshot = await db.ref(`chat_groups/${currentChatId}/password`).once('value');
+                password = pSnapshot.val() || currentChatId;
+                path = `chat_messages/${currentChatId}`;
+            } else {
+                return;
+            }
+            
+            const { encrypted, iv } = await encryptMessage(text, password);
+            
+            if (!encrypted) {
+                showToast('❌ Errore crittografia', 'error');
+                return;
+            }
+            
+            const msgData = {
+                sender: currentUser,
+                encrypted: encrypted,
+                iv: iv,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                status: 'sent',
+                timer: selectedTimer,
+                replyTo: replyToMsg ? {
+                    msgId: replyToMsg.msgId,
+                    sender: replyToMsg.sender,
+                    text: replyToMsg.text || '',
+                    isAudio: replyToMsg.isAudio || false,
+                    isFile: replyToMsg.isFile || false
+                } : null
+            };
+
+            db.ref(path).push(msgData)
+                .then(() => {
+                    clearQuote();
+                })
+                .catch((err) => {
+                    console.error('Errore invio:', err);
+                    showToast('❌ Errore invio messaggio', 'error');
+                });
+        }
+
+        document.getElementById('chat-input')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        // ============================================================
         // FUNZIONI UTILI
         // ============================================================
         function formatFileSize(bytes) {
@@ -2309,36 +2187,6 @@
         function playAudio(audioUrl) {
             const audio = new Audio(audioUrl);
             audio.play();
-        }
-
-        // ============================================================
-        // MOSTRA MEMBRI
-        // ============================================================
-        function showMembers() {
-            if (currentChatType !== 'group' || !currentChatId) return;
-            
-            const container = document.getElementById('members-list');
-            
-            db.ref(`chat_groups/${currentChatId}/members`).once('value', (snapshot) => {
-                const members = snapshot.val() || {};
-                const memberList = Object.keys(members);
-                
-                container.innerHTML = memberList.map(encoded => {
-                    const displayName = members[encoded]?.displayName || encoded;
-                    const isCreator = members[encoded]?.isCreator || false;
-                    const isMe = encoded === encodeUsername(currentUser);
-                    
-                    return `
-                        <div class="member">
-                            <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
-                            <div class="name">${displayName} ${isMe ? ' (tu)' : ''}</div>
-                            ${isCreator ? '<span class="badge">👑 Creatore</span>' : ''}
-                        </div>
-                    `;
-                }).join('');
-                
-                document.getElementById('members-modal').classList.remove('hidden');
-            });
         }
 
         // ============================================================
@@ -2431,8 +2279,11 @@
             }
             
             const cleanUsername = username.substring(1);
+            // Normalizza per il confronto
+            const normalizedClean = normalizeUsername(cleanUsername);
+            const normalizedCurrent = normalizeUsername(currentUser);
             
-            if (cleanUsername === currentUser) {
+            if (normalizedClean === normalizedCurrent) {
                 verificationEl.style.display = 'block';
                 verificationEl.className = 'user-verification invalid';
                 verificationEl.innerHTML = '❌ Non puoi invitare te stesso';
@@ -2440,7 +2291,7 @@
                 return;
             }
             
-            if (inviteList.includes(cleanUsername)) {
+            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
                 verificationEl.style.display = 'block';
                 verificationEl.className = 'user-verification invalid';
                 verificationEl.innerHTML = '⚠️ @' + cleanUsername + ' è già nella lista';
@@ -2491,14 +2342,16 @@
             }
             
             const cleanUsername = username.substring(1);
+            const normalizedClean = normalizeUsername(cleanUsername);
+            const normalizedCurrent = normalizeUsername(currentUser);
             
-            if (cleanUsername === currentUser) {
+            if (normalizedClean === normalizedCurrent) {
                 showToast('❌ Non puoi invitare te stesso', 'error');
                 addBtn.disabled = false;
                 return;
             }
             
-            if (inviteList.includes(cleanUsername)) {
+            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
                 showToast('⚠️ @' + cleanUsername + ' è già nella lista', 'warning');
                 input.value = '';
                 addBtn.disabled = false;
@@ -2631,6 +2484,38 @@
                 });
         }
 
+        function verifyUser(username) {
+            return new Promise((resolve, reject) => {
+                if (!username || username.length < 3) {
+                    reject({ message: 'Inserisci un nome valido (minimo 3 caratteri)' });
+                    return;
+                }
+                
+                const encodedName = encodeUsername(username);
+                
+                db.ref(`users/${encodedName}`).once('value')
+                    .then((snapshot) => {
+                        if (snapshot.exists()) {
+                            const userData = snapshot.val();
+                            resolve({ 
+                                exists: true, 
+                                username: userData.username || username,
+                                displayName: userData.displayName || username,
+                                encoded: encodedName
+                            });
+                        } else {
+                            reject({ 
+                                message: '❌ Utente @' + username + ' non trovato',
+                                notFound: true
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        reject({ message: '❌ Errore di connessione: ' + err.message });
+                    });
+            });
+        }
+
         // ============================================================
         // LOGOUT
         // ============================================================
@@ -2648,17 +2533,19 @@
             
             localStorage.removeItem('appturni_user');
             localStorage.removeItem('appturni_encoded');
+            localStorage.removeItem('appturni_password');
             currentUser = null;
             currentChatId = null;
             currentChatType = null;
             
             document.getElementById('main-app').classList.remove('active');
-            document.getElementById('registration-view').style.display = 'flex';
-            document.getElementById('register-username').value = '';
-            document.getElementById('register-status').textContent = '✅ Pronto per registrarti';
-            document.getElementById('register-status').className = 'status-msg success';
-            document.getElementById('register-btn').disabled = true;
-            document.getElementById('register-btn').textContent = '🔓 Inizia';
+            document.getElementById('auth-view').style.display = 'flex';
+            document.getElementById('auth-username').value = '';
+            document.getElementById('auth-password').value = '';
+            document.getElementById('auth-status').textContent = '✅ Disconnesso';
+            document.getElementById('auth-status').className = 'status-msg success';
+            document.getElementById('auth-btn').disabled = false;
+            document.getElementById('auth-btn').textContent = '🔓 Accedi';
             
             showToast('👋 Arrivederci!', 'info');
         }
@@ -2676,11 +2563,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Avvio AppTurni Chat E2EE...');
             
+            document.getElementById('auth-btn').textContent = '🔓 Accedi';
+            document.getElementById('auth-status').textContent = '⏳ Connessione...';
+            
             if (firebaseReady) {
-                setTimeout(testFirebaseConnection, 1000);
+                setTimeout(() => {
+                    testFirebaseConnection();
+                    setTimeout(autoLogin, 1000);
+                }, 500);
             } else {
-                document.getElementById('register-status').textContent = '❌ Firebase non disponibile';
-                document.getElementById('register-status').className = 'status-msg error';
+                document.getElementById('auth-status').textContent = '❌ Firebase non disponibile';
+                document.getElementById('auth-status').className = 'status-msg error';
             }
         });
     </script>
