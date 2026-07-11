@@ -116,7 +116,6 @@
             text-align: center;
         }
 
-        /* ===== RESET BUTTON ===== */
         #reset-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
@@ -159,12 +158,22 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, #075e54, #128c7e);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 1.2rem;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .whatsapp-header .left .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .whatsapp-header .left .info .name {
             font-weight: 700;
@@ -225,6 +234,68 @@
         }
         .tab-content.active { display: flex; }
 
+        /* ===== INVITI SECTION ===== */
+        .invites-section {
+            padding: 8px 12px;
+            background: #fef3c7;
+            border-bottom: 1px solid #f59e0b;
+            flex-shrink: 0;
+            display: none;
+        }
+        .invites-section.show { display: block; }
+        .invites-section .title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+        .invite-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            border-left: 3px solid #f59e0b;
+        }
+        .invite-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .invite-item .info .group-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #1b1e2e;
+        }
+        .invite-item .info .from {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+        .invite-item .actions {
+            display: flex;
+            gap: 4px;
+        }
+        .invite-item .actions button {
+            padding: 3px 10px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+        .invite-item .actions .accept {
+            background: #10b981;
+            color: white;
+        }
+        .invite-item .actions .accept:hover { opacity: 0.9; }
+        .invite-item .actions .reject {
+            background: #ef4444;
+            color: white;
+        }
+        .invite-item .actions .reject:hover { opacity: 0.9; }
+
+        /* ===== CHAT LIST ===== */
         .chat-list {
             flex: 1;
             overflow-y: auto;
@@ -252,6 +323,14 @@
             font-size: 1.2rem;
             flex-shrink: 0;
             margin-right: 14px;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .chat-list .chat-item .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .chat-list .chat-item .avatar-wrapper {
             position: relative;
@@ -287,6 +366,7 @@
         }
         .chat-list .chat-item .status-icon.read { color: #34b7f1; }
 
+        /* ===== CONTACTS ===== */
         .contacts-list {
             flex: 1;
             overflow-y: auto;
@@ -315,6 +395,14 @@
             font-size: 1rem;
             flex-shrink: 0;
             margin-right: 14px;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .contacts-list .contact-item .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .contacts-list .contact-item .info {
             flex: 1;
@@ -340,6 +428,56 @@
             cursor: pointer;
         }
         .contacts-list .contact-item .action-btn:hover { opacity: 0.9; }
+        .contacts-list .contact-item .action-btn.delete-contact {
+            background: #ef4444;
+        }
+        .contacts-list .contact-item .action-btn.delete-contact:hover { opacity: 0.9; }
+
+        .add-contact-section {
+            padding: 12px;
+            background: #f5f5f5;
+            flex-shrink: 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .add-contact-section .row {
+            display: flex;
+            gap: 6px;
+        }
+        .add-contact-section input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            background: white;
+            color: #1b1e2e;
+        }
+        .add-contact-section input:focus { border-color: #075e54; }
+        .add-contact-section input::placeholder { color: #94a3b8; }
+        .add-contact-section .add-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #075e54;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .add-contact-section .add-btn:hover { opacity: 0.9; }
+        .add-contact-section .add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .add-contact-section .status {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            min-height: 20px;
+            color: #94a3b8;
+        }
+        .add-contact-section .status.success { color: #10b981; }
+        .add-contact-section .status.error { color: #ef4444; }
+        .add-contact-section .status.checking { color: #6366f1; }
 
         .search-bar {
             padding: 8px 12px;
@@ -367,6 +505,7 @@
         .empty-state .title { font-weight: 700; font-size: 1.1rem; color: #1b1e2e; }
         .empty-state .sub { font-size: 0.85rem; opacity: 0.7; }
 
+        /* ===== CHAT VIEW ===== */
         #chat-view {
             display: none;
             flex-direction: column;
@@ -405,6 +544,14 @@
             font-weight: 700;
             font-size: 1rem;
             flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .chat-view-header .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .chat-view-header .info {
             flex: 1;
@@ -418,6 +565,17 @@
             font-size: 0.6rem;
             opacity: 0.8;
         }
+        .chat-view-header .info .members-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+        .chat-view-header .info .members-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-view-header .header-actions {
             display: flex;
             gap: 4px;
@@ -537,39 +695,6 @@
         .chat-msg .quoted .q-sender {
             font-weight: 700;
             color: #075e54;
-        }
-
-        .chat-msg .audio-player {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 4px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 20px;
-            padding: 4px 10px;
-        }
-        .chat-msg .audio-player button {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .chat-msg .audio-player .progress {
-            flex: 1;
-            height: 4px;
-            background: rgba(0,0,0,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .chat-msg .audio-player .progress .fill {
-            height: 100%;
-            background: #075e54;
-            width: 0%;
-            transition: width 0.1s;
-        }
-        .chat-msg .audio-player .duration {
-            font-size: 0.6rem;
-            opacity: 0.6;
         }
 
         .chat-msg .file-attachment {
@@ -720,6 +845,16 @@
         .modal-actions .btn-secondary:hover { background: #cbd5e1; }
         .modal-actions .btn-primary { background: #075e54; color: white; }
         .modal-actions .btn-primary:hover { opacity: 0.9; }
+        .modal-actions .btn-danger {
+            background: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-actions .btn-danger:hover { opacity: 0.9; }
 
         .timer-selector {
             display: flex;
@@ -794,6 +929,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* ===== MEMBERS LIST ===== */
         .members-list {
             display: flex;
             flex-direction: column;
@@ -819,6 +955,14 @@
             font-weight: 700;
             font-size: 0.8rem;
             flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .members-list .member .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .members-list .member .name {
             font-weight: 600;
@@ -831,6 +975,9 @@
             padding: 2px 8px;
             border-radius: 10px;
             margin-left: auto;
+        }
+        .members-list .member .badge.creator {
+            background: #f59e0b;
         }
     </style>
 </head>
@@ -867,11 +1014,11 @@
             <p class="hint">🔐 I tuoi dati sono al sicuro con crittografia end-to-end</p>
         </div>
 
-        <!-- ===== MAIN APP (semplificata) ===== -->
+        <!-- ===== MAIN APP ===== -->
         <div id="main-app">
             <div class="whatsapp-header">
                 <div class="left">
-                    <div class="avatar" id="header-avatar">🧑</div>
+                    <div class="avatar" id="header-avatar" onclick="changeProfilePhoto()">🧑</div>
                     <div class="info">
                         <div class="name" id="header-name">@nome</div>
                         <div class="status" id="header-status">🟢 Online</div>
@@ -882,12 +1029,19 @@
                 </div>
             </div>
 
+            <!-- INVITI SECTION -->
+            <div id="invites-section" class="invites-section">
+                <div class="title">📩 Inviti in sospeso</div>
+                <div id="invites-list"></div>
+            </div>
+
             <div class="whatsapp-tabs">
                 <div class="tab active" data-tab="chats" onclick="switchTab('chats')">💬 Chat</div>
                 <div class="tab" data-tab="contacts" onclick="switchTab('contacts')">📇 Rubrica</div>
                 <div class="tab" data-tab="groups" onclick="switchTab('groups')">👥 Gruppi</div>
             </div>
 
+            <!-- TAB CHAT -->
             <div class="tab-content active" id="tab-chats">
                 <div class="chat-list" id="chats-list">
                     <div class="empty-state">
@@ -898,25 +1052,35 @@
                 </div>
             </div>
 
+            <!-- TAB CONTACTS -->
             <div class="tab-content" id="tab-contacts">
+                <div class="add-contact-section">
+                    <div class="row">
+                        <input type="text" id="add-contact-input" placeholder="@nome.cognome" />
+                        <button class="add-btn" id="add-contact-btn" onclick="addContact()">➕ Aggiungi</button>
+                    </div>
+                    <div class="status" id="add-contact-status"></div>
+                </div>
                 <div class="search-bar">
                     <input type="text" id="contacts-search" placeholder="🔍 Cerca contatto..." oninput="filterContacts()" />
                 </div>
                 <div class="contacts-list" id="contacts-list">
                     <div class="empty-state">
                         <div class="icon">📇</div>
-                        <div class="title">Caricamento contatti...</div>
+                        <div class="title">Rubrica vuota</div>
+                        <div class="sub">Aggiungi i tuoi contatti per iniziare a chattare</div>
                     </div>
                 </div>
             </div>
 
+            <!-- TAB GRUPPI -->
             <div class="tab-content" id="tab-groups">
                 <div style="padding:12px;background:#f5f5f5;flex-shrink:0;">
                     <div style="display:flex;gap:6px;">
                         <input type="text" id="new-group-name" placeholder="Nome gruppo..." style="flex:1;padding:8px 14px;border:none;border-radius:20px;font-size:0.85rem;font-family:inherit;outline:none;" />
-                        <button onclick="showCreateGroupModal()" style="padding:8px 16px;border:none;border-radius:20px;background:#075e54;color:white;font-weight:700;cursor:pointer;font-size:0.8rem;">➕ Crea</button>
+                        <button class="create-btn" onclick="showCreateGroupModal()" style="padding:8px 16px;border:none;border-radius:20px;background:#075e54;color:white;font-weight:700;cursor:pointer;font-size:0.8rem;">➕ Crea</button>
                     </div>
-                    <div style="font-size:0.6rem;color:#94a3b8;margin-top:4px;">💡 Crea un gruppo e invita altri utenti</div>
+                    <div style="font-size:0.6rem;color:#94a3b8;margin-top:4px;">💡 Crea un gruppo e invita i tuoi contatti</div>
                 </div>
                 <div class="chat-list" id="groups-list">
                     <div class="empty-state">
@@ -936,6 +1100,7 @@
                 <div class="info">
                     <div class="name" id="chat-name">Nome</div>
                     <div class="sub" id="chat-sub">online</div>
+                    <button class="members-btn" id="members-btn" onclick="showGroupMembers()" style="display:none;">👥 Membri</button>
                 </div>
                 <div class="header-actions">
                     <button onclick="document.getElementById('file-input').click()" title="Allega file">📎</button>
@@ -966,18 +1131,33 @@
             <label>Nome del gruppo</label>
             <input type="text" id="modal-group-name" placeholder="es. Famiglia" />
             
-            <label>Invita membri (inserisci @nome)</label>
+            <label>Invita membri (dalla tua rubrica)</label>
             <div style="display:flex;gap:4px;margin-bottom:4px;">
                 <input type="text" id="modal-invite-input" placeholder="@nome.cognome" style="flex:1;margin-bottom:0;" />
                 <button class="btn-secondary" id="add-invite-btn" onclick="addInviteUser()" style="white-space:nowrap;">➕ Aggiungi</button>
             </div>
             
             <div id="user-verification" class="user-verification" style="display:none;"></div>
-            <div id="modal-invite-list" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:20px;"></div>
+            
+            <label style="margin-top:8px;">Invitati:</label>
+            <div id="modal-invite-list" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;min-height:30px;border:1px dashed #e2e8f0;border-radius:8px;padding:6px;"></div>
             
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeCreateGroupModal()">Annulla</button>
                 <button class="btn-primary" onclick="confirmCreateGroup()">Crea e invita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALE MEMBRI ===== -->
+    <div id="members-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>👥 Membri del gruppo</h3>
+            <div id="members-list" class="members-list"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="document.getElementById('members-modal').classList.add('hidden')">Chiudi</button>
+                <button class="btn-danger" id="leave-group-btn" onclick="leaveGroup()">🚪 Esci dal gruppo</button>
+                <button class="btn-danger" id="delete-group-btn" onclick="deleteGroup()" style="display:none;background:#dc2626;">🗑️ Elimina gruppo</button>
             </div>
         </div>
     </div>
@@ -1050,54 +1230,47 @@
         }
 
         // ============================================================
-        // NORMALIZZA NOME (case-insensitive)
+        // NORMALIZZA NOME
         // ============================================================
         function normalizeUsername(username) {
             return username.toLowerCase().trim();
+        }
+
+        function encodeUsername(username) {
+            const normalized = normalizeUsername(username);
+            return normalized.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
         }
 
         // ============================================================
         // RESET TUTTI I DATI
         // ============================================================
         async function resetAllData() {
-            if (!confirm('⚠️ ATTENZIONE: Questa operazione eliminerà TUTTI i dati (utenti, chat, gruppi, messaggi). Sei sicuro?')) {
-                return;
-            }
-
-            if (!confirm('🔴 ULTIMO AVVISO: Tutti i dati saranno PERDUTI PER SEMPRE. Confermi?')) {
-                return;
-            }
+            if (!confirm('⚠️ ATTENZIONE: Questa operazione eliminerà TUTTI i dati. Sei sicuro?')) return;
+            if (!confirm('🔴 ULTIMO AVVISO: Tutti i dati saranno PERDUTI. Confermi?')) return;
 
             const status = document.getElementById('auth-status');
             status.textContent = '⏳ Eliminazione dati in corso...';
             status.className = 'status-msg warning';
 
             try {
-                // Elimina tutti i dati da Firebase
                 await db.ref().remove();
                 console.log('✅ Tutti i dati eliminati da Firebase!');
                 
-                // Elimina dati localStorage
                 localStorage.removeItem('appturni_user');
                 localStorage.removeItem('appturni_encoded');
                 localStorage.removeItem('appturni_password');
                 
-                // Reset variabili
                 currentUser = null;
                 currentChatId = null;
                 currentChatType = null;
-                allUsers = {};
+                myContacts = {};
+                profilePhotoData = null;
                 
                 status.textContent = '✅ Tutti i dati sono stati eliminati! Ricarica la pagina.';
                 status.className = 'status-msg success';
-                
                 showToast('🗑️ Tutti i dati eliminati con successo!', 'success');
                 
-                // Ricarica la pagina dopo 2 secondi
-                setTimeout(() => {
-                    location.reload();
-                }, 2000);
-                
+                setTimeout(() => location.reload(), 2000);
             } catch (err) {
                 console.error('Errore reset:', err);
                 status.textContent = '❌ Errore durante il reset: ' + err.message;
@@ -1145,7 +1318,7 @@
         }
 
         // ============================================================
-        // AUTH HANDLER (con case-insensitive)
+        // AUTH HANDLER
         // ============================================================
         async function handleAuth() {
             const rawUsername = document.getElementById('auth-username').value.trim();
@@ -1153,7 +1326,6 @@
             const status = document.getElementById('auth-status');
             const btn = document.getElementById('auth-btn');
 
-            // Normalizza il nome (case-insensitive)
             const username = normalizeUsername(rawUsername);
 
             if (!username) {
@@ -1187,7 +1359,6 @@
                 const userData = snapshot.val();
 
                 if (isLoginMode) {
-                    // LOGIN
                     if (!userData) {
                         status.textContent = '❌ Utente non trovato. Registrati prima.';
                         status.className = 'status-msg error';
@@ -1204,35 +1375,39 @@
                         return;
                     }
 
-                    // Login riuscito - usa il nome originale dell'utente
                     const displayName = userData.displayName || username;
                     currentUser = displayName;
                     localStorage.setItem('appturni_user', displayName);
                     localStorage.setItem('appturni_encoded', encodedName);
                     localStorage.setItem('appturni_password', password);
+                    
+                    if (userData.profilePhoto) {
+                        profilePhotoData = userData.profilePhoto;
+                    }
+                    
                     status.textContent = '✅ Login effettuato!';
                     status.className = 'status-msg success';
                     showToast('👋 Bentornato ' + displayName + '!', 'success');
                     enterApp();
                 } else {
-                    // REGISTRAZIONE
                     if (userData) {
-                        status.textContent = '❌ Nome già in uso (non importa come lo scrivi)';
+                        status.textContent = '❌ Nome già in uso';
                         status.className = 'status-msg error';
                         btn.disabled = false;
                         btn.textContent = '📝 Registrati';
                         return;
                     }
 
-                    // Crea nuovo utente
                     const newUserData = {
                         username: username,
-                        displayName: rawUsername, // Mantieni il formato originale per visualizzazione
+                        displayName: rawUsername,
                         encoded: encodedName,
                         password: hashedPassword,
                         createdAt: firebase.database.ServerValue.TIMESTAMP,
                         groups: {},
-                        privateChats: {}
+                        privateChats: {},
+                        contacts: {},
+                        profilePhoto: null
                     };
 
                     await db.ref(`users/${encodedName}`).set(newUserData);
@@ -1269,23 +1444,6 @@
                     handleAuth();
                 }, 500);
             }
-        }
-
-        // ============================================================
-        // FUNZIONI UTENTE
-        // ============================================================
-        function encodeUsername(username) {
-            // Normalizza prima di codificare
-            const normalized = normalizeUsername(username);
-            return normalized.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
-        }
-
-        function getChatPassword(chatId, type) {
-            if (type === 'private') {
-                const parts = chatId.split('_');
-                return parts.sort().join('_') + '_private_chat';
-            }
-            return chatId + '_group_password';
         }
 
         // ============================================================
@@ -1353,6 +1511,45 @@
             }
         }
 
+        function getChatPassword(chatId, type) {
+            if (type === 'private') {
+                const parts = chatId.split('_');
+                return parts.sort().join('_') + '_private_chat';
+            }
+            return chatId + '_group_password';
+        }
+
+        // ============================================================
+        // FOTO PROFILO
+        // ============================================================
+        let profilePhotoData = null;
+        let tempProfilePhoto = null;
+
+        function changeProfilePhoto() {
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/profilePhoto`).once('value', (snapshot) => {
+                const photo = snapshot.val();
+                const preview = document.getElementById('profile-photo-preview');
+                if (photo) {
+                    preview.style.backgroundImage = `url(${photo})`;
+                    preview.innerHTML = '';
+                } else {
+                    preview.style.backgroundImage = '';
+                    preview.innerHTML = '👤';
+                }
+                document.getElementById('profile-photo-modal').classList.remove('hidden');
+            });
+        }
+
+        // ============================================================
+        // FUNZIONE PER OTTENERE FOTO UTENTE
+        // ============================================================
+        function getUserPhoto(encodedUsername, callback) {
+            db.ref(`users/${encodedUsername}/profilePhoto`).once('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
         // ============================================================
         // VARIABILI
         // ============================================================
@@ -1362,7 +1559,7 @@
         let currentChatName = null;
         let messagesListener = null;
         let inviteList = [];
-        let allUsers = {};
+        let myContacts = {};
         let currentMembers = [];
         let selectedTimer = 0;
         let replyToMsg = null;
@@ -1392,9 +1589,14 @@
             document.getElementById('auth-view').style.display = 'none';
             document.getElementById('main-app').classList.add('active');
             document.getElementById('header-name').textContent = '@' + currentUser;
-            document.getElementById('header-avatar').textContent = currentUser.charAt(0).toUpperCase();
             
-            loadAllUsers();
+            if (profilePhotoData) {
+                const avatar = document.getElementById('header-avatar');
+                avatar.style.backgroundImage = `url(${profilePhotoData})`;
+                avatar.innerHTML = '';
+            }
+            
+            loadMyContacts();
             loadChats();
             loadGroups();
             loadInvites();
@@ -1402,20 +1604,22 @@
         }
 
         // ============================================================
-        // CARICA TUTTI GLI UTENTI
+        // CARICA I MIEI CONTATTI
         // ============================================================
-        function loadAllUsers() {
-            db.ref('users').on('value', (snapshot) => {
+        function loadMyContacts() {
+            if (!connectionEstablished) return;
+            
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/contacts`).on('value', (snapshot) => {
                 const data = snapshot.val() || {};
-                allUsers = {};
-                const myEncoded = encodeUsername(currentUser);
+                myContacts = {};
                 
                 Object.keys(data).forEach(key => {
-                    const user = data[key];
-                    if (key !== myEncoded && user.username) {
-                        allUsers[key] = {
-                            username: user.username,
-                            displayName: user.displayName || user.username,
+                    const contact = data[key];
+                    if (contact && contact.username) {
+                        myContacts[key] = {
+                            username: contact.username,
+                            displayName: contact.displayName || contact.username,
                             encoded: key
                         };
                     }
@@ -1429,29 +1633,29 @@
             const container = document.getElementById('contacts-list');
             const search = document.getElementById('contacts-search')?.value?.toLowerCase() || '';
             
-            const filtered = Object.values(allUsers).filter(u => 
-                u.displayName.toLowerCase().includes(search) || u.username.includes(search)
+            const filtered = Object.values(myContacts).filter(c => 
+                c.displayName.toLowerCase().includes(search) || c.username.includes(search)
             );
             
             if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="icon">📇</div>
-                        <div class="title">Nessun contatto trovato</div>
-                        <div class="sub">${search ? 'Prova con un altro nome' : 'Invita i tuoi amici a registrarsi!'}</div>
+                        <div class="title">${search ? 'Nessun contatto trovato' : 'Rubrica vuota'}</div>
+                        <div class="sub">${search ? 'Prova con un altro nome' : 'Aggiungi i tuoi contatti per iniziare a chattare'}</div>
                     </div>
                 `;
                 return;
             }
             
-            container.innerHTML = filtered.map(u => `
-                <div class="contact-item" onclick="startPrivateChat('${u.encoded}')">
-                    <div class="avatar">${u.displayName.charAt(0).toUpperCase()}</div>
+            container.innerHTML = filtered.map(c => `
+                <div class="contact-item" onclick="startPrivateChat('${c.encoded}')">
+                    <div class="avatar">${c.displayName.charAt(0).toUpperCase()}</div>
                     <div class="info">
-                        <div class="name">@${u.displayName}</div>
+                        <div class="name">@${c.displayName}</div>
                         <div class="sub">Clicca per chattare 🔐</div>
                     </div>
-                    <button class="action-btn">💬</button>
+                    <button class="action-btn delete-contact" onclick="event.stopPropagation();removeContact('${c.encoded}')">🗑️</button>
                 </div>
             `).join('');
         }
@@ -1461,7 +1665,178 @@
         }
 
         // ============================================================
-        // CARICA CHAT E GRUPPI (semplificati)
+        // AGGIUNGI CONTATTO
+        // ============================================================
+        let addContactTimeout = null;
+
+        document.getElementById('add-contact-input')?.addEventListener('input', function() {
+            clearTimeout(addContactTimeout);
+            const status = document.getElementById('add-contact-status');
+            const username = this.value.trim();
+            const btn = document.getElementById('add-contact-btn');
+            
+            if (!username) {
+                status.textContent = '';
+                status.className = 'status';
+                btn.disabled = false;
+                return;
+            }
+            
+            if (!username.startsWith('@')) {
+                status.textContent = 'ℹ️ Inserisci il nome con @ (es. @nome.cognome)';
+                status.className = 'status';
+                btn.disabled = true;
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            const normalizedClean = normalizeUsername(cleanUsername);
+            const normalizedCurrent = normalizeUsername(currentUser);
+            
+            if (normalizedClean === normalizedCurrent) {
+                status.textContent = '❌ Non puoi aggiungere te stesso';
+                status.className = 'status error';
+                btn.disabled = true;
+                return;
+            }
+            
+            const existing = Object.values(myContacts).find(c => 
+                normalizeUsername(c.username) === normalizedClean
+            );
+            if (existing) {
+                status.textContent = '⚠️ @' + cleanUsername + ' è già nella tua rubrica';
+                status.className = 'status error';
+                btn.disabled = true;
+                return;
+            }
+            
+            status.textContent = '⏳ Verifica...';
+            status.className = 'status checking';
+            btn.disabled = true;
+            
+            addContactTimeout = setTimeout(() => {
+                const encodedName = encodeUsername(cleanUsername);
+                db.ref(`users/${encodedName}`).once('value')
+                    .then((snapshot) => {
+                        if (!snapshot.exists()) {
+                            status.textContent = '❌ Utente @' + cleanUsername + ' non trovato. Assicurati che sia registrato.';
+                            status.className = 'status error';
+                            btn.disabled = true;
+                            return;
+                        }
+                        
+                        const userData = snapshot.val();
+                        status.textContent = '✅ @' + (userData.displayName || cleanUsername) + ' trovato! Premi "Aggiungi"';
+                        status.className = 'status success';
+                        btn.disabled = false;
+                    })
+                    .catch((err) => {
+                        status.textContent = '❌ Errore verifica: ' + err.message;
+                        status.className = 'status error';
+                        btn.disabled = true;
+                    });
+            }, 500);
+        });
+
+        function addContact() {
+            const input = document.getElementById('add-contact-input');
+            const username = input.value.trim();
+            const status = document.getElementById('add-contact-status');
+            const btn = document.getElementById('add-contact-btn');
+            
+            if (!username || !username.startsWith('@')) {
+                status.textContent = '❌ Inserisci un nome valido con @';
+                status.className = 'status error';
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            const normalizedClean = normalizeUsername(cleanUsername);
+            const normalizedCurrent = normalizeUsername(currentUser);
+            
+            if (normalizedClean === normalizedCurrent) {
+                status.textContent = '❌ Non puoi aggiungere te stesso';
+                status.className = 'status error';
+                return;
+            }
+            
+            const existing = Object.values(myContacts).find(c => 
+                normalizeUsername(c.username) === normalizedClean
+            );
+            if (existing) {
+                status.textContent = '⚠️ @' + cleanUsername + ' è già nella tua rubrica';
+                status.className = 'status error';
+                input.value = '';
+                btn.disabled = true;
+                return;
+            }
+            
+            btn.disabled = true;
+            status.textContent = '⏳ Aggiunta in corso...';
+            status.className = 'status checking';
+            
+            const encodedName = encodeUsername(cleanUsername);
+            
+            db.ref(`users/${encodedName}`).once('value')
+                .then((snapshot) => {
+                    if (!snapshot.exists()) {
+                        status.textContent = '❌ Utente @' + cleanUsername + ' non trovato';
+                        status.className = 'status error';
+                        btn.disabled = false;
+                        return;
+                    }
+                    
+                    const userData = snapshot.val();
+                    const displayName = userData.displayName || cleanUsername;
+                    
+                    const myEncoded = encodeUsername(currentUser);
+                    const contactData = {
+                        username: cleanUsername,
+                        displayName: displayName,
+                        addedAt: firebase.database.ServerValue.TIMESTAMP
+                    };
+                    
+                    db.ref(`users/${myEncoded}/contacts/${encodedName}`).set(contactData)
+                        .then(() => {
+                            status.textContent = '✅ @' + displayName + ' aggiunto alla rubrica!';
+                            status.className = 'status success';
+                            input.value = '';
+                            btn.disabled = true;
+                            showToast('✅ @' + displayName + ' aggiunto alla rubrica!', 'success');
+                            loadMyContacts();
+                        })
+                        .catch((err) => {
+                            status.textContent = '❌ Errore: ' + err.message;
+                            status.className = 'status error';
+                            btn.disabled = false;
+                        });
+                })
+                .catch((err) => {
+                    status.textContent = '❌ Errore: ' + err.message;
+                    status.className = 'status error';
+                    btn.disabled = false;
+                });
+        }
+
+        // ============================================================
+        // RIMUOVI CONTATTO
+        // ============================================================
+        function removeContact(contactEncoded) {
+            if (!confirm('Rimuovere questo contatto dalla rubrica?')) return;
+            
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/contacts/${contactEncoded}`).remove()
+                .then(() => {
+                    showToast('🗑️ Contatto rimosso', 'success');
+                    loadMyContacts();
+                })
+                .catch((err) => {
+                    showToast('❌ Errore rimozione contatto', 'error');
+                });
+        }
+
+        // ============================================================
+        // CARICA CHAT
         // ============================================================
         function loadChats() {
             if (!connectionEstablished) return;
@@ -1482,7 +1857,7 @@
                         <div class="empty-state">
                             <div class="icon">💬</div>
                             <div class="title">Nessuna chat</div>
-                            <div class="sub">Inizia una conversazione dalla rubrica</div>
+                            <div class="sub">Aggiungi contatti e inizia a chattare</div>
                         </div>
                     `;
                     return;
@@ -1557,6 +1932,8 @@
         // ============================================================
         // CARICA GRUPPI
         // ============================================================
+        let groupListeners = {};
+
         function loadGroups() {
             if (!connectionEstablished) return;
             
@@ -1586,6 +1963,7 @@
                         const group = gSnapshot.val();
                         if (group) {
                             const memberCount = Object.keys(group.members || {}).length;
+                            const isCreator = group.creator === currentUser;
                             html += `
                                 <div class="chat-item" onclick="openGroupChat('${groupId}')">
                                     <div class="avatar-wrapper">
@@ -1593,7 +1971,7 @@
                                     </div>
                                     <div class="info">
                                         <div class="name">${group.name}</div>
-                                        <div class="last-msg">👥 ${memberCount} membri</div>
+                                        <div class="last-msg">👥 ${memberCount} membri ${isCreator ? '👑' : ''}</div>
                                     </div>
                                 </div>
                             `;
@@ -1614,13 +1992,34 @@
             if (!connectionEstablished) return;
             
             const myEncoded = encodeUsername(currentUser);
+            
             db.ref(`users/${myEncoded}/invites`).on('value', (snapshot) => {
                 const invites = snapshot.val() || {};
                 const keys = Object.keys(invites);
+                const section = document.getElementById('invites-section');
+                const list = document.getElementById('invites-list');
                 
-                if (keys.length > 0) {
-                    showToast(`📩 Hai ${keys.length} invito${keys.length > 1 ? 'i' : ''} in sospeso!`, 'info');
+                if (keys.length === 0) {
+                    section.classList.remove('show');
+                    return;
                 }
+                
+                section.classList.add('show');
+                list.innerHTML = keys.map(groupId => {
+                    const inv = invites[groupId];
+                    return `
+                        <div class="invite-item">
+                            <div class="info">
+                                <div class="group-name">📩 ${inv.groupName}</div>
+                                <div class="from">da ${inv.invitedBy}</div>
+                            </div>
+                            <div class="actions">
+                                <button class="accept" onclick="acceptInvite('${groupId}')">✅ Accetta</button>
+                                <button class="reject" onclick="rejectInvite('${groupId}')">✕</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             });
         }
 
@@ -1635,12 +2034,17 @@
             
             const encodedName = encodeUsername(currentUser);
             
+            // Aggiungi ai membri del gruppo
             db.ref(`chat_groups/${groupId}/members/${encodedName}`).set({
                 joinedAt: firebase.database.ServerValue.TIMESTAMP,
                 displayName: currentUser
             });
+            
+            // Rimuovi l'invito
             db.ref(`users/${encodedName}/invites/${groupId}`).remove();
             db.ref(`chat_groups/${groupId}/invites/${encodedName}`).remove();
+            
+            // Aggiungi ai gruppi dell'utente
             db.ref(`users/${encodedName}/groups/${groupId}`).set(true);
             
             db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
@@ -1649,7 +2053,413 @@
                     showToast('✅ Sei entrato in ' + group.name, 'success');
                     loadGroups();
                     loadChats();
+                    loadInvites();
                 }
+            });
+        }
+
+        // ============================================================
+        // RIFIUTA INVITO
+        // ============================================================
+        function rejectInvite(groupId) {
+            if (!confirm('Rifiutare l\'invito?')) return;
+            
+            const encodedName = encodeUsername(currentUser);
+            db.ref(`users/${encodedName}/invites/${groupId}`).remove();
+            db.ref(`chat_groups/${groupId}/invites/${encodedName}`).remove();
+            showToast('❌ Invito rifiutato', 'error');
+            loadInvites();
+        }
+
+        // ============================================================
+        // CREA GRUPPO - SHOW MODAL
+        // ============================================================
+        function showCreateGroupModal() {
+            if (!connectionEstablished) {
+                showToast('❌ Non connesso a Firebase', 'error');
+                return;
+            }
+            
+            inviteList = [];
+            document.getElementById('modal-group-name').value = '';
+            document.getElementById('modal-invite-input').value = '';
+            document.getElementById('modal-invite-list').innerHTML = '<span style="font-size:0.7rem;color:#94a3b8;">Nessun invitato</span>';
+            document.getElementById('user-verification').style.display = 'none';
+            document.getElementById('add-invite-btn').disabled = false;
+            document.getElementById('create-group-modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('modal-group-name').focus(), 300);
+        }
+
+        function closeCreateGroupModal() {
+            document.getElementById('create-group-modal').classList.add('hidden');
+            document.getElementById('add-invite-btn').disabled = false;
+        }
+
+        // ============================================================
+        // AGGIUNGI UTENTE ALLA LISTA INVITI
+        // ============================================================
+        let verifyTimeoutGroup = null;
+
+        document.getElementById('modal-invite-input')?.addEventListener('input', function() {
+            clearTimeout(verifyTimeoutGroup);
+            const username = this.value.trim();
+            const verificationEl = document.getElementById('user-verification');
+            const addBtn = document.getElementById('add-invite-btn');
+            
+            if (!username) {
+                verificationEl.style.display = 'none';
+                addBtn.disabled = false;
+                return;
+            }
+            
+            if (!username.startsWith('@')) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = 'ℹ️ Inserisci il nome con @';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            const normalizedClean = normalizeUsername(cleanUsername);
+            
+            // Verifica che sia in rubrica
+            const inContacts = Object.values(myContacts).some(c => 
+                normalizeUsername(c.username) === normalizedClean
+            );
+            
+            if (!inContacts) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = '❌ @' + cleanUsername + ' non è nella tua rubrica. Aggiungilo prima.';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            const normalizedCurrent = normalizeUsername(currentUser);
+            if (normalizedClean === normalizedCurrent) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = '❌ Non puoi invitare te stesso';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
+                verificationEl.style.display = 'block';
+                verificationEl.className = 'user-verification invalid';
+                verificationEl.innerHTML = '⚠️ @' + cleanUsername + ' è già nella lista';
+                addBtn.disabled = true;
+                return;
+            }
+            
+            verificationEl.style.display = 'block';
+            verificationEl.className = 'user-verification valid';
+            verificationEl.innerHTML = '✅ @' + cleanUsername + ' trovato in rubrica!';
+            addBtn.disabled = false;
+        });
+
+        function addInviteUser() {
+            const input = document.getElementById('modal-invite-input');
+            const username = input.value.trim();
+            const verificationEl = document.getElementById('user-verification');
+            const addBtn = document.getElementById('add-invite-btn');
+            
+            if (!username || !username.startsWith('@')) {
+                showToast('❌ Inserisci un nome valido con @', 'error');
+                return;
+            }
+            
+            const cleanUsername = username.substring(1);
+            const normalizedClean = normalizeUsername(cleanUsername);
+            const normalizedCurrent = normalizeUsername(currentUser);
+            
+            if (normalizedClean === normalizedCurrent) {
+                showToast('❌ Non puoi invitare te stesso', 'error');
+                return;
+            }
+            
+            const inContacts = Object.values(myContacts).some(c => 
+                normalizeUsername(c.username) === normalizedClean
+            );
+            
+            if (!inContacts) {
+                showToast('❌ @' + cleanUsername + ' non è nella tua rubrica', 'error');
+                return;
+            }
+            
+            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
+                showToast('⚠️ @' + cleanUsername + ' è già nella lista', 'warning');
+                input.value = '';
+                verificationEl.style.display = 'none';
+                return;
+            }
+            
+            inviteList.push(cleanUsername);
+            renderInviteList();
+            input.value = '';
+            verificationEl.style.display = 'none';
+            showToast('✅ @' + cleanUsername + ' aggiunto!', 'success');
+        }
+
+        function renderInviteList() {
+            const container = document.getElementById('modal-invite-list');
+            if (inviteList.length === 0) {
+                container.innerHTML = '<span style="font-size:0.7rem;color:#94a3b8;">Nessun invitato</span>';
+                return;
+            }
+            container.innerHTML = inviteList.map(user => `
+                <span style="background:#075e54;color:white;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">
+                    @${user}
+                    <span onclick="removeInviteUser('${user}')" style="cursor:pointer;opacity:0.7;font-size:0.9rem;">×</span>
+                </span>
+            `).join('');
+        }
+
+        function removeInviteUser(username) {
+            inviteList = inviteList.filter(u => u !== username);
+            renderInviteList();
+        }
+
+        // ============================================================
+        // CONFERMA CREAZIONE GRUPPO
+        // ============================================================
+        function confirmCreateGroup() {
+            const name = document.getElementById('modal-group-name').value.trim();
+            if (!name) {
+                showToast('❌ Inserisci un nome per il gruppo', 'error');
+                return;
+            }
+
+            if (inviteList.length === 0) {
+                showToast('❌ Invita almeno un contatto', 'error');
+                return;
+            }
+
+            const groupId = 'g_' + Date.now();
+            const password = 'gpass_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            
+            const groupData = {
+                name: name,
+                creator: currentUser,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                password: password,
+                members: {},
+                invites: {}
+            };
+
+            const encodedCreator = encodeUsername(currentUser);
+            groupData.members[encodedCreator] = {
+                joinedAt: firebase.database.ServerValue.TIMESTAMP,
+                displayName: currentUser,
+                isCreator: true
+            };
+
+            // Aggiungi invitati
+            inviteList.forEach(user => {
+                const encodedUser = encodeUsername(user);
+                groupData.invites[encodedUser] = {
+                    invitedBy: currentUser,
+                    at: firebase.database.ServerValue.TIMESTAMP,
+                    status: 'pending',
+                    displayName: user
+                };
+            });
+
+            const btn = document.querySelector('#create-group-modal .btn-primary');
+            const originalText = btn.textContent;
+            btn.textContent = '⏳ Creazione...';
+            btn.disabled = true;
+
+            db.ref(`chat_groups/${groupId}`).set(groupData)
+                .then(() => {
+                    // Aggiungi ai gruppi del creatore
+                    db.ref(`users/${encodedCreator}/groups/${groupId}`).set(true);
+                    
+                    // Crea inviti per ogni utente
+                    const updates = {};
+                    inviteList.forEach(user => {
+                        const encodedUser = encodeUsername(user);
+                        updates[`users/${encodedUser}/invites/${groupId}`] = {
+                            groupName: name,
+                            invitedBy: currentUser,
+                            at: firebase.database.ServerValue.TIMESTAMP
+                        };
+                        
+                        // Notifica push (se permesso)
+                        if (Notification.permission === 'granted') {
+                            new Notification('📩 Nuovo invito da ' + currentUser, {
+                                body: currentUser + ' ti ha invitato in "' + name + '"',
+                                icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⏱</text></svg>'
+                            });
+                        }
+                    });
+                    
+                    return db.ref().update(updates);
+                })
+                .then(() => {
+                    closeCreateGroupModal();
+                    showToast('✅ Gruppo "' + name + '" creato e inviti inviati!', 'success');
+                    loadGroups();
+                    switchTab('groups');
+                })
+                .catch((err) => {
+                    console.error('Errore creazione gruppo:', err);
+                    showToast('❌ Errore creazione gruppo: ' + err.message, 'error');
+                })
+                .finally(() => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                });
+        }
+
+        // ============================================================
+        // MOSTRA MEMBRI DEL GRUPPO (CON FOTO PROFILO)
+        // ============================================================
+        function showGroupMembers() {
+            if (!currentChatId || currentChatType !== 'group') {
+                showToast('❌ Nessun gruppo selezionato', 'error');
+                return;
+            }
+            
+            const container = document.getElementById('members-list');
+            container.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:20px;">⏳ Caricamento membri...</div>';
+            
+            db.ref(`chat_groups/${currentChatId}/members`).once('value', (snapshot) => {
+                const members = snapshot.val() || {};
+                const memberKeys = Object.keys(members);
+                
+                if (memberKeys.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:20px;">Nessun membro</div>';
+                    return;
+                }
+                
+                // Mostra/nascondi pulsante elimina gruppo
+                const groupData = allGroups[currentChatId] || {};
+                const isCreator = groupData.creator === currentUser;
+                const deleteBtn = document.getElementById('delete-group-btn');
+                if (deleteBtn) {
+                    deleteBtn.style.display = isCreator ? 'inline-block' : 'none';
+                }
+                
+                // Carica le foto di tutti i membri
+                let loaded = 0;
+                let html = '';
+                
+                memberKeys.forEach((encoded, index) => {
+                    const member = members[encoded];
+                    const displayName = member.displayName || encoded;
+                    const isCreatorMember = member.isCreator || false;
+                    const isMe = encoded === encodeUsername(currentUser);
+                    
+                    // Crea l'HTML base
+                    const memberHtml = `
+                        <div class="member" data-encoded="${encoded}" data-index="${index}">
+                            <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
+                            <div class="name">${displayName} ${isMe ? ' (tu)' : ''}</div>
+                            ${isCreatorMember ? '<span class="badge creator">👑 Creatore</span>' : ''}
+                        </div>
+                    `;
+                    
+                    html += memberHtml;
+                    
+                    // Carica la foto profilo
+                    getUserPhoto(encoded, (photo) => {
+                        const avatarEl = document.querySelector(`.member[data-encoded="${encoded}"] .avatar`);
+                        if (avatarEl && photo) {
+                            avatarEl.style.backgroundImage = `url(${photo})`;
+                            avatarEl.innerHTML = '';
+                            avatarEl.style.color = 'transparent';
+                        }
+                    });
+                });
+                
+                container.innerHTML = html;
+                document.getElementById('members-modal').classList.remove('hidden');
+            });
+        }
+
+        // ============================================================
+        // ELIMINA GRUPPO (SOLO CREATORE)
+        // ============================================================
+        function deleteGroup() {
+            if (!currentChatId || currentChatType !== 'group') {
+                showToast('❌ Nessun gruppo selezionato', 'error');
+                return;
+            }
+            
+            // Verifica che l'utente sia il creatore
+            db.ref(`chat_groups/${currentChatId}/creator`).once('value', (snapshot) => {
+                const creator = snapshot.val();
+                if (creator !== currentUser) {
+                    showToast('❌ Solo il creatore può eliminare il gruppo', 'error');
+                    return;
+                }
+                
+                if (!confirm('⚠️ Eliminare definitivamente questo gruppo? Tutti i messaggi saranno persi.')) {
+                    return;
+                }
+                
+                if (!confirm('🔴 Sei sicuro? Questa operazione non può essere annullata.')) {
+                    return;
+                }
+                
+                // Elimina il gruppo
+                db.ref(`chat_groups/${currentChatId}`).remove()
+                    .then(() => {
+                        // Rimuovi dai gruppi di tutti i membri
+                        const myEncoded = encodeUsername(currentUser);
+                        db.ref(`users/${myEncoded}/groups/${currentChatId}`).remove();
+                        
+                        showToast('🗑️ Gruppo eliminato', 'success');
+                        document.getElementById('members-modal').classList.add('hidden');
+                        closeChatView();
+                        loadGroups();
+                        loadChats();
+                    })
+                    .catch((err) => {
+                        console.error('Errore eliminazione gruppo:', err);
+                        showToast('❌ Errore eliminazione gruppo', 'error');
+                    });
+            });
+        }
+
+        // ============================================================
+        // ESCE DAL GRUPPO
+        // ============================================================
+        function leaveGroup() {
+            if (!currentChatId || currentChatType !== 'group') {
+                showToast('❌ Nessun gruppo selezionato', 'error');
+                return;
+            }
+            
+            // Verifica che l'utente NON sia il creatore
+            db.ref(`chat_groups/${currentChatId}/creator`).once('value', (snapshot) => {
+                const creator = snapshot.val();
+                if (creator === currentUser) {
+                    showToast('❌ Il creatore non può uscire, ma può eliminare il gruppo', 'error');
+                    return;
+                }
+                
+                if (!confirm('Abbandonare il gruppo?')) return;
+                
+                const encodedName = encodeUsername(currentUser);
+                
+                // Rimuovi dai membri
+                db.ref(`chat_groups/${currentChatId}/members/${encodedName}`).remove()
+                    .then(() => {
+                        // Rimuovi dai gruppi dell'utente
+                        db.ref(`users/${encodedName}/groups/${currentChatId}`).remove();
+                        
+                        showToast('👋 Hai abbandonato il gruppo', 'success');
+                        document.getElementById('members-modal').classList.add('hidden');
+                        closeChatView();
+                        loadGroups();
+                    })
+                    .catch((err) => {
+                        console.error('Errore uscita:', err);
+                        showToast('❌ Errore durante l\'uscita', 'error');
+                    });
             });
         }
 
@@ -1702,6 +2512,11 @@
         // CHAT PRIVATA
         // ============================================================
         function startPrivateChat(otherEncoded) {
+            if (!myContacts[otherEncoded]) {
+                showToast('❌ Questo contatto non è nella tua rubrica', 'error');
+                return;
+            }
+            
             const myEncoded = encodeUsername(currentUser);
             db.ref(`users/${myEncoded}/privateChats/${otherEncoded}`).set(true);
             db.ref(`users/${otherEncoded}/privateChats/${myEncoded}`).set(true);
@@ -1723,7 +2538,7 @@
                 document.getElementById('chat-view').classList.add('active');
                 document.getElementById('chat-name').textContent = '@' + username;
                 document.getElementById('chat-sub').textContent = '🔐 Crittografato E2EE';
-                document.getElementById('chat-avatar').textContent = username.charAt(0).toUpperCase();
+                document.getElementById('members-btn').style.display = 'none';
                 
                 loadMessagesPrivate(otherEncoded);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -1752,7 +2567,6 @@
                 if (!msg) return;
                 
                 if (processedMsgIds.has(msgKey)) {
-                    console.log('⏭️ Messaggio già processato:', msgKey);
                     return;
                 }
                 processedMsgIds.add(msgKey);
@@ -1845,8 +2659,10 @@
         }
 
         // ============================================================
-        // GRUPPI
+        // GRUPPI - APRI CHAT
         // ============================================================
+        let allGroups = {};
+
         function openGroupChat(groupId) {
             db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
                 const group = snapshot.val();
@@ -1855,10 +2671,10 @@
                     return;
                 }
                 
+                allGroups[groupId] = group;
                 currentChatId = groupId;
                 currentChatType = 'group';
                 currentChatName = group.name;
-                currentMembers = Object.keys(group.members || {});
                 clearQuote();
                 processedMsgIds = new Set();
                 
@@ -1867,7 +2683,12 @@
                 document.getElementById('chat-name').textContent = group.name;
                 const memberCount = Object.keys(group.members || {}).length;
                 document.getElementById('chat-sub').textContent = '👥 ' + memberCount + ' membri • 🔐 E2EE';
-                document.getElementById('chat-avatar').textContent = group.name.charAt(0).toUpperCase();
+                document.getElementById('members-btn').style.display = 'inline-block';
+                
+                // Carica foto del gruppo (se presente) o usa l'iniziale
+                const avatarEl = document.getElementById('chat-avatar');
+                avatarEl.style.backgroundImage = '';
+                avatarEl.textContent = group.name.charAt(0).toUpperCase();
                 
                 loadMessagesGroup(groupId);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -1895,7 +2716,6 @@
                     if (!msg) return;
                     
                     if (processedMsgIds.has(msgKey)) {
-                        console.log('⏭️ Messaggio già processato:', msgKey);
                         return;
                     }
                     processedMsgIds.add(msgKey);
@@ -2233,290 +3053,6 @@
         }
 
         // ============================================================
-        // CREA GRUPPO
-        // ============================================================
-        function showCreateGroupModal() {
-            if (!connectionEstablished) {
-                showToast('❌ Non connesso a Firebase', 'error');
-                return;
-            }
-            
-            inviteList = [];
-            document.getElementById('modal-group-name').value = '';
-            document.getElementById('modal-invite-input').value = '';
-            document.getElementById('modal-invite-list').innerHTML = '<span style="font-size:0.7rem;color:#94a3b8;">Nessun invitato</span>';
-            document.getElementById('user-verification').style.display = 'none';
-            document.getElementById('add-invite-btn').disabled = false;
-            document.getElementById('create-group-modal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('modal-group-name').focus(), 300);
-        }
-
-        function closeCreateGroupModal() {
-            document.getElementById('create-group-modal').classList.add('hidden');
-            document.getElementById('add-invite-btn').disabled = false;
-        }
-
-        let verifyTimeoutGroup = null;
-
-        document.getElementById('modal-invite-input')?.addEventListener('input', function() {
-            clearTimeout(verifyTimeoutGroup);
-            const username = this.value.trim();
-            const verificationEl = document.getElementById('user-verification');
-            const addBtn = document.getElementById('add-invite-btn');
-            
-            if (!username) {
-                verificationEl.style.display = 'none';
-                addBtn.disabled = false;
-                return;
-            }
-            
-            if (!username.startsWith('@')) {
-                verificationEl.style.display = 'block';
-                verificationEl.className = 'user-verification invalid';
-                verificationEl.innerHTML = 'ℹ️ Inserisci il nome con @ (es. @nome.cognome)';
-                addBtn.disabled = true;
-                return;
-            }
-            
-            const cleanUsername = username.substring(1);
-            // Normalizza per il confronto
-            const normalizedClean = normalizeUsername(cleanUsername);
-            const normalizedCurrent = normalizeUsername(currentUser);
-            
-            if (normalizedClean === normalizedCurrent) {
-                verificationEl.style.display = 'block';
-                verificationEl.className = 'user-verification invalid';
-                verificationEl.innerHTML = '❌ Non puoi invitare te stesso';
-                addBtn.disabled = true;
-                return;
-            }
-            
-            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
-                verificationEl.style.display = 'block';
-                verificationEl.className = 'user-verification invalid';
-                verificationEl.innerHTML = '⚠️ @' + cleanUsername + ' è già nella lista';
-                addBtn.disabled = true;
-                return;
-            }
-            
-            verificationEl.style.display = 'block';
-            verificationEl.className = 'user-verification checking';
-            verificationEl.innerHTML = '<span class="spinner"></span> Verifica @' + cleanUsername + '...';
-            addBtn.disabled = true;
-            
-            verifyTimeoutGroup = setTimeout(() => {
-                verifyUser(cleanUsername)
-                    .then((result) => {
-                        verificationEl.style.display = 'block';
-                        verificationEl.className = 'user-verification valid';
-                        verificationEl.innerHTML = '✅ @' + result.displayName + ' trovato!';
-                        addBtn.disabled = false;
-                    })
-                    .catch((error) => {
-                        verificationEl.style.display = 'block';
-                        verificationEl.className = 'user-verification invalid';
-                        verificationEl.innerHTML = error.message;
-                        addBtn.disabled = true;
-                    });
-            }, 500);
-        });
-
-        function addInviteUser() {
-            const input = document.getElementById('modal-invite-input');
-            const username = input.value.trim();
-            const verificationEl = document.getElementById('user-verification');
-            const addBtn = document.getElementById('add-invite-btn');
-            
-            addBtn.disabled = true;
-            
-            if (!username) {
-                showToast('❌ Inserisci un nome utente', 'error');
-                addBtn.disabled = false;
-                return;
-            }
-            
-            if (!username.startsWith('@')) {
-                showToast('❌ Il nome deve iniziare con @', 'error');
-                addBtn.disabled = false;
-                return;
-            }
-            
-            const cleanUsername = username.substring(1);
-            const normalizedClean = normalizeUsername(cleanUsername);
-            const normalizedCurrent = normalizeUsername(currentUser);
-            
-            if (normalizedClean === normalizedCurrent) {
-                showToast('❌ Non puoi invitare te stesso', 'error');
-                addBtn.disabled = false;
-                return;
-            }
-            
-            if (inviteList.some(u => normalizeUsername(u) === normalizedClean)) {
-                showToast('⚠️ @' + cleanUsername + ' è già nella lista', 'warning');
-                input.value = '';
-                addBtn.disabled = false;
-                verificationEl.style.display = 'none';
-                return;
-            }
-            
-            verificationEl.style.display = 'block';
-            verificationEl.className = 'user-verification checking';
-            verificationEl.innerHTML = '<span class="spinner"></span> Verifica @' + cleanUsername + '...';
-            
-            verifyUser(cleanUsername)
-                .then((result) => {
-                    inviteList.push(cleanUsername);
-                    renderInviteList();
-                    input.value = '';
-                    verificationEl.style.display = 'none';
-                    showToast('✅ @' + result.displayName + ' aggiunto!', 'success');
-                    addBtn.disabled = false;
-                })
-                .catch((error) => {
-                    verificationEl.style.display = 'block';
-                    verificationEl.className = 'user-verification invalid';
-                    verificationEl.innerHTML = error.message;
-                    showToast(error.message, 'error');
-                    addBtn.disabled = false;
-                    
-                    setTimeout(() => {
-                        if (verificationEl.style.display !== 'none') {
-                            verificationEl.style.display = 'none';
-                        }
-                    }, 4000);
-                });
-        }
-
-        function renderInviteList() {
-            const container = document.getElementById('modal-invite-list');
-            if (inviteList.length === 0) {
-                container.innerHTML = '<span style="font-size:0.7rem;color:#94a3b8;">Nessun invitato</span>';
-                return;
-            }
-            container.innerHTML = inviteList.map(user => `
-                <span style="background:#075e54;color:white;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;">
-                    @${user}
-                    <span onclick="removeInviteUser('${user}')" style="cursor:pointer;opacity:0.7;font-size:0.9rem;">×</span>
-                </span>
-            `).join('');
-        }
-
-        function removeInviteUser(username) {
-            inviteList = inviteList.filter(u => u !== username);
-            renderInviteList();
-        }
-
-        function confirmCreateGroup() {
-            const name = document.getElementById('modal-group-name').value.trim();
-            if (!name) {
-                showToast('❌ Inserisci un nome per il gruppo', 'error');
-                return;
-            }
-
-            const groupId = 'g_' + Date.now();
-            const password = 'gpass_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-            
-            const groupData = {
-                name: name,
-                creator: currentUser,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                password: password,
-                members: {},
-                invites: {}
-            };
-
-            const encodedCreator = encodeUsername(currentUser);
-            groupData.members[encodedCreator] = {
-                joinedAt: firebase.database.ServerValue.TIMESTAMP,
-                displayName: currentUser,
-                isCreator: true
-            };
-
-            inviteList.forEach(user => {
-                const encodedUser = encodeUsername(user);
-                groupData.invites[encodedUser] = {
-                    invitedBy: currentUser,
-                    at: firebase.database.ServerValue.TIMESTAMP,
-                    status: 'pending',
-                    displayName: user
-                };
-            });
-
-            const btn = document.querySelector('#create-group-modal .btn-primary');
-            const originalText = btn.textContent;
-            btn.textContent = '⏳ Creazione...';
-            btn.disabled = true;
-
-            db.ref(`chat_groups/${groupId}`).set(groupData)
-                .then(() => {
-                    db.ref(`users/${encodedCreator}/groups/${groupId}`).set(true);
-                    
-                    const updates = {};
-                    inviteList.forEach(user => {
-                        const encodedUser = encodeUsername(user);
-                        updates[`users/${encodedUser}/invites/${groupId}`] = {
-                            groupName: name,
-                            invitedBy: currentUser,
-                            at: firebase.database.ServerValue.TIMESTAMP
-                        };
-                        if (Notification.permission === 'granted') {
-                            new Notification('📩 Nuovo invito da ' + currentUser, {
-                                body: currentUser + ' ti ha invitato in "' + name + '"',
-                            });
-                        }
-                    });
-                    
-                    return db.ref().update(updates);
-                })
-                .then(() => {
-                    closeCreateGroupModal();
-                    showToast('✅ Gruppo "' + name + '" creato e inviti inviati!', 'success');
-                    loadGroups();
-                    switchTab('groups');
-                })
-                .catch((err) => {
-                    console.error('Errore creazione gruppo:', err);
-                    showToast('❌ Errore creazione gruppo: ' + err.message, 'error');
-                })
-                .finally(() => {
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                });
-        }
-
-        function verifyUser(username) {
-            return new Promise((resolve, reject) => {
-                if (!username || username.length < 3) {
-                    reject({ message: 'Inserisci un nome valido (minimo 3 caratteri)' });
-                    return;
-                }
-                
-                const encodedName = encodeUsername(username);
-                
-                db.ref(`users/${encodedName}`).once('value')
-                    .then((snapshot) => {
-                        if (snapshot.exists()) {
-                            const userData = snapshot.val();
-                            resolve({ 
-                                exists: true, 
-                                username: userData.username || username,
-                                displayName: userData.displayName || username,
-                                encoded: encodedName
-                            });
-                        } else {
-                            reject({ 
-                                message: '❌ Utente @' + username + ' non trovato',
-                                notFound: true
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        reject({ message: '❌ Errore di connessione: ' + err.message });
-                    });
-            });
-        }
-
-        // ============================================================
         // LOGOUT
         // ============================================================
         function logout() {
@@ -2537,6 +3073,9 @@
             currentUser = null;
             currentChatId = null;
             currentChatType = null;
+            myContacts = {};
+            profilePhotoData = null;
+            allGroups = {};
             
             document.getElementById('main-app').classList.remove('active');
             document.getElementById('auth-view').style.display = 'flex';
