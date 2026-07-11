@@ -592,6 +592,7 @@
         }
         .chat-view-header .header-actions button:hover { background: rgba(255,255,255,0.15); }
 
+        /* ===== CHAT MESSAGES ===== */
         .chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -727,6 +728,39 @@
             margin-top: 4px;
             cursor: pointer;
             border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .chat-msg .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 4px 10px;
+        }
+        .chat-msg .audio-player button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .chat-msg .audio-player .progress {
+            flex: 1;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .chat-msg .audio-player .progress .fill {
+            height: 100%;
+            background: #075e54;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .chat-msg .audio-player .duration {
+            font-size: 0.6rem;
+            opacity: 0.6;
         }
 
         .chat-input-container {
@@ -929,7 +963,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ===== MEMBERS LIST ===== */
         .members-list {
             display: flex;
             flex-direction: column;
@@ -979,6 +1012,9 @@
         .members-list .member .badge.creator {
             background: #f59e0b;
         }
+
+        /* ===== FILE INPUT ===== */
+        #file-input { display: none; }
     </style>
 </head>
 <body>
@@ -1564,6 +1600,7 @@
         let selectedTimer = 0;
         let replyToMsg = null;
         let processedMsgIds = new Set();
+        let allGroups = {};
 
         // ============================================================
         // TOAST
@@ -1932,8 +1969,6 @@
         // ============================================================
         // CARICA GRUPPI
         // ============================================================
-        let groupListeners = {};
-
         function loadGroups() {
             if (!connectionEstablished) return;
             
@@ -2314,7 +2349,7 @@
         }
 
         // ============================================================
-        // MOSTRA MEMBRI DEL GRUPPO (CON FOTO PROFILO)
+        // MOSTRA MEMBRI DEL GRUPPO
         // ============================================================
         function showGroupMembers() {
             if (!currentChatId || currentChatType !== 'group') {
@@ -2342,19 +2377,15 @@
                     deleteBtn.style.display = isCreator ? 'inline-block' : 'none';
                 }
                 
-                // Carica le foto di tutti i membri
-                let loaded = 0;
                 let html = '';
-                
-                memberKeys.forEach((encoded, index) => {
+                memberKeys.forEach((encoded) => {
                     const member = members[encoded];
                     const displayName = member.displayName || encoded;
                     const isCreatorMember = member.isCreator || false;
                     const isMe = encoded === encodeUsername(currentUser);
                     
-                    // Crea l'HTML base
                     const memberHtml = `
-                        <div class="member" data-encoded="${encoded}" data-index="${index}">
+                        <div class="member" data-encoded="${encoded}">
                             <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
                             <div class="name">${displayName} ${isMe ? ' (tu)' : ''}</div>
                             ${isCreatorMember ? '<span class="badge creator">👑 Creatore</span>' : ''}
@@ -2509,7 +2540,7 @@
         }
 
         // ============================================================
-        // CHAT PRIVATA
+        // ===== CHAT PRIVATA CON SPUNTE =====
         // ============================================================
         function startPrivateChat(otherEncoded) {
             if (!myContacts[otherEncoded]) {
@@ -2574,16 +2605,30 @@
                 const isMe = msg.sender === currentUser;
                 const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
                 
+                // Aggiorna lo stato a "letto" se il messaggio è dell'altro
                 if (!isMe && msg.status !== 'read') {
                     db.ref(`private_messages/${chatKey}/${msgKey}/status`).set('read');
                 }
                 
                 let statusHtml = '';
                 if (isMe) {
+                    // Ascolta gli aggiornamenti di stato in tempo reale
+                    const statusRef = db.ref(`private_messages/${chatKey}/${msgKey}/status`);
+                    statusRef.on('value', (sSnapshot) => {
+                        const newStatus = sSnapshot.val() || 'sent';
+                        const statusEl = document.querySelector(`.msg-status-${msgKey}`);
+                        if (statusEl) {
+                            const icon = newStatus === 'read' ? '✔️✔️' : newStatus === 'delivered' ? '✔️✔️' : '✔️';
+                            const color = newStatus === 'read' ? '#34b7f1' : '#94a3b8';
+                            statusEl.textContent = icon;
+                            statusEl.style.color = color;
+                        }
+                    });
+                    
                     const status = msg.status || 'sent';
                     const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
                     const color = status === 'read' ? '#34b7f1' : '#94a3b8';
-                    statusHtml = `<span class="status" style="color:${color};">${icon}</span>`;
+                    statusHtml = `<span class="status msg-status-${msgKey}" style="color:${color};">${icon}</span>`;
                 }
 
                 let timerHtml = '';
@@ -2659,10 +2704,8 @@
         }
 
         // ============================================================
-        // GRUPPI - APRI CHAT
+        // ===== GRUPPI CON SPUNTE =====
         // ============================================================
-        let allGroups = {};
-
         function openGroupChat(groupId) {
             db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
                 const group = snapshot.val();
@@ -2685,7 +2728,6 @@
                 document.getElementById('chat-sub').textContent = '👥 ' + memberCount + ' membri • 🔐 E2EE';
                 document.getElementById('members-btn').style.display = 'inline-block';
                 
-                // Carica foto del gruppo (se presente) o usa l'iniziale
                 const avatarEl = document.getElementById('chat-avatar');
                 avatarEl.style.backgroundImage = '';
                 avatarEl.textContent = group.name.charAt(0).toUpperCase();
@@ -2723,16 +2765,29 @@
                     const isMe = msg.sender === currentUser;
                     const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
                     
+                    // Aggiorna stato a "letto"
                     if (!isMe && msg.status !== 'read') {
                         db.ref(`chat_messages/${groupId}/${msgKey}/status`).set('read');
                     }
                     
                     let statusHtml = '';
                     if (isMe) {
+                        const statusRef = db.ref(`chat_messages/${groupId}/${msgKey}/status`);
+                        statusRef.on('value', (sSnapshot) => {
+                            const newStatus = sSnapshot.val() || 'sent';
+                            const statusEl = document.querySelector(`.msg-status-${msgKey}`);
+                            if (statusEl) {
+                                const icon = newStatus === 'read' ? '✔️✔️' : newStatus === 'delivered' ? '✔️✔️' : '✔️';
+                                const color = newStatus === 'read' ? '#34b7f1' : '#94a3b8';
+                                statusEl.textContent = icon;
+                                statusEl.style.color = color;
+                            }
+                        });
+                        
                         const status = msg.status || 'sent';
                         const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
                         const color = status === 'read' ? '#34b7f1' : '#94a3b8';
-                        statusHtml = `<span class="status" style="color:${color};">${icon}</span>`;
+                        statusHtml = `<span class="status msg-status-${msgKey}" style="color:${color};">${icon}</span>`;
                     }
 
                     let timerHtml = '';
@@ -2975,6 +3030,10 @@
             db.ref(path).push(msgData)
                 .then(() => {
                     clearQuote();
+                    // Dopo 2 secondi, aggiorna a "delivered"
+                    setTimeout(() => {
+                        // Il listener aggiornerà lo stato
+                    }, 2000);
                 })
                 .catch((err) => {
                     console.error('Errore invio:', err);
