@@ -547,6 +547,7 @@
             background-size: cover;
             background-position: center;
             overflow: hidden;
+            cursor: pointer;
         }
         .chat-view-header .avatar img {
             width: 100%;
@@ -1015,7 +1016,7 @@
 
         #file-input { display: none; }
 
-        /* ===== MODALE FOTO PROFILO ===== */
+        /* ===== MODALE FOTO PROFILO UTENTE ===== */
         #profile-photo-modal .modal .photo-preview {
             width: 120px;
             height: 120px;
@@ -1033,6 +1034,31 @@
             border: 3px solid #075e54;
         }
         #profile-photo-modal .modal .photo-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        /* ===== MODALE FOTO GRUPPO ===== */
+        #group-photo-modal .modal .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            border: 3px solid #075e54;
+        }
+        #group-photo-modal .modal .photo-actions {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
@@ -1156,7 +1182,7 @@
         <div id="chat-view">
             <div class="chat-view-header">
                 <button class="back" onclick="closeChatView()">←</button>
-                <div class="avatar" id="chat-avatar">👤</div>
+                <div class="avatar" id="chat-avatar" onclick="openGroupPhotoModal()">👤</div>
                 <div class="info">
                     <div class="name" id="chat-name">Nome</div>
                     <div class="sub" id="chat-sub">online</div>
@@ -1222,7 +1248,7 @@
         </div>
     </div>
 
-    <!-- ===== MODALE FOTO PROFILO ===== -->
+    <!-- ===== MODALE FOTO PROFILO UTENTE ===== -->
     <div id="profile-photo-modal" class="modal-overlay hidden">
         <div class="modal">
             <h3>📸 Foto Profilo</h3>
@@ -1235,6 +1261,23 @@
             <div class="modal-actions">
                 <button class="btn-secondary" onclick="closeProfilePhotoModal()">Chiudi</button>
                 <button class="btn-primary" onclick="saveProfilePhoto()">💾 Salva</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALE FOTO GRUPPO ===== -->
+    <div id="group-photo-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>📸 Foto Gruppo</h3>
+            <div class="photo-preview" id="group-photo-preview">👥</div>
+            <div class="photo-actions">
+                <button class="btn-primary" onclick="document.getElementById('group-photo-input').click()" style="flex:1;">📷 Scegli foto</button>
+                <button class="btn-secondary" onclick="removeGroupPhoto()" style="flex:1;">🗑️ Rimuovi</button>
+            </div>
+            <input type="file" id="group-photo-input" accept="image/*" style="display:none" onchange="handleGroupPhoto(event)">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeGroupPhotoModal()">Chiudi</button>
+                <button class="btn-primary" onclick="saveGroupPhoto()">💾 Salva</button>
             </div>
         </div>
     </div>
@@ -1342,6 +1385,7 @@
                 currentChatType = null;
                 myContacts = {};
                 profilePhotoData = null;
+                groupPhotoData = {};
                 
                 status.textContent = '✅ Tutti i dati sono stati eliminati! Ricarica la pagina.';
                 status.className = 'status-msg success';
@@ -1597,7 +1641,7 @@
         }
 
         // ============================================================
-        // FOTO PROFILO
+        // FOTO PROFILO UTENTE
         // ============================================================
         let profilePhotoData = null;
         let tempProfilePhoto = null;
@@ -1679,7 +1723,7 @@
                     profilePhotoData = photoToSave;
                     tempProfilePhoto = null;
                     closeProfilePhotoModal();
-                    updateProfilePhotoUI(photoToSave);
+                    updateUserPhotoUI(photoToSave);
                     showToast('✅ Foto profilo aggiornata!', 'success');
                 })
                 .catch((err) => {
@@ -1697,7 +1741,7 @@
                     profilePhotoData = null;
                     tempProfilePhoto = null;
                     closeProfilePhotoModal();
-                    updateProfilePhotoUI(null);
+                    updateUserPhotoUI(null);
                     showToast('🗑️ Foto profilo rimossa', 'success');
                 })
                 .catch((err) => {
@@ -1706,7 +1750,7 @@
                 });
         }
 
-        function updateProfilePhotoUI(photoData) {
+        function updateUserPhotoUI(photoData) {
             const headerAvatar = document.getElementById('header-avatar');
             if (photoData) {
                 headerAvatar.style.backgroundImage = `url(${photoData})`;
@@ -1717,8 +1761,170 @@
             }
         }
 
+        // ============================================================
+        // FOTO GRUPPO
+        // ============================================================
+        let groupPhotoData = {};
+        let tempGroupPhoto = null;
+        let currentGroupIdForPhoto = null;
+
+        function openGroupPhotoModal() {
+            if (!currentChatId || currentChatType !== 'group') {
+                showToast('❌ Seleziona un gruppo', 'error');
+                return;
+            }
+            
+            currentGroupIdForPhoto = currentChatId;
+            
+            // Carica la foto del gruppo se esiste
+            db.ref(`chat_groups/${currentChatId}/photo`).once('value', (snapshot) => {
+                const photo = snapshot.val();
+                const preview = document.getElementById('group-photo-preview');
+                if (photo) {
+                    preview.style.backgroundImage = `url(${photo})`;
+                    preview.innerHTML = '';
+                } else {
+                    preview.style.backgroundImage = '';
+                    preview.innerHTML = '👥';
+                }
+                document.getElementById('group-photo-modal').classList.remove('hidden');
+            });
+        }
+
+        function closeGroupPhotoModal() {
+            document.getElementById('group-photo-modal').classList.add('hidden');
+            tempGroupPhoto = null;
+            document.getElementById('group-photo-input').value = '';
+            currentGroupIdForPhoto = null;
+        }
+
+        function handleGroupPhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 200;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height = height * (MAX_SIZE / width);
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width = width * (MAX_SIZE / height);
+                            height = MAX_SIZE;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    tempGroupPhoto = dataUrl;
+                    
+                    const preview = document.getElementById('group-photo-preview');
+                    preview.style.backgroundImage = `url(${dataUrl})`;
+                    preview.innerHTML = '';
+                    
+                    showToast('📸 Foto gruppo caricata, premi Salva', 'success');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function saveGroupPhoto() {
+            if (!tempGroupPhoto && !groupPhotoData[currentChatIdForPhoto]) {
+                showToast('❌ Nessuna foto da salvare', 'error');
+                return;
+            }
+
+            const photoToSave = tempGroupPhoto || groupPhotoData[currentChatIdForPhoto];
+            
+            db.ref(`chat_groups/${currentChatIdForPhoto}/photo`).set(photoToSave)
+                .then(() => {
+                    groupPhotoData[currentChatIdForPhoto] = photoToSave;
+                    tempGroupPhoto = null;
+                    closeGroupPhotoModal();
+                    updateGroupPhotoUI(currentChatIdForPhoto, photoToSave);
+                    showToast('✅ Foto gruppo aggiornata!', 'success');
+                })
+                .catch((err) => {
+                    console.error('Errore salvataggio foto gruppo:', err);
+                    showToast('❌ Errore salvataggio foto gruppo', 'error');
+                });
+        }
+
+        function removeGroupPhoto() {
+            if (!confirm('Rimuovere la foto del gruppo?')) return;
+            
+            db.ref(`chat_groups/${currentChatIdForPhoto}/photo`).remove()
+                .then(() => {
+                    groupPhotoData[currentChatIdForPhoto] = null;
+                    tempGroupPhoto = null;
+                    closeGroupPhotoModal();
+                    updateGroupPhotoUI(currentChatIdForPhoto, null);
+                    showToast('🗑️ Foto gruppo rimossa', 'success');
+                })
+                .catch((err) => {
+                    console.error('Errore rimozione foto gruppo:', err);
+                    showToast('❌ Errore rimozione foto gruppo', 'error');
+                });
+        }
+
+        function updateGroupPhotoUI(groupId, photoData) {
+            // Aggiorna l'avatar nella chat
+            if (currentChatId === groupId) {
+                const chatAvatar = document.getElementById('chat-avatar');
+                if (photoData) {
+                    chatAvatar.style.backgroundImage = `url(${photoData})`;
+                    chatAvatar.innerHTML = '';
+                } else {
+                    chatAvatar.style.backgroundImage = '';
+                    const group = allGroups[groupId];
+                    chatAvatar.textContent = group ? group.name.charAt(0).toUpperCase() : '👥';
+                }
+            }
+            
+            // Aggiorna nella lista gruppi
+            const groupItems = document.querySelectorAll('.group-item');
+            groupItems.forEach(item => {
+                if (item.dataset.groupId === groupId) {
+                    const avatarEl = item.querySelector('.avatar');
+                    if (photoData) {
+                        avatarEl.style.backgroundImage = `url(${photoData})`;
+                        avatarEl.innerHTML = '';
+                    } else {
+                        avatarEl.style.backgroundImage = '';
+                        const group = allGroups[groupId];
+                        avatarEl.textContent = group ? group.name.charAt(0).toUpperCase() : '👥';
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // FUNZIONE PER OTTENERE FOTO UTENTE (con listener live)
+        // ============================================================
         function getUserPhoto(encodedUsername, callback) {
-            db.ref(`users/${encodedUsername}/profilePhoto`).once('value', (snapshot) => {
+            // Usa un listener per aggiornamenti in tempo reale
+            db.ref(`users/${encodedUsername}/profilePhoto`).on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
+        function getGroupPhoto(groupId, callback) {
+            db.ref(`chat_groups/${groupId}/photo`).on('value', (snapshot) => {
                 callback(snapshot.val());
             });
         }
@@ -1765,7 +1971,7 @@
             document.getElementById('header-name').textContent = '@' + currentUser;
             
             if (profilePhotoData) {
-                updateProfilePhotoUI(profilePhotoData);
+                updateUserPhotoUI(profilePhotoData);
             }
             
             loadMyContacts();
@@ -2039,6 +2245,16 @@
                     db.ref(`users/${otherEncoded}/displayName`).once('value', (snapshot) => {
                         const username = snapshot.val() || otherEncoded;
                         
+                        // Carica foto profilo dell'utente
+                        let avatarHtml = `<div class="avatar">${username.charAt(0).toUpperCase()}</div>`;
+                        getUserPhoto(otherEncoded, (photo) => {
+                            const avatarEl = document.querySelector(`.chat-item[data-encoded="${otherEncoded}"] .avatar`);
+                            if (avatarEl && photo) {
+                                avatarEl.style.backgroundImage = `url(${photo})`;
+                                avatarEl.innerHTML = '';
+                            }
+                        });
+                        
                         const chatKey = [myEncoded, otherEncoded].sort().join('_');
                         const chatRef = db.ref(`private_messages/${chatKey}`);
                         chatRef.limitToLast(1).on('value', (msgSnapshot) => {
@@ -2076,9 +2292,9 @@
                             }
                             
                             html += `
-                                <div class="chat-item" onclick="openPrivateChat('${otherEncoded}')">
+                                <div class="chat-item" data-encoded="${otherEncoded}" onclick="openPrivateChat('${otherEncoded}')">
                                     <div class="avatar-wrapper">
-                                        <div class="avatar">${username.charAt(0).toUpperCase()}</div>
+                                        ${avatarHtml}
                                     </div>
                                     <div class="info">
                                         <div class="name">@${username}</div>
@@ -2132,12 +2348,24 @@
                     db.ref(`chat_groups/${groupId}`).once('value', (gSnapshot) => {
                         const group = gSnapshot.val();
                         if (group) {
+                            allGroups[groupId] = group;
                             const memberCount = Object.keys(group.members || {}).length;
                             const isCreator = group.creator === currentUser;
+                            
+                            // Carica foto del gruppo
+                            let avatarHtml = `<div class="avatar">${group.name.charAt(0).toUpperCase()}</div>`;
+                            getGroupPhoto(groupId, (photo) => {
+                                const avatarEl = document.querySelector(`.group-item[data-group-id="${groupId}"] .avatar`);
+                                if (avatarEl && photo) {
+                                    avatarEl.style.backgroundImage = `url(${photo})`;
+                                    avatarEl.innerHTML = '';
+                                }
+                            });
+                            
                             html += `
-                                <div class="chat-item" onclick="openGroupChat('${groupId}')">
+                                <div class="chat-item group-item" data-group-id="${groupId}" onclick="openGroupChat('${groupId}')">
                                     <div class="avatar-wrapper">
-                                        <div class="avatar">${group.name.charAt(0).toUpperCase()}</div>
+                                        ${avatarHtml}
                                     </div>
                                     <div class="info">
                                         <div class="name">${group.name}</div>
@@ -2415,7 +2643,8 @@
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
                 password: password,
                 members: {},
-                invites: {}
+                invites: {},
+                photo: null
             };
 
             const encodedCreator = encodeUsername(currentUser);
@@ -2484,7 +2713,7 @@
         }
 
         // ============================================================
-        // MOSTRA MEMBRI DEL GRUPPO
+        // MOSTRA MEMBRI DEL GRUPPO (CON FOTO LIVE)
         // ============================================================
         function showGroupMembers() {
             if (!currentChatId || currentChatType !== 'group') {
@@ -2529,7 +2758,7 @@
                     
                     html += memberHtml;
                     
-                    // Carica la foto profilo
+                    // Carica la foto profilo con listener live
                     getUserPhoto(encoded, (photo) => {
                         const avatarEl = document.querySelector(`.member[data-encoded="${encoded}"] .avatar`);
                         if (avatarEl && photo) {
@@ -2706,6 +2935,18 @@
                 document.getElementById('chat-sub').textContent = '🔐 Crittografato E2EE';
                 document.getElementById('members-btn').style.display = 'none';
                 
+                // Carica foto profilo dell'utente
+                const avatarEl = document.getElementById('chat-avatar');
+                getUserPhoto(otherEncoded, (photo) => {
+                    if (photo) {
+                        avatarEl.style.backgroundImage = `url(${photo})`;
+                        avatarEl.innerHTML = '';
+                    } else {
+                        avatarEl.style.backgroundImage = '';
+                        avatarEl.textContent = username.charAt(0).toUpperCase();
+                    }
+                });
+                
                 loadMessagesPrivate(otherEncoded);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
             });
@@ -2838,7 +3079,7 @@
         }
 
         // ============================================================
-        // ===== GRUPPI CON SPUNTE =====
+        // ===== GRUPPI CON SPUNTE E FOTO =====
         // ============================================================
         function openGroupChat(groupId) {
             db.ref(`chat_groups/${groupId}`).once('value', (snapshot) => {
@@ -2862,9 +3103,17 @@
                 document.getElementById('chat-sub').textContent = '👥 ' + memberCount + ' membri • 🔐 E2EE';
                 document.getElementById('members-btn').style.display = 'inline-block';
                 
+                // Carica foto del gruppo
                 const avatarEl = document.getElementById('chat-avatar');
-                avatarEl.style.backgroundImage = '';
-                avatarEl.textContent = group.name.charAt(0).toUpperCase();
+                getGroupPhoto(groupId, (photo) => {
+                    if (photo) {
+                        avatarEl.style.backgroundImage = `url(${photo})`;
+                        avatarEl.innerHTML = '';
+                    } else {
+                        avatarEl.style.backgroundImage = '';
+                        avatarEl.textContent = group.name.charAt(0).toUpperCase();
+                    }
+                });
                 
                 loadMessagesGroup(groupId);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -3264,6 +3513,7 @@
             currentChatType = null;
             myContacts = {};
             profilePhotoData = null;
+            groupPhotoData = {};
             allGroups = {};
             
             document.getElementById('main-app').classList.remove('active');
