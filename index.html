@@ -1013,8 +1013,32 @@
             background: #f59e0b;
         }
 
-        /* ===== FILE INPUT ===== */
         #file-input { display: none; }
+
+        /* ===== MODALE FOTO PROFILO ===== */
+        #profile-photo-modal .modal .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #075e54, #128c7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            border: 3px solid #075e54;
+        }
+        #profile-photo-modal .modal .photo-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -1054,7 +1078,7 @@
         <div id="main-app">
             <div class="whatsapp-header">
                 <div class="left">
-                    <div class="avatar" id="header-avatar" onclick="changeProfilePhoto()">🧑</div>
+                    <div class="avatar" id="header-avatar" onclick="openProfilePhotoModal()">🧑</div>
                     <div class="info">
                         <div class="name" id="header-name">@nome</div>
                         <div class="status" id="header-status">🟢 Online</div>
@@ -1194,6 +1218,23 @@
                 <button class="btn-secondary" onclick="document.getElementById('members-modal').classList.add('hidden')">Chiudi</button>
                 <button class="btn-danger" id="leave-group-btn" onclick="leaveGroup()">🚪 Esci dal gruppo</button>
                 <button class="btn-danger" id="delete-group-btn" onclick="deleteGroup()" style="display:none;background:#dc2626;">🗑️ Elimina gruppo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODALE FOTO PROFILO ===== -->
+    <div id="profile-photo-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>📸 Foto Profilo</h3>
+            <div class="photo-preview" id="profile-photo-preview">👤</div>
+            <div class="photo-actions">
+                <button class="btn-primary" onclick="document.getElementById('profile-photo-input').click()" style="flex:1;">📷 Scegli foto</button>
+                <button class="btn-secondary" onclick="removeProfilePhoto()" style="flex:1;">🗑️ Rimuovi</button>
+            </div>
+            <input type="file" id="profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhoto(event)">
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeProfilePhotoModal()">Chiudi</button>
+                <button class="btn-primary" onclick="saveProfilePhoto()">💾 Salva</button>
             </div>
         </div>
     </div>
@@ -1561,25 +1602,121 @@
         let profilePhotoData = null;
         let tempProfilePhoto = null;
 
-        function changeProfilePhoto() {
-            const myEncoded = encodeUsername(currentUser);
-            db.ref(`users/${myEncoded}/profilePhoto`).once('value', (snapshot) => {
-                const photo = snapshot.val();
-                const preview = document.getElementById('profile-photo-preview');
-                if (photo) {
-                    preview.style.backgroundImage = `url(${photo})`;
-                    preview.innerHTML = '';
-                } else {
-                    preview.style.backgroundImage = '';
-                    preview.innerHTML = '👤';
-                }
-                document.getElementById('profile-photo-modal').classList.remove('hidden');
-            });
+        function openProfilePhotoModal() {
+            const preview = document.getElementById('profile-photo-preview');
+            if (profilePhotoData) {
+                preview.style.backgroundImage = `url(${profilePhotoData})`;
+                preview.innerHTML = '';
+            } else {
+                preview.style.backgroundImage = '';
+                preview.innerHTML = '👤';
+            }
+            document.getElementById('profile-photo-modal').classList.remove('hidden');
         }
 
-        // ============================================================
-        // FUNZIONE PER OTTENERE FOTO UTENTE
-        // ============================================================
+        function closeProfilePhotoModal() {
+            document.getElementById('profile-photo-modal').classList.add('hidden');
+            tempProfilePhoto = null;
+            document.getElementById('profile-photo-input').value = '';
+        }
+
+        function handleProfilePhoto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 200;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > MAX_SIZE) {
+                            height = height * (MAX_SIZE / width);
+                            width = MAX_SIZE;
+                        }
+                    } else {
+                        if (height > MAX_SIZE) {
+                            width = width * (MAX_SIZE / height);
+                            height = MAX_SIZE;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    tempProfilePhoto = dataUrl;
+                    
+                    const preview = document.getElementById('profile-photo-preview');
+                    preview.style.backgroundImage = `url(${dataUrl})`;
+                    preview.innerHTML = '';
+                    
+                    showToast('📸 Foto caricata, premi Salva', 'success');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function saveProfilePhoto() {
+            if (!tempProfilePhoto && !profilePhotoData) {
+                showToast('❌ Nessuna foto da salvare', 'error');
+                return;
+            }
+
+            const myEncoded = encodeUsername(currentUser);
+            const photoToSave = tempProfilePhoto || profilePhotoData;
+            
+            db.ref(`users/${myEncoded}/profilePhoto`).set(photoToSave)
+                .then(() => {
+                    profilePhotoData = photoToSave;
+                    tempProfilePhoto = null;
+                    closeProfilePhotoModal();
+                    updateProfilePhotoUI(photoToSave);
+                    showToast('✅ Foto profilo aggiornata!', 'success');
+                })
+                .catch((err) => {
+                    console.error('Errore salvataggio foto:', err);
+                    showToast('❌ Errore salvataggio foto', 'error');
+                });
+        }
+
+        function removeProfilePhoto() {
+            if (!confirm('Rimuovere la foto profilo?')) return;
+            
+            const myEncoded = encodeUsername(currentUser);
+            db.ref(`users/${myEncoded}/profilePhoto`).remove()
+                .then(() => {
+                    profilePhotoData = null;
+                    tempProfilePhoto = null;
+                    closeProfilePhotoModal();
+                    updateProfilePhotoUI(null);
+                    showToast('🗑️ Foto profilo rimossa', 'success');
+                })
+                .catch((err) => {
+                    console.error('Errore rimozione foto:', err);
+                    showToast('❌ Errore rimozione foto', 'error');
+                });
+        }
+
+        function updateProfilePhotoUI(photoData) {
+            const headerAvatar = document.getElementById('header-avatar');
+            if (photoData) {
+                headerAvatar.style.backgroundImage = `url(${photoData})`;
+                headerAvatar.innerHTML = '';
+            } else {
+                headerAvatar.style.backgroundImage = '';
+                headerAvatar.innerHTML = currentUser ? currentUser.charAt(0).toUpperCase() : '🧑';
+            }
+        }
+
         function getUserPhoto(encodedUsername, callback) {
             db.ref(`users/${encodedUsername}/profilePhoto`).once('value', (snapshot) => {
                 callback(snapshot.val());
@@ -1628,9 +1765,7 @@
             document.getElementById('header-name').textContent = '@' + currentUser;
             
             if (profilePhotoData) {
-                const avatar = document.getElementById('header-avatar');
-                avatar.style.backgroundImage = `url(${profilePhotoData})`;
-                avatar.innerHTML = '';
+                updateProfilePhotoUI(profilePhotoData);
             }
             
             loadMyContacts();
@@ -2605,14 +2740,13 @@
                 const isMe = msg.sender === currentUser;
                 const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
                 
-                // Aggiorna lo stato a "letto" se il messaggio è dell'altro
+                // Aggiorna lo stato a "letto"
                 if (!isMe && msg.status !== 'read') {
                     db.ref(`private_messages/${chatKey}/${msgKey}/status`).set('read');
                 }
                 
                 let statusHtml = '';
                 if (isMe) {
-                    // Ascolta gli aggiornamenti di stato in tempo reale
                     const statusRef = db.ref(`private_messages/${chatKey}/${msgKey}/status`);
                     statusRef.on('value', (sSnapshot) => {
                         const newStatus = sSnapshot.val() || 'sent';
@@ -3030,10 +3164,6 @@
             db.ref(path).push(msgData)
                 .then(() => {
                     clearQuote();
-                    // Dopo 2 secondi, aggiorna a "delivered"
-                    setTimeout(() => {
-                        // Il listener aggiornerà lo stato
-                    }, 2000);
                 })
                 .catch((err) => {
                     console.error('Errore invio:', err);
