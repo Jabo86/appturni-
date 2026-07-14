@@ -368,6 +368,65 @@
             display: flex;
         }
 
+        /* SOTTO-TAB DENTRO "CHAT" (Chat / Rubrica / Gruppi) */
+        .chat-subtabs {
+            display: flex;
+            background: rgba(99, 102, 241, 0.06);
+            flex-shrink: 0;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+        }
+        .dark-mode .chat-subtabs {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .chat-subtabs .subtab {
+            flex: 1;
+            padding: 9px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            color: var(--ink-soft);
+            font-family: var(--font-display);
+        }
+        .chat-subtabs .subtab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: rgba(99, 102, 241, 0.08);
+        }
+        .dark-mode .chat-subtabs .subtab {
+            color: #94a3b8;
+        }
+        .dark-mode .chat-subtabs .subtab.active {
+            color: #c4b5fd;
+            border-bottom-color: #c4b5fd;
+            background: rgba(168, 85, 247, 0.1);
+        }
+        .sub-tab-content {
+            flex: 1;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+        }
+        .sub-tab-content.active {
+            display: flex;
+        }
+
+        /* Titoli sezione dentro la tab Impostazioni */
+        .settings-section-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 16px 2px 4px 2px;
+        }
+        .dark-mode .settings-section-title {
+            color: #94a3b8;
+        }
+
         /* CALENDARIO */
         .calendar-scroll {
             flex: 1;
@@ -2331,7 +2390,6 @@
                 </div>
                 <div class="right">
                     <button onclick="toggleTheme()" id="theme-header-btn" title="Tema">🌙</button>
-                    <button onclick="toggleMenu()" id="menu-toggle" title="Menu">☰</button>
                     <button onclick="logout()" title="Esci">🚪</button>
                 </div>
             </div>
@@ -2350,10 +2408,8 @@
             <!-- TABS -->
             <div class="app-tabs">
                 <div class="tab active" data-tab="calendar" onclick="switchAppTab('calendar')">📅 Turni</div>
-                <div class="tab" data-tab="chats" onclick="switchAppTab('chats')">💬 Chat</div>
-                <div class="tab" data-tab="contacts" onclick="switchAppTab('contacts')">📇 Rubrica</div>
-                <div class="tab" data-tab="groups" onclick="switchAppTab('groups')">👥 Gruppi</div>
-                <div class="tab" data-tab="stats" onclick="switchAppTab('stats')">📊 Stat</div>
+                <div class="tab" data-tab="chat" onclick="switchAppTab('chat')">💬 Chat</div>
+                <div class="tab" data-tab="settings" onclick="switchAppTab('settings')">⚙️ Impostazioni</div>
             </div>
 
             <!-- TAB CALENDAR -->
@@ -2394,61 +2450,71 @@
                 </div>
             </div>
 
-            <!-- TAB CHATS -->
-            <div class="tab-content" id="tab-chats">
-                <div class="chat-list" id="chats-list">
-                    <div class="empty-state">
-                        <div class="icon">💬</div>
-                        <div class="title">Nessuna chat</div>
-                        <div class="sub">Aggiungi contatti e inizia a chattare</div>
+            <!-- TAB CHAT (HUB: Chat / Rubrica / Gruppi) -->
+            <div class="tab-content" id="tab-chat">
+                <div class="chat-subtabs">
+                    <div class="subtab active" data-subtab="chats" onclick="switchChatSubTab('chats')">💬 Chat</div>
+                    <div class="subtab" data-subtab="contacts" onclick="switchChatSubTab('contacts')">📇 Rubrica</div>
+                    <div class="subtab" data-subtab="groups" onclick="switchChatSubTab('groups')">👥 Gruppi</div>
+                </div>
+
+                <!-- SUBTAB CHATS -->
+                <div class="sub-tab-content active" id="subtab-chats">
+                    <div class="chat-list" id="chats-list">
+                        <div class="empty-state">
+                            <div class="icon">💬</div>
+                            <div class="title">Nessuna chat</div>
+                            <div class="sub">Aggiungi contatti e inizia a chattare</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBTAB CONTACTS -->
+                <div class="sub-tab-content" id="subtab-contacts">
+                    <div class="add-contact-section">
+                        <div class="row">
+                            <input type="text" id="add-contact-input" placeholder="@nome.cognome" />
+                            <button class="add-btn" id="add-contact-btn" onclick="addContact()">➕ Aggiungi</button>
+                        </div>
+                        <div class="status" id="add-contact-status"></div>
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" id="contacts-search" placeholder="🔍 Cerca contatto..." oninput="filterContacts()" />
+                    </div>
+                    <div class="contacts-list" id="contacts-list">
+                        <div class="empty-state">
+                            <div class="icon">📇</div>
+                            <div class="title">Rubrica vuota</div>
+                            <div class="sub">Aggiungi i tuoi contatti per iniziare</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBTAB GROUPS -->
+                <div class="sub-tab-content" id="subtab-groups">
+                    <div class="group-creator">
+                        <div class="row">
+                            <input type="text" id="new-group-name" placeholder="Nome gruppo..." />
+                            <button class="create-btn" onclick="showCreateGroupModal()">➕ Crea</button>
+                        </div>
+                        <div id="group-error" class="error-msg"></div>
+                        <div class="hint">💡 Crea un gruppo e invita i tuoi contatti</div>
+                    </div>
+                    <div class="chat-list" id="groups-list">
+                        <div class="empty-state">
+                            <div class="icon">👥</div>
+                            <div class="title">Nessun gruppo</div>
+                            <div class="sub">Crea un gruppo per iniziare</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB CONTACTS -->
-            <div class="tab-content" id="tab-contacts">
-                <div class="add-contact-section">
-                    <div class="row">
-                        <input type="text" id="add-contact-input" placeholder="@nome.cognome" />
-                        <button class="add-btn" id="add-contact-btn" onclick="addContact()">➕ Aggiungi</button>
-                    </div>
-                    <div class="status" id="add-contact-status"></div>
-                </div>
-                <div class="search-bar">
-                    <input type="text" id="contacts-search" placeholder="🔍 Cerca contatto..." oninput="filterContacts()" />
-                </div>
-                <div class="contacts-list" id="contacts-list">
-                    <div class="empty-state">
-                        <div class="icon">📇</div>
-                        <div class="title">Rubrica vuota</div>
-                        <div class="sub">Aggiungi i tuoi contatti per iniziare</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB GROUPS -->
-            <div class="tab-content" id="tab-groups">
-                <div class="group-creator">
-                    <div class="row">
-                        <input type="text" id="new-group-name" placeholder="Nome gruppo..." />
-                        <button class="create-btn" onclick="showCreateGroupModal()">➕ Crea</button>
-                    </div>
-                    <div id="group-error" class="error-msg"></div>
-                    <div class="hint">💡 Crea un gruppo e invita i tuoi contatti</div>
-                </div>
-                <div class="chat-list" id="groups-list">
-                    <div class="empty-state">
-                        <div class="icon">👥</div>
-                        <div class="title">Nessun gruppo</div>
-                        <div class="sub">Crea un gruppo per iniziare</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB STATS -->
-            <div class="tab-content" id="tab-stats">
+            <!-- TAB SETTINGS (Statistiche + tutta la gestione) -->
+            <div class="tab-content" id="tab-settings">
                 <div class="calendar-scroll">
-                    <h1 class="stats-title">📊 Statistiche</h1>
+                    <h1 class="stats-title">⚙️ Impostazioni</h1>
+
                     <div class="stats-card">
                         <div style="font-size:0.75rem;color:var(--ink-soft);font-weight:700;">Ore Lavorate</div>
                         <div id="worked-hours" class="stats-value">0:00</div>
@@ -2471,8 +2537,27 @@
                         <div style="font-size:0.75rem;color:var(--ink-soft);font-weight:700;margin-bottom:6px;">📝 Note</div>
                         <div id="notes-list"></div>
                     </div>
-                    <button class="back-btn" onclick="showAnnualView()" style="margin-top:4px;">📅 Visualizzazione Annuale</button>
-                    <button class="back-btn" onclick="showFamilyView()" style="margin-top:4px;">🗓️ Vista Famiglia</button>
+                    <button class="back-btn" onclick="showAnnualView()">📅 Visualizzazione Annuale</button>
+                    <button class="back-btn" onclick="showFamilyView()">🗓️ Vista Famiglia</button>
+
+                    <div class="settings-section-title">📋 Gestione Turni</div>
+                    <button class="back-btn" onclick="openCreateShiftModal()">➕ Aggiungi Turno</button>
+                    <button class="back-btn" onclick="openEditShiftModal()">✏️ Modifica Turno</button>
+                    <button class="back-btn" onclick="openDeleteShiftModal()">🗑️ Rimuovi Turno</button>
+                    <button class="back-btn" onclick="openPatternModal()">🔁 Turni Ricorrenti</button>
+
+                    <div class="settings-section-title">🔧 Preferenze</div>
+                    <button class="back-btn" onclick="openNotificationSettingsModal()">🔔 Impostazioni Notifiche</button>
+                    <button class="back-btn" onclick="openWorkSettingsModal()">⚙️ Impostazioni Lavoro</button>
+                    <button class="back-btn" onclick="openFamilyModal()">👨‍👩‍👧‍👦 Gestisci Famiglia</button>
+
+                    <div class="settings-section-title">📤 Esporta &amp; Backup</div>
+                    <button class="back-btn" onclick="exportPDF()">📄 Esporta PDF</button>
+                    <button class="back-btn" onclick="exportExcel()">📊 Esporta Excel</button>
+                    <button class="back-btn" onclick="exportToGoogleCalendar()">🌐 Google Calendar</button>
+                    <button class="back-btn" onclick="exportBackup()">⬆️ Backup</button>
+                    <button class="back-btn" onclick="document.getElementById('backup-file-input').click()">⬇️ Ripristina</button>
+                    <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="importBackup(event)">
                 </div>
             </div>
         </div>
@@ -2508,61 +2593,8 @@
             </div>
         </div>
 
-        <!-- SIDEBAR MENU (HAMBURGER) -->
-        <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
-        <div class="menu-sidebar" id="menu-sidebar">
-            <div class="menu-header">
-                <h2>⚙️ Menu</h2>
-                <button class="menu-close" onclick="toggleMenu()">✕</button>
-            </div>
-
-            <button class="menu-item" onclick="toggleMenu();openCreateShiftModal();">
-                <span class="icon">➕</span> Aggiungi Turno
-            </button>
-            <button class="menu-item" onclick="toggleMenu();openEditShiftModal();">
-                <span class="icon">✏️</span> Modifica Turno
-            </button>
-            <button class="menu-item" onclick="toggleMenu();openDeleteShiftModal();">
-                <span class="icon">🗑️</span> Rimuovi Turno
-            </button>
-
-            <div class="menu-divider"></div>
-
-            <button class="menu-item" onclick="toggleMenu();openNotificationSettingsModal();">
-                <span class="icon">🔔</span> Impostazioni Notifiche
-            </button>
-            <button class="menu-item" onclick="toggleMenu();openWorkSettingsModal();">
-                <span class="icon">⚙️</span> Impostazioni Lavoro
-            </button>
-            <button class="menu-item" onclick="toggleMenu();openFamilyModal();">
-                <span class="icon">👨‍👩‍👧‍👦</span> Gestisci Famiglia
-            </button>
-            <button class="menu-item" onclick="toggleMenu();openPatternModal();">
-                <span class="icon">🔁</span> Turni Ricorrenti
-            </button>
-
-            <div class="menu-divider"></div>
-
-            <button class="menu-item" onclick="toggleMenu();exportPDF();">
-                <span class="icon">📄</span> Esporta PDF
-            </button>
-            <button class="menu-item" onclick="toggleMenu();exportExcel();">
-                <span class="icon">📊</span> Esporta Excel
-            </button>
-            <button class="menu-item" onclick="toggleMenu();exportToGoogleCalendar();">
-                <span class="icon">🌐</span> Google Calendar
-            </button>
-
-            <div class="menu-divider"></div>
-
-            <button class="menu-item" onclick="toggleMenu();exportBackup();">
-                <span class="icon">⬆️</span> Backup
-            </button>
-            <button class="menu-item" onclick="document.getElementById('backup-file-input').click();toggleMenu();">
-                <span class="icon">⬇️</span> Ripristina
-            </button>
-            <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="importBackup(event)">
-        </div>
+        <!-- Il vecchio menu a comparsa (hamburger) è stato rimosso: tutte le sue voci
+             sono ora nella tab "⚙️ Impostazioni" per ridurre la confusione. -->
 
         <!-- MODALI -->
 
@@ -5174,13 +5206,26 @@
             const content = document.getElementById(`tab-${tab}`);
             if (content) content.classList.add('active');
 
-            if (tab === 'contacts') renderContacts();
-            if (tab === 'groups') loadGroups();
-            if (tab === 'chats') loadChats();
             if (tab === 'calendar') { renderCalendar();
                 updateWidget();
                 updateWorkedHoursAndSummary(); }
-            if (tab === 'stats') updateWorkedHoursAndSummary();
+            if (tab === 'chat') {
+                const active = document.querySelector('.chat-subtabs .subtab.active');
+                switchChatSubTab(active ? active.dataset.subtab : 'chats');
+            }
+            if (tab === 'settings') updateWorkedHoursAndSummary();
+        }
+
+        // Sotto-navigazione dentro la tab "Chat": Chat / Rubrica / Gruppi
+        function switchChatSubTab(subtab) {
+            document.querySelectorAll('.chat-subtabs .subtab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.chat-subtabs .subtab[data-subtab="${subtab}"]`)?.classList.add('active');
+            document.querySelectorAll('#tab-chat .sub-tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(`subtab-${subtab}`)?.classList.add('active');
+
+            if (subtab === 'contacts') renderContacts();
+            if (subtab === 'groups') loadGroups();
+            if (subtab === 'chats') loadChats();
         }
 
         // ============================================================
@@ -5629,7 +5674,8 @@
                     closeCreateGroupModal();
                     showToast('✅ Gruppo "' + name + '" creato con ' + inviteList.length + ' membri!', 'success');
                     loadGroups();
-                    switchAppTab('groups');
+                    switchAppTab('chat');
+                    switchChatSubTab('groups');
                 })
                 .catch((err) => { showToast('❌ Errore: ' + err.message, 'error'); })
                 .finally(() => { btn.textContent = orig;
