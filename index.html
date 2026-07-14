@@ -10,19 +10,25 @@
     <meta name="apple-mobile-web-app-title" content="AppTurni">
     <title>AppTurni - Gestione Turni & Chat E2EE</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+    </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+    </script>
 
     <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js">
+    </script>
 
     <style>
-        /* ... (stili invariati) ... */
         :root {
             --grad-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 55%, #ec4899 100%);
             --accent: #6366f1;
@@ -30,14 +36,14 @@
             --ink-soft: #64748b;
             --paper: #f3f1ec;
             --paper-2: #ffffff;
-            --glass-light: rgba(255,255,255,0.78);
-            --glass-border-light: rgba(99,102,241,0.10);
-            --shadow-light: 0 8px 30px rgba(99,102,241,0.10);
+            --glass-light: rgba(255, 255, 255, 0.78);
+            --glass-border-light: rgba(99, 102, 241, 0.10);
+            --shadow-light: 0 8px 30px rgba(99, 102, 241, 0.10);
             --bg-deep: #0d0f22;
             --bg-deep-2: #171a35;
-            --glass-dark: rgba(28,32,58,0.72);
-            --glass-border-dark: rgba(255,255,255,0.08);
-            --shadow-dark: 0 8px 30px rgba(0,0,0,0.35);
+            --glass-dark: rgba(28, 32, 58, 0.72);
+            --glass-border-dark: rgba(255, 255, 255, 0.08);
+            --shadow-dark: 0 8px 30px rgba(0, 0, 0, 0.35);
             --radius-lg: 22px;
             --radius-md: 16px;
             --radius-sm: 10px;
@@ -45,10 +51,19 @@
             --font-mono: 'Space Mono', monospace;
             --whatsapp-green: #075e54;
             --whatsapp-light: #128c7e;
+            --holiday-red: #ef4444;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html { height: 100%; height: 100dvh; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html {
+            height: 100%;
+            height: 100dvh;
+        }
         body {
             font-family: var(--font-display);
             background: var(--paper);
@@ -59,7 +74,10 @@
             transition: background 0.4s ease, color 0.3s ease;
             overflow-x: hidden;
         }
-        body.dark-mode { background: var(--bg-deep); color: #e6e8f5; }
+        body.dark-mode {
+            background: var(--bg-deep);
+            color: #e6e8f5;
+        }
 
         .app-container {
             max-width: 480px;
@@ -73,7 +91,9 @@
             overflow: hidden;
             position: relative;
         }
-        .dark-mode .app-container { background: var(--bg-deep); }
+        .dark-mode .app-container {
+            background: var(--bg-deep);
+        }
 
         /* AUTH */
         #auth-view {
@@ -87,14 +107,26 @@
             color: white;
             min-height: 100vh;
         }
-        #auth-view .logo { font-size: 4rem; margin-bottom: 16px; }
-        #auth-view h1 { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
-        #auth-view .subtitle { font-size: 0.9rem; opacity: 0.8; margin-bottom: 24px; text-align: center; }
+        #auth-view .logo {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        #auth-view h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        #auth-view .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 24px;
+            text-align: center;
+        }
 
         #auth-view .input-group {
             width: 100%;
             max-width: 320px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 16px;
             padding: 4px 4px 4px 16px;
             display: flex;
@@ -102,7 +134,12 @@
             backdrop-filter: blur(10px);
             margin-bottom: 8px;
         }
-        #auth-view .input-group span { font-size: 1rem; font-weight: 600; opacity: 0.8; flex-shrink:0; }
+        #auth-view .input-group span {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
         #auth-view .input-group input {
             flex: 1;
             padding: 14px 12px;
@@ -112,10 +149,14 @@
             font-size: 1rem;
             font-family: var(--font-display);
             outline: none;
-            min-width:0;
+            min-width: 0;
         }
-        #auth-view .input-group input::placeholder { color: rgba(255,255,255,0.6); }
-        #auth-view .input-group input[type="password"] { letter-spacing: 2px; }
+        #auth-view .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        #auth-view .input-group input[type="password"] {
+            letter-spacing: 2px;
+        }
 
         #auth-view .auth-btn {
             padding: 14px 28px;
@@ -132,20 +173,27 @@
             max-width: 320px;
             font-family: var(--font-display);
         }
-        #auth-view .auth-btn:hover { transform: scale(1.02); }
-        #auth-view .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        #auth-view .auth-btn:hover {
+            transform: scale(1.02);
+        }
+        #auth-view .auth-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         #auth-view .toggle-auth {
             background: none;
             border: none;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
             cursor: pointer;
             margin-top: 12px;
             text-decoration: underline;
             font-family: var(--font-display);
         }
-        #auth-view .toggle-auth:hover { color: white; }
+        #auth-view .toggle-auth:hover {
+            color: white;
+        }
 
         #auth-view .status-msg {
             font-size: 0.85rem;
@@ -153,9 +201,15 @@
             min-height: 28px;
             text-align: center;
         }
-        #auth-view .status-msg.error { color: #fca5a5; }
-        #auth-view .status-msg.success { color: #86efac; }
-        #auth-view .status-msg.info { color: #93c5fd; }
+        #auth-view .status-msg.error {
+            color: #fca5a5;
+        }
+        #auth-view .status-msg.success {
+            color: #86efac;
+        }
+        #auth-view .status-msg.info {
+            color: #93c5fd;
+        }
         #auth-view .hint {
             font-size: 0.65rem;
             opacity: 0.6;
@@ -164,9 +218,9 @@
             text-align: center;
         }
         #reset-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
             padding: 6px 14px;
             border-radius: 8px;
             cursor: pointer;
@@ -175,7 +229,11 @@
             transition: all 0.2s;
             font-family: var(--font-display);
         }
-        #reset-btn:hover { background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.4); color: #fca5a5; }
+        #reset-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: rgba(255, 0, 0, 0.4);
+            color: #fca5a5;
+        }
 
         /* MAIN APP */
         #main-app {
@@ -185,8 +243,12 @@
             overflow: hidden;
             background: var(--paper);
         }
-        #main-app.active { display: flex; }
-        .dark-mode #main-app { background: var(--bg-deep); }
+        #main-app.active {
+            display: flex;
+        }
+        .dark-mode #main-app {
+            background: var(--bg-deep);
+        }
 
         .app-header {
             background: var(--whatsapp-green);
@@ -204,8 +266,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            flex:1;
-            min-width:0;
+            flex: 1;
+            min-width: 0;
         }
         .app-header .left .avatar {
             width: 36px;
@@ -221,11 +283,15 @@
             background-position: center;
             overflow: hidden;
             cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.3);
-            flex-shrink:0;
-            color:white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            color: white;
         }
-        .app-header .left .avatar img { width:100%; height:100%; object-fit:cover; }
+        .app-header .left .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .app-header .left .info .name {
             font-weight: 700;
             font-size: 0.95rem;
@@ -241,7 +307,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
         .app-header .right button {
             background: none;
@@ -258,7 +324,9 @@
             align-items: center;
             justify-content: center;
         }
-        .app-header .right button:hover { background: rgba(255,255,255,0.15); }
+        .app-header .right button:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         /* TABS */
         .app-tabs {
@@ -266,7 +334,7 @@
             background: var(--whatsapp-green);
             color: white;
             flex-shrink: 0;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         .app-tabs .tab {
             flex: 1;
@@ -286,7 +354,9 @@
             opacity: 1;
             border-bottom-color: white;
         }
-        .app-tabs .tab:hover { opacity: 0.8; }
+        .app-tabs .tab:hover {
+            opacity: 0.8;
+        }
 
         .tab-content {
             flex: 1;
@@ -294,16 +364,20 @@
             display: none;
             flex-direction: column;
         }
-        .tab-content.active { display: flex; }
+        .tab-content.active {
+            display: flex;
+        }
 
         /* CALENDARIO */
         .calendar-scroll {
-            flex:1;
-            overflow-y:auto;
+            flex: 1;
+            overflow-y: auto;
             padding: 8px 10px;
             background: var(--paper);
         }
-        .dark-mode .calendar-scroll { background: var(--bg-deep); }
+        .dark-mode .calendar-scroll {
+            background: var(--bg-deep);
+        }
 
         .month-nav {
             display: flex;
@@ -319,17 +393,19 @@
             letter-spacing: -0.01em;
         }
         .month-title .sub {
-            font-size:0.65rem;
-            font-weight:600;
-            color:var(--ink-soft);
-            display:block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            display: block;
         }
-        .dark-mode .month-title .sub { color:#94a3b8; }
+        .dark-mode .month-title .sub {
+            color: #94a3b8;
+        }
         .nav-btn {
             width: 32px;
             height: 32px;
             border: none;
-            background: rgba(99,102,241,0.08);
+            background: rgba(99, 102, 241, 0.08);
             color: var(--accent);
             font-size: 0.9rem;
             cursor: pointer;
@@ -340,7 +416,10 @@
             transition: all 0.2s;
             flex-shrink: 0;
         }
-        .dark-mode .nav-btn { background: rgba(168,85,247,0.15); color: #c4b5fd; }
+        .dark-mode .nav-btn {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c4b5fd;
+        }
 
         .calendar-grid {
             display: grid;
@@ -354,15 +433,18 @@
             font-size: 0.6rem;
             padding: 4px 0;
             color: var(--accent);
-            background: rgba(99,102,241,0.08);
+            background: rgba(99, 102, 241, 0.08);
             border-radius: 6px;
             letter-spacing: 0.03em;
         }
-        .dark-mode .day-header { background: rgba(168,85,247,0.15); color: #c4b5fd; }
+        .dark-mode .day-header {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c4b5fd;
+        }
 
         .day-cell {
             aspect-ratio: 1 / 1.1;
-            background: rgba(148,163,184,0.06);
+            background: rgba(148, 163, 184, 0.06);
             border-radius: 10px;
             padding: 3px;
             position: relative;
@@ -374,8 +456,12 @@
             overflow: hidden;
             border: 1px solid transparent;
         }
-        .dark-mode .day-cell { background: rgba(255,255,255,0.04); }
-        .day-cell:active { transform: scale(0.95); }
+        .dark-mode .day-cell {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .day-cell:active {
+            transform: scale(0.95);
+        }
         .day-number {
             font-weight: 700;
             font-size: 0.75rem;
@@ -383,7 +469,10 @@
             top: 2px;
             right: 4px;
         }
-        .day-cell.today { background: rgba(99,102,241,0.10); box-shadow: inset 0 0 0 1.5px rgba(99,102,241,0.4); }
+        .day-cell.today {
+            background: rgba(99, 102, 241, 0.10);
+            box-shadow: inset 0 0 0 1.5px rgba(99, 102, 241, 0.4);
+        }
         .day-cell.today .day-number {
             background: var(--grad-primary);
             color: white;
@@ -395,10 +484,26 @@
             justify-content: center;
             right: 3px;
             top: 2px;
-            font-size:0.65rem;
+            font-size: 0.65rem;
         }
-        .day-cell.holiday { background: rgba(244,63,94,0.08); }
-        .dark-mode .day-cell.holiday { background: rgba(244,63,94,0.14); }
+        .day-cell.holiday {
+            background: #ef4444 !important;
+            box-shadow: inset 0 0 0 1.5px rgba(220, 38, 38, 0.6);
+        }
+        .dark-mode .day-cell.holiday {
+            background: #dc2626 !important;
+        }
+        .day-cell.holiday .day-number {
+            color: #ffffff;
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+        }
+        .dark-mode .day-cell.holiday .day-number {
+            color: #ffffff;
+        }
+        .day-cell.holiday.today {
+            box-shadow: inset 0 0 0 2px #ffffff;
+        }
 
         .shifts-container {
             display: flex;
@@ -419,13 +524,24 @@
             text-overflow: ellipsis;
             line-height: 1.2;
             max-width: 100%;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
-        .shift-badge.single { font-size: 0.6rem; padding: 2px 4px; }
-        .shift-badge.multi-2 { font-size: 0.45rem; }
-        .shift-badge.multi-3 { font-size: 0.4rem; }
-        .shift-badge.multi-4 { font-size: 0.35rem; }
-        .shift-badge.multi-5 { font-size: 0.3rem; }
+        .shift-badge.single {
+            font-size: 0.6rem;
+            padding: 2px 4px;
+        }
+        .shift-badge.multi-2 {
+            font-size: 0.45rem;
+        }
+        .shift-badge.multi-3 {
+            font-size: 0.4rem;
+        }
+        .shift-badge.multi-4 {
+            font-size: 0.35rem;
+        }
+        .shift-badge.multi-5 {
+            font-size: 0.3rem;
+        }
 
         .note-indicator {
             position: absolute;
@@ -443,26 +559,10 @@
             text-overflow: ellipsis;
             font-weight: 700;
         }
-        .dark-mode .note-indicator { background: #f59e0b; color: #1e293b; }
-        .note-count-badge {
-            position: absolute;
-            top: 2px;
-            left: 3px;
-            font-size: 0.55rem;
-            font-weight: 800;
-            background: #fbbf24;
+        .dark-mode .note-indicator {
+            background: #f59e0b;
             color: #1e293b;
-            border-radius: 8px;
-            padding: 0 4px;
-            min-width: 16px;
-            text-align: center;
-            line-height: 1.4;
-            cursor: pointer;
-            z-index: 2;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        .dark-mode .note-count-badge { background: #f59e0b; color: #1e293b; }
-
         .note-edit-btn {
             position: absolute;
             top: 1px;
@@ -476,7 +576,10 @@
             border-radius: 4px;
             transition: all 0.2s;
         }
-        .note-edit-btn:hover { color: var(--accent); background: rgba(99,102,241,0.1); }
+        .note-edit-btn:hover {
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+        }
 
         /* SHIFT SELECTOR */
         .shift-selector-section {
@@ -487,9 +590,13 @@
             padding: 8px 10px;
             box-shadow: var(--shadow-light);
             margin-top: 6px;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
-        .dark-mode .shift-selector-section { background: var(--glass-dark); border-color: var(--glass-border-dark); box-shadow: var(--shadow-dark); }
+        .dark-mode .shift-selector-section {
+            background: var(--glass-dark);
+            border-color: var(--glass-border-dark);
+            box-shadow: var(--shadow-dark);
+        }
         .shift-selector-title {
             text-align: center;
             font-weight: 700;
@@ -510,32 +617,48 @@
             font-size: 0.65rem;
             cursor: pointer;
             border: 2px solid transparent;
-            background: rgba(148,163,184,0.12);
+            background: rgba(148, 163, 184, 0.12);
             transition: all 0.2s;
             white-space: nowrap;
             font-family: var(--font-display);
         }
-        .shift-option:hover { transform: scale(1.05); }
-        .shift-option:active { transform: scale(0.95); }
-        .shift-option.selected { box-shadow: 0 0 0 3px rgba(99,102,241,0.28); transform: translateY(-1px); }
+        .shift-option:hover {
+            transform: scale(1.05);
+        }
+        .shift-option:active {
+            transform: scale(0.95);
+        }
+        .shift-option.selected {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.28);
+            transform: translateY(-1px);
+        }
         .clear-shift-btn {
             width: 100%;
             margin-top: 6px;
             padding: 6px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg,#ef4444,#dc2626);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(239,68,68,0.28);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
             font-family: var(--font-display);
-            font-size:0.75rem;
+            font-size: 0.75rem;
         }
-        .clear-shift-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .shift-option.overtime { background: linear-gradient(135deg,#ef4444,#f97316) !important; color: white !important; }
-        .overtime-badge { background: linear-gradient(135deg,#ef4444,#f97316) !important; color: white !important; }
+        .clear-shift-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .shift-option.overtime {
+            background: linear-gradient(135deg, #ef4444, #f97316) !important;
+            color: white !important;
+        }
+        .overtime-badge {
+            background: linear-gradient(135deg, #ef4444, #f97316) !important;
+            color: white !important;
+        }
 
         /* WIDGET OGGI */
         #today-widget {
@@ -544,10 +667,10 @@
             padding: 12px 16px;
             margin: 6px 10px 0 10px;
             color: white;
-            box-shadow: 0 8px 20px rgba(99,102,241,0.30);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.30);
             position: relative;
             overflow: hidden;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
         #today-widget::after {
             content: '⏱';
@@ -558,20 +681,40 @@
             opacity: 0.12;
             transform: rotate(-12deg);
         }
-        .widget-date { font-size: 0.85rem; font-weight: 700; opacity: 0.95; margin-bottom: 6px; font-family: var(--font-mono); letter-spacing: -0.02em; }
-        .widget-shifts { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; position: relative; z-index: 1; }
+        .widget-date {
+            font-size: 0.85rem;
+            font-weight: 700;
+            opacity: 0.95;
+            margin-bottom: 6px;
+            font-family: var(--font-mono);
+            letter-spacing: -0.02em;
+        }
+        .widget-shifts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
         .widget-shift {
             padding: 3px 10px;
             border-radius: 16px;
             font-size: 0.65rem;
             font-weight: 700;
-            background: rgba(255,255,255,0.22);
+            background: rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(4px);
             color: white;
-            border: 1px solid rgba(255,255,255,0.16);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
-        .widget-empty { font-size: 0.75rem; opacity: 0.85; }
-        .widget-note { background: rgba(251,191,36,0.35); border: 1px solid rgba(251,191,36,0.25); }
+        .widget-empty {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+        .widget-note {
+            background: rgba(251, 191, 36, 0.35);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
 
         /* PERSON SWITCHER */
         .person-switcher {
@@ -581,9 +724,11 @@
             padding: 4px 10px 8px 10px;
             margin: 0;
             scrollbar-width: none;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
-        .person-switcher::-webkit-scrollbar { display: none; }
+        .person-switcher::-webkit-scrollbar {
+            display: none;
+        }
         .person-chip {
             flex-shrink: 0;
             display: flex;
@@ -599,11 +744,16 @@
             min-width: 48px;
             backdrop-filter: blur(10px);
         }
-        .dark-mode .person-chip { background: var(--glass-dark); border-color: var(--glass-border-dark); }
-        .person-chip:active { transform: scale(0.94); }
+        .dark-mode .person-chip {
+            background: var(--glass-dark);
+            border-color: var(--glass-border-dark);
+        }
+        .person-chip:active {
+            transform: scale(0.94);
+        }
         .person-chip.active {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.18), 0 4px 12px rgba(99,102,241,0.18);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18), 0 4px 12px rgba(99, 102, 241, 0.18);
             transform: translateY(-2px);
         }
         .person-avatar {
@@ -616,15 +766,27 @@
             font-size: 0.85rem;
             color: white;
             background: var(--grad-primary);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
             background-size: cover;
             background-position: center;
             overflow: hidden;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
-        .person-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-        .add-avatar { background: rgba(148,163,184,0.25); color: var(--ink-soft); font-weight: 700; font-size: 0.9rem; }
-        .dark-mode .add-avatar { color: #94a3b8; }
+        .person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .add-avatar {
+            background: rgba(148, 163, 184, 0.25);
+            color: var(--ink-soft);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .dark-mode .add-avatar {
+            color: #94a3b8;
+        }
         .person-name {
             font-size: 0.5rem;
             font-weight: 700;
@@ -634,8 +796,12 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .dark-mode .person-name { color: #94a3b8; }
-        .person-chip.active .person-name { color: var(--accent); }
+        .dark-mode .person-name {
+            color: #94a3b8;
+        }
+        .person-chip.active .person-name {
+            color: var(--accent);
+        }
 
         /* CHAT E2EE */
         #chat-view {
@@ -645,8 +811,12 @@
             overflow: hidden;
             background: #e5ddd5;
         }
-        #chat-view.active { display: flex; }
-        .dark-mode #chat-view { background: var(--bg-deep); }
+        #chat-view.active {
+            display: flex;
+        }
+        .dark-mode #chat-view {
+            background: var(--bg-deep);
+        }
 
         .chat-view-header {
             background: var(--whatsapp-green);
@@ -670,7 +840,7 @@
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -694,9 +864,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .chat-view-header .info .sub { font-size: 0.55rem; opacity: 0.8; }
+        .chat-view-header .info .sub {
+            font-size: 0.55rem;
+            opacity: 0.8;
+        }
         .chat-view-header .info .members-btn {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
             font-size: 0.55rem;
@@ -725,7 +898,9 @@
             align-items: center;
             justify-content: center;
         }
-        .chat-view-header .header-actions button:hover { background: rgba(255,255,255,0.15); }
+        .chat-view-header .header-actions button:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
         .chat-messages {
             flex: 1;
@@ -736,7 +911,10 @@
             gap: 2px;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4c4c4' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-        .dark-mode .chat-messages { background-image: none; background-color: var(--bg-deep); }
+        .dark-mode .chat-messages {
+            background-image: none;
+            background-color: var(--bg-deep);
+        }
 
         .chat-msg {
             max-width: 80%;
@@ -746,25 +924,45 @@
             animation: fadeInMsg 0.2s ease;
             font-size: 0.85rem;
             line-height: 1.4;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
             position: relative;
         }
-        @keyframes fadeInMsg { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeInMsg {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         .chat-msg.me {
             background: #dcf8c6;
             color: #1b1e2e;
             align-self: flex-end;
             border-bottom-right-radius: 2px;
         }
-        .dark-mode .chat-msg.me { background: #2d4a3e; color: #e6e8f5; }
+        .dark-mode .chat-msg.me {
+            background: #2d4a3e;
+            color: #e6e8f5;
+        }
         .chat-msg.other {
             background: white;
             color: #1b1e2e;
             align-self: flex-start;
             border-bottom-left-radius: 2px;
         }
-        .dark-mode .chat-msg.other { background: #2a2d4a; color: #e6e8f5; }
-        .chat-msg .sender { font-size: 0.55rem; font-weight: 700; color: var(--whatsapp-green); margin-bottom: 2px; }
+        .dark-mode .chat-msg.other {
+            background: #2a2d4a;
+            color: #e6e8f5;
+        }
+        .chat-msg .sender {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: var(--whatsapp-green);
+            margin-bottom: 2px;
+        }
         .chat-msg .time {
             font-size: 0.45rem;
             opacity: 0.5;
@@ -774,11 +972,26 @@
             justify-content: flex-end;
             gap: 4px;
         }
-        .chat-msg .time .status { font-size: 0.6rem; }
-        .chat-msg .time .status.sent { color: #94a3b8; }
-        .chat-msg .time .status.delivered { color: #94a3b8; }
-        .chat-msg .time .status.read { color: #34b7f1; }
-        .chat-msg .timer-badge { font-size: 0.45rem; background: rgba(0,0,0,0.05); padding: 1px 6px; border-radius: 8px; margin-left: 4px; opacity: 0.6; }
+        .chat-msg .time .status {
+            font-size: 0.6rem;
+        }
+        .chat-msg .time .status.sent {
+            color: #94a3b8;
+        }
+        .chat-msg .time .status.delivered {
+            color: #94a3b8;
+        }
+        .chat-msg .time .status.read {
+            color: #34b7f1;
+        }
+        .chat-msg .timer-badge {
+            font-size: 0.45rem;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1px 6px;
+            border-radius: 8px;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
         .chat-msg .msg-actions {
             position: absolute;
             top: -8px;
@@ -788,10 +1001,14 @@
             background: white;
             border-radius: 16px;
             padding: 2px 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
         }
-        .dark-mode .chat-msg .msg-actions { background: #2a2d4a; }
-        .chat-msg:hover .msg-actions { display: flex; }
+        .dark-mode .chat-msg .msg-actions {
+            background: #2a2d4a;
+        }
+        .chat-msg:hover .msg-actions {
+            display: flex;
+        }
         .chat-msg .msg-actions button {
             background: none;
             border: none;
@@ -801,10 +1018,14 @@
             border-radius: 50%;
             transition: background 0.2s;
         }
-        .chat-msg .msg-actions .reply-btn { color: var(--whatsapp-green); }
-        .chat-msg .msg-actions .delete-btn { color: #ef4444; }
+        .chat-msg .msg-actions .reply-btn {
+            color: var(--whatsapp-green);
+        }
+        .chat-msg .msg-actions .delete-btn {
+            color: #ef4444;
+        }
         .chat-msg .quoted {
-            background: rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.05);
             border-left: 3px solid var(--whatsapp-green);
             padding: 3px 6px;
             border-radius: 4px;
@@ -812,36 +1033,77 @@
             font-size: 0.7rem;
             color: #64748b;
         }
-        .chat-msg .quoted .q-sender { font-weight: 700; color: var(--whatsapp-green); }
+        .chat-msg .quoted .q-sender {
+            font-weight: 700;
+            color: var(--whatsapp-green);
+        }
         .chat-msg .file-attachment {
             display: flex;
             align-items: center;
             gap: 6px;
             padding: 4px 8px;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 6px;
             margin-top: 3px;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .chat-msg .file-attachment:hover { background: rgba(0,0,0,0.08); }
-        .chat-msg .file-attachment .file-icon { font-size: 1rem; }
-        .chat-msg .file-attachment .file-name { flex: 1; font-size: 0.65rem; word-break: break-all; opacity: 0.8; }
-        .chat-msg .file-attachment .file-size { font-size: 0.5rem; opacity: 0.5; }
-        .chat-msg .image-preview { max-width: 180px; max-height: 130px; border-radius: 6px; margin-top: 3px; cursor: pointer; border: 1px solid rgba(0,0,0,0.06); }
+        .chat-msg .file-attachment:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        .chat-msg .file-attachment .file-icon {
+            font-size: 1rem;
+        }
+        .chat-msg .file-attachment .file-name {
+            flex: 1;
+            font-size: 0.65rem;
+            word-break: break-all;
+            opacity: 0.8;
+        }
+        .chat-msg .file-attachment .file-size {
+            font-size: 0.5rem;
+            opacity: 0.5;
+        }
+        .chat-msg .image-preview {
+            max-width: 180px;
+            max-height: 130px;
+            border-radius: 6px;
+            margin-top: 3px;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
         .chat-msg .audio-player {
             display: flex;
             align-items: center;
             gap: 6px;
             margin-top: 3px;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 16px;
             padding: 3px 8px;
         }
-        .chat-msg .audio-player button { background: none; border: none; font-size: 1rem; cursor: pointer; }
-        .chat-msg .audio-player .progress { flex: 1; height: 3px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden; }
-        .chat-msg .audio-player .progress .fill { height: 100%; background: var(--whatsapp-green); width: 0%; transition: width 0.1s; }
-        .chat-msg .audio-player .duration { font-size: 0.55rem; opacity: 0.6; }
+        .chat-msg .audio-player button {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .chat-msg .audio-player .progress {
+            flex: 1;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .chat-msg .audio-player .progress .fill {
+            height: 100%;
+            background: var(--whatsapp-green);
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .chat-msg .audio-player .duration {
+            font-size: 0.55rem;
+            opacity: 0.6;
+        }
 
         .chat-input-container {
             padding: 4px 8px;
@@ -852,7 +1114,10 @@
             align-items: center;
             flex-shrink: 0;
         }
-        .dark-mode .chat-input-container { background: #1a1e3d; border-color: #2a2d4a; }
+        .dark-mode .chat-input-container {
+            background: #1a1e3d;
+            border-color: #2a2d4a;
+        }
         .chat-input-container .wrapper {
             flex: 1;
             display: flex;
@@ -863,8 +1128,13 @@
             align-items: center;
             border: 1px solid #d1d1d1;
         }
-        .dark-mode .chat-input-container .wrapper { background: #2a2d4a; border-color: #3a3d5a; }
-        .chat-input-container .wrapper:focus-within { border-color: var(--whatsapp-green); }
+        .dark-mode .chat-input-container .wrapper {
+            background: #2a2d4a;
+            border-color: #3a3d5a;
+        }
+        .chat-input-container .wrapper:focus-within {
+            border-color: var(--whatsapp-green);
+        }
         .chat-input-container input {
             flex: 1;
             padding: 6px 10px;
@@ -876,8 +1146,13 @@
             outline: none;
             min-width: 50px;
         }
-        .dark-mode .chat-input-container input { color: #e6e8f5; }
-        .chat-input-container input::placeholder { color: var(--ink-soft); opacity: 0.6; }
+        .dark-mode .chat-input-container input {
+            color: #e6e8f5;
+        }
+        .chat-input-container input::placeholder {
+            color: var(--ink-soft);
+            opacity: 0.6;
+        }
         .chat-input-container .btn-send {
             padding: 6px 14px;
             border: none;
@@ -889,7 +1164,9 @@
             font-size: 0.75rem;
             font-family: var(--font-display);
         }
-        .chat-input-container .btn-send:hover { opacity: 0.9; }
+        .chat-input-container .btn-send:hover {
+            opacity: 0.9;
+        }
 
         .quote-bar {
             display: none;
@@ -901,15 +1178,35 @@
             font-size: 0.7rem;
             align-items: center;
             gap: 6px;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
-        .dark-mode .quote-bar { background: #2a2d4a; }
-        .quote-bar.show { display: flex; }
-        .quote-bar .quote-text { flex: 1; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .dark-mode .quote-bar .quote-text { color: #e6e8f5; }
-        .quote-bar .quote-close { background: none; border: none; font-size: 0.9rem; cursor: pointer; color: #94a3b8; }
+        .dark-mode .quote-bar {
+            background: #2a2d4a;
+        }
+        .quote-bar.show {
+            display: flex;
+        }
+        .quote-bar .quote-text {
+            flex: 1;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .dark-mode .quote-bar .quote-text {
+            color: #e6e8f5;
+        }
+        .quote-bar .quote-close {
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
 
-        #file-input { display: none; }
+        #file-input {
+            display: none;
+        }
 
         /* CHAT LISTS */
         .chat-list {
@@ -917,7 +1214,9 @@
             overflow-y: auto;
             background: var(--paper-2);
         }
-        .dark-mode .chat-list { background: var(--bg-deep); }
+        .dark-mode .chat-list {
+            background: var(--bg-deep);
+        }
         .chat-list .chat-item {
             display: flex;
             align-items: center;
@@ -926,10 +1225,20 @@
             cursor: pointer;
             transition: background 0.15s;
         }
-        .dark-mode .chat-list .chat-item { border-color: #1a1e3d; }
-        .chat-list .chat-item:hover { background: #f5f5f5; }
-        .dark-mode .chat-list .chat-item:hover { background: #1a1e3d; }
-        .chat-list .chat-item .avatar-wrapper { position: relative; margin-right: 10px; flex-shrink: 0; }
+        .dark-mode .chat-list .chat-item {
+            border-color: #1a1e3d;
+        }
+        .chat-list .chat-item:hover {
+            background: #f5f5f5;
+        }
+        .dark-mode .chat-list .chat-item:hover {
+            background: #1a1e3d;
+        }
+        .chat-list .chat-item .avatar-wrapper {
+            position: relative;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
         .chat-list .chat-item .avatar {
             width: 40px;
             height: 40px;
@@ -944,20 +1253,60 @@
             background-size: cover;
             background-position: center;
             overflow: hidden;
-            flex-shrink:0;
+            flex-shrink: 0;
         }
-        .chat-list .chat-item .avatar img { width:100%; height:100%; object-fit:cover; }
-        .chat-list .chat-item .info { flex: 1; min-width: 0; }
-        .chat-list .chat-item .info .name { font-weight: 600; font-size: 0.85rem; color: var(--ink); }
-        .dark-mode .chat-list .chat-item .info .name { color: #e6e8f5; }
-        .chat-list .chat-item .info .last-msg { font-size: 0.7rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .chat-list .chat-item .time { font-size: 0.55rem; color: #94a3b8; flex-shrink: 0; margin-left: 6px; }
+        .chat-list .chat-item .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-list .chat-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .chat-list .chat-item .info .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--ink);
+        }
+        .dark-mode .chat-list .chat-item .info .name {
+            color: #e6e8f5;
+        }
+        .chat-list .chat-item .info .last-msg {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chat-list .chat-item .time {
+            font-size: 0.55rem;
+            color: #94a3b8;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
 
-        .empty-state { text-align: center; color: #94a3b8; padding: 40px 16px; }
-        .empty-state .icon { font-size: 2.5rem; margin-bottom: 8px; }
-        .empty-state .title { font-weight: 700; font-size: 1rem; color: var(--ink); }
-        .dark-mode .empty-state .title { color: #e6e8f5; }
-        .empty-state .sub { font-size: 0.8rem; opacity: 0.7; }
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            padding: 40px 16px;
+        }
+        .empty-state .icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        .empty-state .title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--ink);
+        }
+        .dark-mode .empty-state .title {
+            color: #e6e8f5;
+        }
+        .empty-state .sub {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
 
         .contacts-list {
             flex: 1;
@@ -965,7 +1314,9 @@
             padding: 4px 0;
             background: var(--paper-2);
         }
-        .dark-mode .contacts-list { background: var(--bg-deep); }
+        .dark-mode .contacts-list {
+            background: var(--bg-deep);
+        }
         .contacts-list .contact-item {
             display: flex;
             align-items: center;
@@ -974,7 +1325,9 @@
             transition: background 0.15s;
             border-bottom: 1px solid #f5f5f5;
         }
-        .dark-mode .contacts-list .contact-item { border-color: #1a1e3d; }
+        .dark-mode .contacts-list .contact-item {
+            border-color: #1a1e3d;
+        }
         .contacts-list .contact-item .avatar {
             width: 36px;
             height: 36px;
@@ -992,11 +1345,27 @@
             background-position: center;
             overflow: hidden;
         }
-        .contacts-list .contact-item .avatar img { width:100%; height:100%; object-fit:cover; }
-        .contacts-list .contact-item .info { flex: 1; min-width: 0; }
-        .contacts-list .contact-item .info .name { font-weight: 600; font-size: 0.85rem; color: var(--ink); }
-        .dark-mode .contacts-list .contact-item .info .name { color: #e6e8f5; }
-        .contacts-list .contact-item .info .sub { font-size: 0.65rem; color: #94a3b8; }
+        .contacts-list .contact-item .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .contacts-list .contact-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .contacts-list .contact-item .info .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--ink);
+        }
+        .dark-mode .contacts-list .contact-item .info .name {
+            color: #e6e8f5;
+        }
+        .contacts-list .contact-item .info .sub {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
         .contacts-list .contact-item .action-btn {
             padding: 3px 10px;
             border: none;
@@ -1008,7 +1377,9 @@
             cursor: pointer;
             font-family: var(--font-display);
         }
-        .contacts-list .contact-item .action-btn.delete-contact { background: #ef4444; }
+        .contacts-list .contact-item .action-btn.delete-contact {
+            background: #ef4444;
+        }
 
         .add-contact-section {
             padding: 8px 12px;
@@ -1016,8 +1387,14 @@
             flex-shrink: 0;
             border-bottom: 1px solid #e5e5e5;
         }
-        .dark-mode .add-contact-section { background: #1a1e3d; border-color: #2a2d4a; }
-        .add-contact-section .row { display: flex; gap: 4px; }
+        .dark-mode .add-contact-section {
+            background: #1a1e3d;
+            border-color: #2a2d4a;
+        }
+        .add-contact-section .row {
+            display: flex;
+            gap: 4px;
+        }
         .add-contact-section input {
             flex: 1;
             padding: 6px 12px;
@@ -1029,9 +1406,17 @@
             background: white;
             color: var(--ink);
         }
-        .dark-mode .add-contact-section input { background: #2a2d4a; border-color: #3a3d5a; color: #e6e8f5; }
-        .add-contact-section input:focus { border-color: var(--whatsapp-green); }
-        .add-contact-section input::placeholder { color: #94a3b8; }
+        .dark-mode .add-contact-section input {
+            background: #2a2d4a;
+            border-color: #3a3d5a;
+            color: #e6e8f5;
+        }
+        .add-contact-section input:focus {
+            border-color: var(--whatsapp-green);
+        }
+        .add-contact-section input::placeholder {
+            color: #94a3b8;
+        }
         .add-contact-section .add-btn {
             padding: 6px 14px;
             border: none;
@@ -1044,15 +1429,37 @@
             white-space: nowrap;
             font-family: var(--font-display);
         }
-        .add-contact-section .add-btn:hover { opacity: 0.9; }
-        .add-contact-section .add-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .add-contact-section .status { font-size: 0.65rem; margin-top: 3px; min-height: 18px; color: #94a3b8; }
-        .add-contact-section .status.success { color: #10b981; }
-        .add-contact-section .status.error { color: #ef4444; }
-        .add-contact-section .status.checking { color: #6366f1; }
+        .add-contact-section .add-btn:hover {
+            opacity: 0.9;
+        }
+        .add-contact-section .add-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .add-contact-section .status {
+            font-size: 0.65rem;
+            margin-top: 3px;
+            min-height: 18px;
+            color: #94a3b8;
+        }
+        .add-contact-section .status.success {
+            color: #10b981;
+        }
+        .add-contact-section .status.error {
+            color: #ef4444;
+        }
+        .add-contact-section .status.checking {
+            color: #6366f1;
+        }
 
-        .search-bar { padding: 4px 12px; background: #f5f5f5; flex-shrink: 0; }
-        .dark-mode .search-bar { background: #1a1e3d; }
+        .search-bar {
+            padding: 4px 12px;
+            background: #f5f5f5;
+            flex-shrink: 0;
+        }
+        .dark-mode .search-bar {
+            background: #1a1e3d;
+        }
         .search-bar input {
             width: 100%;
             padding: 6px 12px;
@@ -1064,7 +1471,10 @@
             background: white;
             color: var(--ink);
         }
-        .dark-mode .search-bar input { background: #2a2d4a; color: #e6e8f5; }
+        .dark-mode .search-bar input {
+            background: #2a2d4a;
+            color: #e6e8f5;
+        }
 
         .group-creator {
             padding: 8px 12px;
@@ -1072,8 +1482,14 @@
             flex-shrink: 0;
             border-bottom: 1px solid #e5e5e5;
         }
-        .dark-mode .group-creator { background: #1a1e3d; border-color: #2a2d4a; }
-        .group-creator .row { display: flex; gap: 4px; }
+        .dark-mode .group-creator {
+            background: #1a1e3d;
+            border-color: #2a2d4a;
+        }
+        .group-creator .row {
+            display: flex;
+            gap: 4px;
+        }
         .group-creator input {
             flex: 1;
             padding: 6px 12px;
@@ -1085,8 +1501,14 @@
             background: white;
             color: var(--ink);
         }
-        .dark-mode .group-creator input { background: #2a2d4a; border-color: #3a3d5a; color: #e6e8f5; }
-        .group-creator input:focus { border-color: var(--whatsapp-green); }
+        .dark-mode .group-creator input {
+            background: #2a2d4a;
+            border-color: #3a3d5a;
+            color: #e6e8f5;
+        }
+        .group-creator input:focus {
+            border-color: var(--whatsapp-green);
+        }
         .group-creator .create-btn {
             padding: 6px 14px;
             border: none;
@@ -1099,15 +1521,26 @@
             white-space: nowrap;
             font-family: var(--font-display);
         }
-        .group-creator .create-btn:hover { opacity: 0.9; }
-        .group-creator .hint { font-size: 0.55rem; color: #94a3b8; margin-top: 2px; }
-        .group-creator .error-msg { font-size: 0.6rem; color: #ef4444; margin-top: 2px; display: none; }
+        .group-creator .create-btn:hover {
+            opacity: 0.9;
+        }
+        .group-creator .hint {
+            font-size: 0.55rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .group-creator .error-msg {
+            font-size: 0.6rem;
+            color: #ef4444;
+            margin-top: 2px;
+            display: none;
+        }
 
         /* MODALI */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
@@ -1115,7 +1548,9 @@
             z-index: 2000;
             padding: 16px;
         }
-        .modal-overlay.hidden { display: none; }
+        .modal-overlay.hidden {
+            display: none;
+        }
         .modal {
             background: var(--paper-2);
             border-radius: var(--radius-lg);
@@ -1127,36 +1562,81 @@
             animation: modalIn 0.25s ease;
             border: 1px solid var(--glass-border-light);
         }
-        .dark-mode .modal { background: #1a1e3d; border-color: rgba(255,255,255,0.08); color: #e6e8f5; }
-        @keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
-        .modal h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 12px; letter-spacing:-0.01em; }
-        .modal label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 3px; }
-        .modal input, .modal select, .modal textarea {
+        .dark-mode .modal {
+            background: #1a1e3d;
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e6e8f5;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+        .modal label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--ink-soft);
+            margin-bottom: 3px;
+        }
+        .modal input,
+        .modal select,
+        .modal textarea {
             width: 100%;
             padding: 7px 12px;
-            border: 1.5px solid rgba(99,102,241,0.14);
+            border: 1.5px solid rgba(99, 102, 241, 0.14);
             border-radius: 8px;
             font-size: 0.85rem;
             margin-bottom: 8px;
-            background: rgba(148,163,184,0.06);
+            background: rgba(148, 163, 184, 0.06);
             color: var(--ink);
             transition: border-color 0.2s;
             font-family: var(--font-display);
         }
-        .dark-mode .modal input, .dark-mode .modal select, .dark-mode .modal textarea {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.1);
+        .dark-mode .modal input,
+        .dark-mode .modal select,
+        .dark-mode .modal textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
             color: #e6e8f5;
         }
-        .modal input:focus, .modal select:focus, .modal textarea:focus {
+        .modal input:focus,
+        .modal select:focus,
+        .modal textarea:focus {
             border-color: var(--accent);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
         }
-        .modal input[type="color"] { height: 38px; padding: 2px; }
-        .modal input[type="checkbox"] { width: 16px; height: 16px; margin-right: 6px; margin-bottom:0; }
-        .checkbox-group { display: flex; align-items: center; margin-bottom: 6px; }
-        .checkbox-group label { margin-bottom: 0; cursor: pointer; }
+        .modal input[type="color"] {
+            height: 38px;
+            padding: 2px;
+        }
+        .modal input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+            margin-bottom: 0;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
 
         .modal-actions {
             display: flex;
@@ -1166,16 +1646,19 @@
         }
         .btn-secondary {
             padding: 7px 16px;
-            background: rgba(148,163,184,0.18);
+            background: rgba(148, 163, 184, 0.18);
             border: none;
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             color: var(--ink);
             font-family: var(--font-display);
-            font-size:0.8rem;
+            font-size: 0.8rem;
         }
-        .dark-mode .btn-secondary { background: rgba(255,255,255,0.08); color: #e6e8f5; }
+        .dark-mode .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e6e8f5;
+        }
         .btn-primary {
             padding: 7px 16px;
             background: var(--grad-primary);
@@ -1184,21 +1667,23 @@
             font-weight: 700;
             cursor: pointer;
             color: white;
-            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
             font-family: var(--font-display);
-            font-size:0.8rem;
+            font-size: 0.8rem;
         }
-        .btn-primary:hover { opacity: 0.92; }
+        .btn-primary:hover {
+            opacity: 0.92;
+        }
         .btn-danger {
             padding: 7px 16px;
-            background: linear-gradient(135deg,#ef4444,#dc2626);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             border: none;
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             color: white;
             font-family: var(--font-display);
-            font-size:0.8rem;
+            font-size: 0.8rem;
         }
 
         .members-list {
@@ -1206,8 +1691,8 @@
             flex-direction: column;
             gap: 3px;
             padding: 4px 0;
-            max-height:250px;
-            overflow-y:auto;
+            max-height: 250px;
+            overflow-y: auto;
         }
         .members-list .member {
             display: flex;
@@ -1216,7 +1701,9 @@
             padding: 4px 0;
             border-bottom: 1px solid #f0f0f0;
         }
-        .dark-mode .members-list .member { border-color: #2a2d4a; }
+        .dark-mode .members-list .member {
+            border-color: #2a2d4a;
+        }
         .members-list .member .avatar {
             width: 28px;
             height: 28px;
@@ -1233,11 +1720,30 @@
             background-position: center;
             overflow: hidden;
         }
-        .members-list .member .avatar img { width:100%; height:100%; object-fit:cover; }
-        .members-list .member .name { font-weight: 600; font-size: 0.8rem; color: var(--ink); }
-        .dark-mode .members-list .member .name { color: #e6e8f5; }
-        .members-list .member .badge { font-size: 0.5rem; background: var(--whatsapp-green); color: white; padding: 1px 8px; border-radius: 8px; margin-left: auto; }
-        .members-list .member .badge.creator { background: #f59e0b; }
+        .members-list .member .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .members-list .member .name {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--ink);
+        }
+        .dark-mode .members-list .member .name {
+            color: #e6e8f5;
+        }
+        .members-list .member .badge {
+            font-size: 0.5rem;
+            background: var(--whatsapp-green);
+            color: white;
+            padding: 1px 8px;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+        .members-list .member .badge.creator {
+            background: #f59e0b;
+        }
 
         /* TOAST */
         .toast-container {
@@ -1255,7 +1761,7 @@
             border-radius: 12px;
             color: white;
             font-weight: 600;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
             animation: toastIn 0.3s ease;
             margin-bottom: 4px;
             display: flex;
@@ -1264,15 +1770,40 @@
             font-size: 0.8rem;
             font-family: var(--font-display);
         }
-        @keyframes toastIn { from { opacity:0; transform:translateY(20px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
-        .toast-success { background: linear-gradient(135deg,#059669,#10b981); }
-        .toast-error { background: linear-gradient(135deg,#dc2626,#ef4444); }
-        .toast-info { background: var(--grad-primary); }
-        .toast-warning { background: #f59e0b; }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .toast-success {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+        .toast-error {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+        }
+        .toast-info {
+            background: var(--grad-primary);
+        }
+        .toast-warning {
+            background: #f59e0b;
+        }
 
         /* STATS / ANNUAL / FAMILY */
-        .stats-view, .annual-view, .family-view { display: none; }
-        .stats-view.active, .annual-view.active, .family-view.active { display: block; }
+        .stats-view,
+        .annual-view,
+        .family-view {
+            display: none;
+        }
+        .stats-view.active,
+        .annual-view.active,
+        .family-view.active {
+            display: block;
+        }
 
         .stats-card {
             background: var(--glass-light);
@@ -1283,8 +1814,18 @@
             margin-bottom: 8px;
             box-shadow: var(--shadow-light);
         }
-        .dark-mode .stats-card { background: var(--glass-dark); border-color: var(--glass-border-dark); box-shadow: var(--shadow-dark); }
-        .stats-title { font-size: 1.1rem; font-weight: 800; text-align: center; margin-bottom: 12px; letter-spacing:-0.02em; }
+        .dark-mode .stats-card {
+            background: var(--glass-dark);
+            border-color: var(--glass-border-dark);
+            box-shadow: var(--shadow-dark);
+        }
+        .stats-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
         .stats-value {
             font-size: 1.6rem;
             font-weight: 800;
@@ -1294,18 +1835,36 @@
             background-clip: text;
             color: transparent;
         }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
         .stats-item {
-            background: rgba(148,163,184,0.08);
+            background: rgba(148, 163, 184, 0.08);
             border-radius: 10px;
             padding: 6px;
             text-align: center;
         }
-        .dark-mode .stats-item { background: rgba(255,255,255,0.04); }
-        .stats-item-title { font-size: 0.55rem; color: var(--ink-soft); font-weight: 700; }
-        .stats-item-value { font-size: 0.8rem; font-weight: 800; font-family: var(--font-mono); }
+        .dark-mode .stats-item {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .stats-item-title {
+            font-size: 0.55rem;
+            color: var(--ink-soft);
+            font-weight: 700;
+        }
+        .stats-item-value {
+            font-size: 0.8rem;
+            font-weight: 800;
+            font-family: var(--font-mono);
+        }
 
-        .annual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .annual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
         .annual-month {
             background: var(--glass-light);
             backdrop-filter: blur(12px);
@@ -1314,15 +1873,28 @@
             padding: 6px;
             box-shadow: var(--shadow-light);
         }
-        .dark-mode .annual-month { background: var(--glass-dark); border-color: var(--glass-border-dark); }
-        .annual-month-title { font-weight: 800; text-align: center; font-size: 0.6rem; margin-bottom: 3px; color: var(--ink-soft); }
-        .annual-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; }
+        .dark-mode .annual-month {
+            background: var(--glass-dark);
+            border-color: var(--glass-border-dark);
+        }
+        .annual-month-title {
+            font-weight: 800;
+            text-align: center;
+            font-size: 0.6rem;
+            margin-bottom: 3px;
+            color: var(--ink-soft);
+        }
+        .annual-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
         .annual-day {
             font-size: 0.45rem;
             text-align: center;
             padding: 1px 0;
             border-radius: 3px;
-            background: rgba(148,163,184,0.08);
+            background: rgba(148, 163, 184, 0.08);
             height: 14px;
             display: flex;
             align-items: center;
@@ -1330,10 +1902,24 @@
             overflow: hidden;
             white-space: nowrap;
         }
-        .dark-mode .annual-day { background: rgba(255,255,255,0.04); }
-        .annual-day.holiday { background: rgba(244,63,94,0.18); }
-        .annual-day.has-shift { font-weight: 800; }
-        .annual-day.today { outline: 2px solid var(--accent); }
+        .dark-mode .annual-day {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .annual-day.holiday {
+            background: #ef4444 !important;
+            color: #ffffff !important;
+            font-weight: 800;
+        }
+        .dark-mode .annual-day.holiday {
+            background: #dc2626 !important;
+            color: #ffffff !important;
+        }
+        .annual-day.has-shift {
+            font-weight: 800;
+        }
+        .annual-day.today {
+            outline: 2px solid var(--accent);
+        }
 
         .chart-container {
             display: flex;
@@ -1358,10 +1944,24 @@
             transition: height 0.3s;
             min-height: 2px;
         }
-        .chart-bar-value { font-size: 0.4rem; font-weight: 800; color: var(--ink-soft); margin-bottom: 1px; font-family: var(--font-mono); }
-        .chart-bar-label { font-size: 0.45rem; color: var(--ink-soft); margin-top: 2px; font-weight: 600; }
+        .chart-bar-value {
+            font-size: 0.4rem;
+            font-weight: 800;
+            color: var(--ink-soft);
+            margin-bottom: 1px;
+            font-family: var(--font-mono);
+        }
+        .chart-bar-label {
+            font-size: 0.45rem;
+            color: var(--ink-soft);
+            margin-top: 2px;
+            font-weight: 600;
+        }
 
-        .family-table-wrap { overflow-x: auto; border-radius: var(--radius-sm); }
+        .family-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+        }
         .family-table {
             width: 100%;
             border-collapse: separate;
@@ -1377,9 +1977,11 @@
             font-weight: 700;
             text-align: center;
             color: var(--ink-soft);
-            font-size:0.6rem;
+            font-size: 0.6rem;
         }
-        .dark-mode .family-table th { background: var(--glass-dark); }
+        .dark-mode .family-table th {
+            background: var(--glass-dark);
+        }
         .fam-th-avatar {
             width: 22px;
             height: 22px;
@@ -1394,9 +1996,23 @@
             background-position: center;
             overflow: hidden;
         }
-        .fam-th-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-        .fam-day-cell { text-align: center; font-weight: 700; padding: 3px 2px; font-family: var(--font-mono); font-size:0.6rem; }
-        .fam-shift-cell { text-align: center; padding: 2px 2px; }
+        .fam-th-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .fam-day-cell {
+            text-align: center;
+            font-weight: 700;
+            padding: 3px 2px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+        }
+        .fam-shift-cell {
+            text-align: center;
+            padding: 2px 2px;
+        }
         .fam-badge {
             display: inline-block;
             font-size: 0.45rem;
@@ -1405,10 +2021,19 @@
             border-radius: 4px;
             margin: 1px;
         }
-        .fam-empty { color: rgba(148,163,184,0.5); font-size:0.6rem; }
-        .family-table tr:nth-child(even) td { background: rgba(148,163,184,0.05); }
-        .dark-mode .family-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-        .fam-today-row td { box-shadow: inset 0 0 0 1.5px rgba(99,102,241,0.4); }
+        .fam-empty {
+            color: rgba(148, 163, 184, 0.5);
+            font-size: 0.6rem;
+        }
+        .family-table tr:nth-child(even) td {
+            background: rgba(148, 163, 184, 0.05);
+        }
+        .dark-mode .family-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .fam-today-row td {
+            box-shadow: inset 0 0 0 1.5px rgba(99, 102, 241, 0.4);
+        }
 
         .back-btn {
             display: flex;
@@ -1417,7 +2042,7 @@
             gap: 6px;
             width: 100%;
             padding: 10px;
-            border: 1.5px solid rgba(99,102,241,0.12);
+            border: 1.5px solid rgba(99, 102, 241, 0.12);
             border-radius: 12px;
             background: var(--glass-light);
             backdrop-filter: blur(10px);
@@ -1426,11 +2051,17 @@
             cursor: pointer;
             transition: all 0.2s;
             font-family: var(--font-display);
-            font-size:0.8rem;
-            margin-top:6px;
+            font-size: 0.8rem;
+            margin-top: 6px;
         }
-        .dark-mode .back-btn { background: var(--glass-dark); border-color: rgba(255,255,255,0.08); color: #e6e8f5; }
-        .back-btn:hover { transform: translateY(-1px); }
+        .dark-mode .back-btn {
+            background: var(--glass-dark);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e6e8f5;
+        }
+        .back-btn:hover {
+            transform: translateY(-1px);
+        }
 
         .share-section {
             background: var(--glass-light);
@@ -1441,8 +2072,16 @@
             margin-top: 6px;
             box-shadow: var(--shadow-light);
         }
-        .dark-mode .share-section { background: var(--glass-dark); border-color: var(--glass-border-dark); }
-        .share-section-title { font-size: 0.7rem; font-weight: 700; color: var(--ink-soft); margin-bottom: 4px; }
+        .dark-mode .share-section {
+            background: var(--glass-dark);
+            border-color: var(--glass-border-dark);
+        }
+        .share-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            margin-bottom: 4px;
+        }
         .share-btn {
             width: 100%;
             padding: 8px;
@@ -1458,13 +2097,18 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            box-shadow: 0 6px 18px rgba(99,102,241,0.28);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.28);
             font-family: var(--font-display);
         }
-        .share-btn:hover { transform: scale(1.02); opacity: 0.95; }
-        .share-btn:active { transform: scale(0.98); }
+        .share-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        .share-btn:active {
+            transform: scale(0.98);
+        }
 
-        /* SIDEBAR MENU */
+        /* SIDEBAR MENU - HAMBURGER */
         .menu-sidebar {
             position: fixed;
             top: 0;
@@ -1473,7 +2117,7 @@
             height: 100vh;
             height: 100dvh;
             background: var(--paper-2);
-            box-shadow: -4px 0 30px rgba(0,0,0,0.15);
+            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.15);
             z-index: 3000;
             transition: right 0.3s ease;
             padding: 20px 16px;
@@ -1482,18 +2126,28 @@
             flex-direction: column;
             gap: 4px;
         }
-        .dark-mode .menu-sidebar { background: var(--bg-deep); border-left: 1px solid rgba(255,255,255,0.05); }
-        .menu-sidebar.open { right: 0; }
+        .dark-mode .menu-sidebar {
+            background: var(--bg-deep);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .menu-sidebar.open {
+            right: 0;
+        }
         .menu-sidebar .menu-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
-        .dark-mode .menu-sidebar .menu-header { border-color: rgba(255,255,255,0.06); }
-        .menu-sidebar .menu-header h2 { font-size: 1.1rem; font-weight: 800; }
+        .dark-mode .menu-sidebar .menu-header {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .menu-sidebar .menu-header h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
         .menu-sidebar .menu-close {
             background: none;
             border: none;
@@ -1502,7 +2156,9 @@
             color: var(--ink);
             padding: 4px;
         }
-        .dark-mode .menu-sidebar .menu-close { color: #e6e8f5; }
+        .dark-mode .menu-sidebar .menu-close {
+            color: #e6e8f5;
+        }
         .menu-sidebar .menu-item {
             display: flex;
             align-items: center;
@@ -1520,71 +2176,107 @@
             text-align: left;
             font-family: var(--font-display);
         }
-        .dark-mode .menu-sidebar .menu-item { color: #e6e8f5; }
-        .menu-sidebar .menu-item:hover { background: rgba(99,102,241,0.08); }
-        .dark-mode .menu-sidebar .menu-item:hover { background: rgba(255,255,255,0.05); }
-        .menu-sidebar .menu-item .icon { font-size: 1.2rem; width: 28px; text-align: center; }
+        .dark-mode .menu-sidebar .menu-item {
+            color: #e6e8f5;
+        }
+        .menu-sidebar .menu-item:hover {
+            background: rgba(99, 102, 241, 0.08);
+        }
+        .dark-mode .menu-sidebar .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .menu-sidebar .menu-item .icon {
+            font-size: 1.2rem;
+            width: 28px;
+            text-align: center;
+        }
         .menu-sidebar .menu-divider {
             height: 1px;
-            background: rgba(0,0,0,0.06);
+            background: rgba(0, 0, 0, 0.06);
             margin: 6px 0;
         }
-        .dark-mode .menu-sidebar .menu-divider { background: rgba(255,255,255,0.06); }
+        .dark-mode .menu-sidebar .menu-divider {
+            background: rgba(255, 255, 255, 0.06);
+        }
 
         .menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 2999;
             display: none;
         }
-        .menu-overlay.show { display: block; }
-
-        /* NOTE MULTIPLE */
-        .notes-list-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            margin-top: 2px;
-            max-height: 30px;
-            overflow: hidden;
-        }
-        .note-mini {
-            font-size: 0.3rem;
-            background: #fbbf24;
-            color: #1e293b;
-            padding: 0 3px;
-            border-radius: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .menu-overlay.show {
+            display: block;
         }
 
         /* Responsive */
         @media (max-width: 400px) {
-            .annual-grid { grid-template-columns: 1fr 1fr; }
-            .day-cell { min-height: 48px; }
-            .shift-option { font-size:0.55rem; padding:3px 6px; }
-            .widget-date { font-size:0.75rem; }
-            .month-title { font-size:0.95rem; }
-            .menu-sidebar { width: 280px; right: -280px; }
+            .annual-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .day-cell {
+                min-height: 48px;
+            }
+            .shift-option {
+                font-size: 0.55rem;
+                padding: 3px 6px;
+            }
+            .widget-date {
+                font-size: 0.75rem;
+            }
+            .month-title {
+                font-size: 0.95rem;
+            }
+            .menu-sidebar {
+                width: 280px;
+                right: -280px;
+            }
         }
         @media (min-width: 481px) {
-            .app-container { border-left:1px solid rgba(0,0,0,0.06); border-right:1px solid rgba(0,0,0,0.06); }
+            .app-container {
+                border-left: 1px solid rgba(0, 0, 0, 0.06);
+                border-right: 1px solid rgba(0, 0, 0, 0.06);
+            }
         }
 
-        .hidden { display: none !important; }
-        .flex-between { display: flex; align-items: center; justify-content: space-between; }
-        .gap-2 { gap: 6px; }
-        .gap-3 { gap: 10px; }
-        .mt-2 { margin-top: 6px; }
-        .mt-3 { margin-top: 10px; }
-        .mb-2 { margin-bottom: 6px; }
-        .mb-3 { margin-bottom: 10px; }
-        .text-center { text-align: center; }
+        .hidden {
+            display: none !important;
+        }
+        .flex-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .gap-2 {
+            gap: 6px;
+        }
+        .gap-3 {
+            gap: 10px;
+        }
+        .mt-2 {
+            margin-top: 6px;
+        }
+        .mt-3 {
+            margin-top: 10px;
+        }
+        .mb-2 {
+            margin-bottom: 6px;
+        }
+        .mb-3 {
+            margin-bottom: 10px;
+        }
+        .text-center {
+            text-align: center;
+        }
 
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 3px; }
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 3px;
+        }
 
         #share-image-container {
             position: absolute;
@@ -1594,10 +2286,13 @@
             background: white;
             padding: 16px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             z-index: -1;
         }
-        .dark-mode #share-image-container { background: #1a1e3d; color: #e6e8f5; }
+        .dark-mode #share-image-container {
+            background: #1a1e3d;
+            color: #e6e8f5;
+        }
     </style>
 </head>
 <body>
@@ -1897,6 +2592,14 @@
             <div class="modal">
                 <h3>👥 Membri del gruppo</h3>
                 <div id="members-list" class="members-list"></div>
+                <div id="add-member-section" style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,0.06);">
+                    <label style="font-size:0.75rem;font-weight:700;color:var(--ink-soft);margin-bottom:3px;">➕ Aggiungi membro (dalla tua rubrica)</label>
+                    <div style="display:flex;gap:4px;">
+                        <input type="text" id="add-member-input" placeholder="@nome.cognome" style="flex:1;padding:7px 12px;border:1.5px solid rgba(99,102,241,0.14);border-radius:8px;font-size:0.85rem;background:rgba(148,163,184,0.06);color:var(--ink);font-family:var(--font-display);" />
+                        <button class="btn-primary" onclick="addMemberToGroup()" style="white-space:nowrap;font-size:0.75rem;">Aggiungi</button>
+                    </div>
+                    <div id="add-member-status" style="font-size:0.65rem;margin-top:4px;min-height:16px;color:#94a3b8;"></div>
+                </div>
                 <div class="modal-actions">
                     <button class="btn-secondary" onclick="document.getElementById('members-modal').classList.add('hidden')">Chiudi</button>
                     <button class="btn-danger" id="leave-group-btn" onclick="leaveGroup()">🚪 Esci</button>
@@ -1957,24 +2660,23 @@
             </div>
         </div>
 
-        <!-- Note Modal - aggiornata per note multiple -->
+        <!-- Note Modal -->
         <div id="note-modal" class="modal-overlay hidden">
             <div class="modal">
-                <h3>📝 Gestione Note</h3>
-                <label>Data</label>
-                <input type="date" id="note-date" value="">
-                <label>Ora</label>
-                <input type="time" id="note-time" value="08:00">
+                <h3>📝 Aggiungi Nota</h3>
                 <label>Nota</label>
-                <input type="text" id="note-text" placeholder="es. 8 palestra, 10 dentista..." />
+                <textarea id="note-text" rows="3" placeholder="Inserisci una nota..."></textarea>
+                <label>Data Notifica</label>
+                <input type="date" id="note-notification-date">
+                <label>Orario Notifica</label>
+                <input type="time" id="note-notification-time" value="08:00">
                 <div class="checkbox-group">
                     <input type="checkbox" id="note-enable-notification">
                     <label>Attiva notifica</label>
                 </div>
-                <div id="note-list-container" style="margin:8px 0;max-height:150px;overflow-y:auto;border:1px solid rgba(148,163,184,0.2);border-radius:8px;padding:4px;"></div>
                 <div class="modal-actions">
                     <button onclick="closeNoteModal()" class="btn-secondary">Annulla</button>
-                    <button onclick="saveNote()" class="btn-primary">Salva Nota</button>
+                    <button onclick="saveNote()" class="btn-primary">Salva</button>
                 </div>
             </div>
         </div>
@@ -2252,10 +2954,13 @@
         // UTILI
         // ============================================================
         function normalizeUsername(username) { return username.toLowerCase().trim(); }
+
         function encodeUsername(username) {
             const normalized = normalizeUsername(username);
-            return normalized.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_').replace(/\]/g, '_').replace(/\//g, '_');
+            return normalized.replace(/\./g, '_').replace(/@/g, '_').replace(/\$/g, '_').replace(/#/g, '_').replace(/\[/g, '_')
+                .replace(/\]/g, '_').replace(/\//g, '_');
         }
+
         function showToast(msg, type = 'info') {
             const container = document.getElementById('toast-container');
             if (!container) return;
@@ -2269,6 +2974,16 @@
                 toast.style.transform = 'translateY(-20px)';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        // Escapa testo per uso sicuro dentro attributi onclick (evita che apostrofi/virgolette
+        // nei messaggi rompano l'HTML generato — molto comune in italiano: "c'è", "perché" ecc.)
+        function escAttr(str) {
+            return String(str == null ? '' : str)
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, '&#39;')
+                .replace(/"/g, '&quot;')
+                .replace(/\r?\n/g, ' ');
         }
 
         // ============================================================
@@ -2388,12 +3103,7 @@
         let familyAvatarBase64 = '';
         let notificationSettings = { enableAll: true, chatMessages: true, reminders: true, notes: true };
         let menuOpen = false;
-        // Struttura per note multiple: { 'note_2025_1_15': [ {text, time, hasNotification}, ... ] }
-        let notesData = {};
 
-        // ============================================================
-        // TOGGLE AUTH MODE
-        // ============================================================
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
             const btn = document.getElementById('auth-btn');
@@ -2423,8 +3133,10 @@
             const username = normalizeUsername(rawUsername);
 
             if (!username) { status.textContent = '❌ Inserisci un nome utente'; status.className = 'status-msg error'; return; }
-            if (!password || password.length < 4) { status.textContent = '❌ Password minima 4 caratteri'; status.className = 'status-msg error'; return; }
-            if (!firebaseReady || !connectionEstablished) { status.textContent = '⏳ Attendi connessione...'; status.className = 'status-msg info'; return; }
+            if (!password || password.length < 4) { status.textContent = '❌ Password minima 4 caratteri'; status.className =
+                    'status-msg error'; return; }
+            if (!firebaseReady || !connectionEstablished) { status.textContent = '⏳ Attendi connessione...'; status.className =
+                    'status-msg info'; return; }
 
             btn.disabled = true;
             btn.textContent = '⏳ Caricamento...';
@@ -2462,7 +3174,6 @@
                     if (userData.profilePhoto) profilePhotoData = userData.profilePhoto;
                     if (userData.myProfile) myProfile = userData.myProfile;
                     if (userData.notificationSettings) notificationSettings = userData.notificationSettings;
-                    if (userData.notesData) notesData = userData.notesData;
                     status.textContent = '✅ Login effettuato!';
                     status.className = 'status-msg success';
                     showToast('👋 Bentornato ' + displayName + '!', 'success');
@@ -2487,7 +3198,7 @@
                         profilePhoto: null,
                         myProfile: { name: 'Io', avatar: '' },
                         shifts: {},
-                        notesData: {},
+                        notes: {},
                         familyMembers: {},
                         workSettings: { weeklyHours: 40, ferieTotal: 26, permessiTotal: 32 },
                         shiftPattern: null,
@@ -2500,7 +3211,6 @@
                     localStorage.setItem('appturni_encoded', encodedName);
                     localStorage.setItem('appturni_password', password);
                     notificationSettings = newUserData.notificationSettings;
-                    notesData = {};
                     status.textContent = '✅ Registrato con successo!';
                     status.className = 'status-msg success';
                     showToast('✅ Benvenuto ' + rawUsername + '!', 'success');
@@ -2648,9 +3358,6 @@
                 if (data.notificationSettings) {
                     notificationSettings = data.notificationSettings;
                 }
-                if (data.notesData) {
-                    notesData = data.notesData;
-                }
                 renderCalendar();
                 updateWidget();
                 updateWorkedHoursAndSummary();
@@ -2690,11 +3397,6 @@
             db.ref(`users/${currentUserEncoded}/notificationSettings`).set(notificationSettings).catch(() => {});
         }
 
-        function saveNotesData() {
-            if (!currentUserEncoded) return;
-            db.ref(`users/${currentUserEncoded}/notesData`).set(notesData).catch(() => {});
-        }
-
         // ============================================================
         // SHIFT KEY
         // ============================================================
@@ -2725,160 +3427,25 @@
             }
         }
 
-        // ============================================================
-        // NOTE MULTIPLE (fino a 5 per giorno) - OGNI NOTA CON DATA E ORA
-        // ============================================================
-        function loadNotesForDay(year, month, day) {
-            const key = `note_${year}_${month}_${day}`;
+        function loadNote(key) {
             return new Promise((resolve) => {
-                if (!currentUserEncoded) { resolve([]); return; }
-                if (notesData[key]) {
-                    resolve(notesData[key]);
-                    return;
-                }
-                const path = `users/${currentUserEncoded}/notesData/${key}`;
+                if (!currentUserEncoded) { resolve({ text: '' }); return; }
+                const path = `users/${currentUserEncoded}/notes/${key}`;
                 db.ref(path).once('value', (snapshot) => {
                     const val = snapshot.val();
-                    if (val && Array.isArray(val)) {
-                        notesData[key] = val;
-                        resolve(val);
-                    } else {
-                        notesData[key] = [];
-                        resolve([]);
-                    }
-                }).catch(() => { resolve([]); });
+                    resolve(val || { text: '' });
+                }).catch(() => resolve({ text: '' }));
             });
         }
 
-        function saveNotesForDay(year, month, day, notes) {
-            const key = `note_${year}_${month}_${day}`;
-            notesData[key] = notes;
+        function saveNoteData(key, data) {
             if (!currentUserEncoded) return;
-            const path = `users/${currentUserEncoded}/notesData/${key}`;
-            if (notes && notes.length > 0) {
-                db.ref(path).set(notes).catch(() => {});
+            const path = `users/${currentUserEncoded}/notes/${key}`;
+            if (data.text) {
+                db.ref(path).set(data).catch(() => {});
             } else {
                 db.ref(path).remove().catch(() => {});
-                delete notesData[key];
             }
-        }
-
-        // Apri la modale per le note
-        function openNoteModal(year, month, day) {
-            currentNoteKey = `note_${year}_${month}_${day}`;
-            document.getElementById('note-date').value = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-            document.getElementById('note-time').value = '08:00';
-            document.getElementById('note-text').value = '';
-            document.getElementById('note-enable-notification').checked = false;
-            renderNoteListForDay(year, month, day);
-            document.getElementById('note-modal').classList.remove('hidden');
-        }
-
-        function closeNoteModal() {
-            document.getElementById('note-modal').classList.add('hidden');
-            currentNoteKey = null;
-        }
-
-        function renderNoteListForDay(year, month, day) {
-            const container = document.getElementById('note-list-container');
-            if (!container) return;
-            const key = `note_${year}_${month}_${day}`;
-            const notes = notesData[key] || [];
-            if (notes.length === 0) {
-                container.innerHTML = '<div style="font-size:0.7rem;color:var(--ink-soft);padding:8px;text-align:center;">Nessuna nota per questo giorno</div>';
-                return;
-            }
-            container.innerHTML = notes.map((n, idx) => `
-                <div style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:rgba(148,163,184,0.06);border-radius:6px;margin-bottom:2px;">
-                    <span style="font-size:0.7rem;font-weight:600;">${n.time || '--:--'}</span>
-                    <span style="flex:1;font-size:0.8rem;">${n.text}</span>
-                    ${n.hasNotification ? '<span style="font-size:0.6rem;color:#f59e0b;">🔔</span>' : ''}
-                    <button onclick="deleteNote('${key}', ${idx})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.7rem;">🗑️</button>
-                </div>
-            `).join('');
-        }
-
-        function deleteNote(key, idx) {
-            if (!currentUserEncoded) return;
-            const notes = notesData[key] || [];
-            if (idx >= 0 && idx < notes.length) {
-                notes.splice(idx, 1);
-                notesData[key] = notes;
-                const path = `users/${currentUserEncoded}/notesData/${key}`;
-                if (notes.length > 0) {
-                    db.ref(path).set(notes).catch(() => {});
-                } else {
-                    db.ref(path).remove().catch(() => {});
-                    delete notesData[key];
-                }
-                const [year, month, day] = key.replace('note_', '').split('_').map(Number);
-                renderNoteListForDay(year, month, day);
-                renderCalendar();
-                updateWidget();
-                showToast('🗑️ Nota eliminata', 'success');
-            }
-        }
-
-        function saveNote() {
-            const dateVal = document.getElementById('note-date').value;
-            const timeVal = document.getElementById('note-time').value;
-            const text = document.getElementById('note-text').value.trim();
-            const enableNotif = document.getElementById('note-enable-notification').checked;
-
-            if (!dateVal) { showToast('❌ Seleziona una data', 'error'); return; }
-            if (!text) { showToast('❌ Inserisci il testo della nota', 'error'); return; }
-
-            const parts = dateVal.split('-');
-            const year = parseInt(parts[0]);
-            const month = parseInt(parts[1]) - 1;
-            const day = parseInt(parts[2]);
-
-            const key = `note_${year}_${month}_${day}`;
-            const notes = notesData[key] || [];
-            if (notes.length >= 5) {
-                showToast('❌ Massimo 5 note per giorno', 'error');
-                return;
-            }
-
-            const newNote = {
-                text: text,
-                time: timeVal || '08:00',
-                hasNotification: enableNotif
-            };
-            notes.push(newNote);
-            notesData[key] = notes;
-            saveNotesData();
-
-            if (enableNotif) {
-                scheduleNoteNotification(text, dateVal, timeVal);
-            }
-
-            renderNoteListForDay(year, month, day);
-            document.getElementById('note-text').value = '';
-            document.getElementById('note-enable-notification').checked = false;
-            renderCalendar();
-            updateWidget();
-            showToast('✅ Nota aggiunta!', 'success');
-        }
-
-        function scheduleNoteNotification(text, date, time) {
-            if (Notification.permission !== 'granted') return;
-            if (!notificationSettings.enableAll || !notificationSettings.notes) return;
-            try {
-                const [year, month, day] = date.split('-').map(Number);
-                const [hours, minutes] = time.split(':').map(Number);
-                const notifyTime = new Date(year, month - 1, day, hours, minutes);
-                const now = new Date();
-                const diff = notifyTime.getTime() - now.getTime();
-                if (diff > 0 && diff < 86400000) {
-                    setTimeout(() => {
-                        new Notification('📝 Promemoria Nota', {
-                            body: text,
-                            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📝</text></svg>'
-                        });
-                    }, diff);
-                }
-            } catch (e) { console.error('Errore notifica nota:', e); }
         }
 
         // ============================================================
@@ -3042,10 +3609,12 @@
             list.innerHTML = entries.map(([id, m]) => {
                 let avatarHTML = '';
                 if (m.avatar) {
-                    avatarHTML = `<span style="background-image:url('${m.avatar}');background-size:cover;background-position:center;width:24px;height:24px;border-radius:50%;display:inline-block;"></span>`;
+                    avatarHTML =
+                        `<span style="background-image:url('${m.avatar}');background-size:cover;background-position:center;width:24px;height:24px;border-radius:50%;display:inline-block;"></span>`;
                 } else {
                     const initial = m.name ? m.name.charAt(0).toUpperCase() : '👤';
-                    avatarHTML = `<span style="background:${m.color || '#ec4899'};width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;color:white;">${initial}</span>`;
+                    avatarHTML =
+                        `<span style="background:${m.color || '#ec4899'};width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;color:white;">${initial}</span>`;
                 }
                 return `
                     <div style="display:flex;align-items:center;gap:8px;background:rgba(148,163,184,0.06);border-radius:10px;padding:4px 8px;margin-bottom:4px;">
@@ -3092,7 +3661,11 @@
             const name = familyMembers[id]?.name || '';
             delete familyMembers[id];
             saveUserFamily();
-            if (currentPersonId === id) { currentPersonId = 'self'; renderShiftSelector(); renderCalendar(); updateWidget(); updateWorkedHoursAndSummary(); }
+            if (currentPersonId === id) { currentPersonId = 'self';
+                renderShiftSelector();
+                renderCalendar();
+                updateWidget();
+                updateWorkedHoursAndSummary(); }
             renderFamilyMembersList();
             renderPersonSwitcher();
             showToast('🗑️ Rimosso: ' + name, 'success');
@@ -3114,7 +3687,8 @@
                 const label = s.isOvertime ? '⚡' : '';
                 div.textContent = `${label} ${s.name}`;
                 div.title = `${s.name} (${s.abbreviation}, ${decimalToTime(s.hours)})${s.isOvertime ? ' ⚡ Straordinario' : ''}`;
-                div.addEventListener('click', () => { selectedShift = key; renderShiftSelector(); });
+                div.addEventListener('click', () => { selectedShift = key;
+                    renderShiftSelector(); });
                 container.appendChild(div);
             });
         }
@@ -3170,7 +3744,8 @@
                 return;
             }
             if (shifts[name]) { showToast('❌ Turno già esistente', 'error'); return; }
-            shifts[name] = { name, abbreviation: abbr, hours: timeToDecimal(hoursInput), color, isFerie, isPermesso, isOvertime };
+            shifts[name] = { name, abbreviation: abbr, hours: timeToDecimal(hoursInput), color, isFerie, isPermesso,
+                isOvertime };
             saveUserShifts();
             closeCreateShiftModal();
             renderShiftSelector();
@@ -3196,7 +3771,8 @@
             const select = document.getElementById('delete-shift-select');
             if (select) {
                 select.innerHTML = '<option value="">Seleziona...</option>' +
-                    Object.keys(shifts).map(k => `<option value="${k}">${shifts[k].name} (${decimalToTime(shifts[k].hours)})</option>`).join('');
+                    Object.keys(shifts).map(k =>
+                        `<option value="${k}">${shifts[k].name} (${decimalToTime(shifts[k].hours)})</option>`).join('');
             }
             document.getElementById('delete-shift-modal').classList.remove('hidden');
         }
@@ -3242,7 +3818,8 @@
             const select = document.createElement('select');
             select.id = 'edit-shift-select';
             select.innerHTML = '<option value="">Seleziona...</option>' +
-                Object.keys(shifts).map(k => `<option value="${k}">${shifts[k].name} (${decimalToTime(shifts[k].hours)})</option>`).join('');
+                Object.keys(shifts).map(k =>
+                    `<option value="${k}">${shifts[k].name} (${decimalToTime(shifts[k].hours)})</option>`).join('');
             select.addEventListener('change', () => {
                 const key = select.value;
                 currentEditShiftKey = key || null;
@@ -3297,7 +3874,8 @@
                 return;
             }
             if (newName !== oldName && shifts[newName]) { showToast('❌ Turno già esistente', 'error'); return; }
-            const updated = { name: newName, abbreviation: abbr, hours: timeToDecimal(hoursInput), color, isFerie, isPermesso, isOvertime };
+            const updated = { name: newName, abbreviation: abbr, hours: timeToDecimal(hoursInput), color, isFerie, isPermesso,
+                isOvertime };
             if (newName !== oldName) {
                 delete shifts[oldName];
                 shifts[newName] = updated;
@@ -3336,7 +3914,9 @@
             const personEl = document.getElementById('month-person');
             if (!grid) return;
             while (grid.children.length > 7) grid.removeChild(grid.lastChild);
-            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
+                'Ottobre', 'Novembre', 'Dicembre'
+            ];
             if (monthName) monthName.textContent = `${monthNames[currentMonth]} ${currentYear}`;
             if (personEl) personEl.textContent = '👤 ' + currentPersonName();
 
@@ -3359,37 +3939,22 @@
                 cell.className = 'day-cell';
                 if (isCurrentMonth && day === today.getDate()) cell.classList.add('today');
 
+                const dayIsHoliday = isHoliday(currentYear, currentMonth, day) || new Date(currentYear, currentMonth, day)
+                    .getDay() === 0;
+                if (dayIsHoliday) cell.classList.add('holiday');
+
                 const num = document.createElement('span');
                 num.className = 'day-number';
                 num.textContent = day;
                 cell.appendChild(num);
 
-                // Mostra il numero di note invece della matita
-                if (currentPersonId === 'self') {
-                    const noteKey = `note_${currentYear}_${currentMonth}_${day}`;
-                    const notes = notesData[noteKey] || [];
-                    if (notes.length > 0) {
-                        const badge = document.createElement('span');
-                        badge.className = 'note-count-badge';
-                        badge.textContent = notes.length;
-                        badge.title = notes.map(n => `${n.time || '--:--'} ${n.text}`).join('\n');
-                        badge.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            openNoteModal(currentYear, currentMonth, day);
-                        });
-                        cell.appendChild(badge);
-                    } else {
-                        const noteBtn = document.createElement('button');
-                        noteBtn.className = 'note-edit-btn';
-                        noteBtn.innerHTML = '✏️';
-                        noteBtn.title = 'Aggiungi nota';
-                        noteBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            openNoteModal(currentYear, currentMonth, day);
-                        });
-                        cell.appendChild(noteBtn);
-                    }
-                }
+                const noteBtn = document.createElement('button');
+                noteBtn.className = 'note-edit-btn';
+                noteBtn.innerHTML = '✏️';
+                noteBtn.title = 'Modifica nota';
+                noteBtn.addEventListener('click', (e) => { e.stopPropagation();
+                    openNoteModal(currentYear, currentMonth, day); });
+                cell.appendChild(noteBtn);
 
                 const skey = shiftKey(currentYear, currentMonth, day);
                 loadShift(skey).then(shiftNames => {
@@ -3401,10 +3966,12 @@
                             if (shifts[sName]) {
                                 const badge = document.createElement('div');
                                 const badgeClass = count === 1 ? 'single' : `multi-${Math.min(count, 5)}`;
-                                badge.className = `shift-badge ${badgeClass} ${shifts[sName].isOvertime ? 'overtime-badge' : ''}`;
+                                badge.className =
+                                    `shift-badge ${badgeClass} ${shifts[sName].isOvertime ? 'overtime-badge' : ''}`;
                                 const label = shifts[sName].isOvertime ? '⚡' : '';
                                 badge.textContent = label + shifts[sName].abbreviation;
-                                badge.title = `${shifts[sName].name} (${decimalToTime(shifts[sName].hours)})${shifts[sName].isOvertime ? ' ⚡ Straordinario' : ''}`;
+                                badge.title =
+                                    `${shifts[sName].name} (${decimalToTime(shifts[sName].hours)})${shifts[sName].isOvertime ? ' ⚡ Straordinario' : ''}`;
                                 badge.style.backgroundColor = shifts[sName].color;
                                 badge.style.color = isDarkColor(shifts[sName].color) ? '#ffffff' : '#000000';
                                 container.appendChild(badge);
@@ -3414,11 +3981,22 @@
                     }
                 });
 
-                const dayIsHoliday = isHoliday(currentYear, currentMonth, day) || new Date(currentYear, currentMonth, day).getDay() === 0;
-                if (dayIsHoliday) cell.classList.add('holiday');
+                if (currentPersonId === 'self') {
+                    const noteKey = `note_${currentYear}_${currentMonth}_${day}`;
+                    loadNote(noteKey).then(noteData => {
+                        if (noteData.text) {
+                            const noteEl = document.createElement('div');
+                            noteEl.className = 'note-indicator';
+                            if (noteData.hasNotification) noteEl.classList.add('has-notification');
+                            noteEl.textContent = noteData.text.length > 12 ? noteData.text.slice(0, 12) + '…' :
+                                noteData.text;
+                            cell.appendChild(noteEl);
+                        }
+                    });
+                }
 
                 cell.addEventListener('click', (e) => {
-                    if (e.target.closest('.note-edit-btn') || e.target.closest('.note-count-badge')) return;
+                    if (e.target.closest('.note-edit-btn')) return;
                     if (selectedShift) {
                         loadShift(skey).then(current => {
                             const idx = current.indexOf(selectedShift);
@@ -3451,7 +4029,8 @@
 
         function prevMonth() {
             currentMonth--;
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth < 0) { currentMonth = 11;
+                currentYear--; }
             renderCalendar();
             updateWorkedHoursAndSummary();
             updateWidget();
@@ -3459,7 +4038,8 @@
 
         function nextMonth() {
             currentMonth++;
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            if (currentMonth > 11) { currentMonth = 0;
+                currentYear++; }
             renderCalendar();
             updateWorkedHoursAndSummary();
             updateWidget();
@@ -3477,6 +4057,7 @@
             dateEl.textContent = `📅 ${formatDate(today)}${personLabel}`;
             const key = shiftKey(today.getFullYear(), today.getMonth(), today.getDate());
             loadShift(key).then(shiftsList => {
+                const noteKey = `note_${today.getFullYear()}_${today.getMonth()}_${today.getDate()}`;
                 let html = '';
                 if (shiftsList.length === 0) {
                     html = '<span class="widget-empty">📅 Nessun turno oggi</span>';
@@ -3489,15 +4070,64 @@
                     });
                 }
                 if (currentPersonId === 'self') {
-                    const noteKey = `note_${today.getFullYear()}_${today.getMonth()}_${today.getDate()}`;
-                    const notes = notesData[noteKey] || [];
-                    if (notes.length > 0) {
-                        const noteTexts = notes.map(n => `${n.time||'--:--'} ${n.text}`).join('; ');
-                        html += `<span class="widget-shift widget-note">📝 ${notes.length} note: ${noteTexts}</span>`;
-                    }
+                    loadNote(noteKey).then(noteData => {
+                        if (noteData.text) {
+                            html += `<span class="widget-shift widget-note">📝 ${noteData.text}</span>`;
+                        }
+                        shiftsEl.innerHTML = html;
+                    });
+                } else {
+                    shiftsEl.innerHTML = html;
                 }
-                shiftsEl.innerHTML = html;
             });
+        }
+
+        // ============================================================
+        // NOTE (massimo 5 al giorno)
+        // ============================================================
+        function openNoteModal(year, month, day) {
+            currentNoteKey = `note_${year}_${month}_${day}`;
+            loadNote(currentNoteKey).then(data => {
+                document.getElementById('note-text').value = data.text || '';
+                document.getElementById('note-notification-date').value = data.notificationDate || new Date().toISOString()
+                    .slice(0, 10);
+                document.getElementById('note-notification-time').value = data.notificationTime || '08:00';
+                document.getElementById('note-enable-notification').checked = data.hasNotification || false;
+                document.getElementById('note-modal').classList.remove('hidden');
+            });
+        }
+
+        function closeNoteModal() {
+            document.getElementById('note-modal').classList.add('hidden');
+            currentNoteKey = null;
+        }
+
+        function saveNote() {
+            if (!currentNoteKey) return;
+            const text = document.getElementById('note-text').value.trim() || '';
+            const date = document.getElementById('note-notification-date').value || '';
+            const time = document.getElementById('note-notification-time').value || '';
+            const enable = document.getElementById('note-enable-notification').checked || false;
+            const data = { text };
+            if (text) {
+                if (enable && date && time) {
+                    data.hasNotification = true;
+                    data.notificationDate = date;
+                    data.notificationTime = time;
+                } else {
+                    data.hasNotification = false;
+                    delete data.notificationDate;
+                    delete data.notificationTime;
+                }
+                saveNoteData(currentNoteKey, data);
+            } else {
+                saveNoteData(currentNoteKey, { text: '' });
+            }
+            closeNoteModal();
+            renderCalendar();
+            updateWorkedHoursAndSummary();
+            updateWidget();
+            showToast('📝 Nota salvata', 'success');
         }
 
         // ============================================================
@@ -3557,7 +4187,8 @@
             const notesEl = document.getElementById('notes-list');
             if (!hoursEl || !shiftsEl || !notesEl) return;
 
-            let total = 0, overtime = 0;
+            let total = 0,
+                overtime = 0;
             const counts = {};
             const notes = [];
             const days = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -3575,55 +4206,92 @@
                         }
                     });
                     if (currentPersonId === 'self') {
-                        const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
-                        const notesForDay = notesData[noteKey] || [];
-                        if (notesForDay.length > 0) {
-                            notesForDay.forEach(n => notes.push({ day: d, text: n.text, time: n.time }));
-                        }
-                    }
-                    loaded++;
-                    if (loaded === totalDays) {
-                        hoursEl.textContent = decimalToTime(total);
-                        if (overtimeEl) {
-                            overtimeEl.textContent = decimalToTime(overtime);
-                            if (overtimeHint) overtimeHint.textContent = `Ore di straordinario effettuate — ${currentPersonName()}`;
-                        }
-                        if (feriePermEl) {
-                            const { ferieUsed, permessiUsed } = computeFeriePermessiUsed(currentYear);
-                            const ferieResidui = (workSettings.ferieTotal || 0) - ferieUsed;
-                            const permessiResidui = (workSettings.permessiTotal || 0) - permessiUsed;
-                            feriePermEl.innerHTML = `
-                                <div class="stats-item"><div class="stats-item-title">Ferie Usate (${currentYear})</div><div class="stats-item-value">${ferieUsed}</div></div>
-                                <div class="stats-item"><div class="stats-item-title">Ferie Residue</div><div class="stats-item-value">${ferieResidui}</div></div>
-                                <div class="stats-item"><div class="stats-item-title">Permessi Residui</div><div class="stats-item-value">${permessiResidui}</div></div>
-                            `;
-                        }
-                        shiftsEl.innerHTML = '';
-                        if (Object.keys(counts).length === 0) {
-                            shiftsEl.innerHTML = '<div class="stats-item">Nessun turno</div>';
-                        } else {
-                            Object.entries(counts).forEach(([name, count]) => {
-                                if (shifts[name]) {
-                                    const div = document.createElement('div');
-                                    div.className = 'stats-item';
-                                    const label = shifts[name].isOvertime ? '⚡ ' : '';
-                                    div.innerHTML = `<div class="stats-item-title">${label}${shifts[name].name}</div><div class="stats-item-value">${count} (${decimalToTime(count * shifts[name].hours)})</div>`;
-                                    shiftsEl.appendChild(div);
+                        const nk = `note_${currentYear}_${currentMonth}_${d}`;
+                        loadNote(nk).then(nd => {
+                            if (nd.text) notes.push({ day: d, text: nd.text });
+                            loaded++;
+                            if (loaded === totalDays) {
+                                hoursEl.textContent = decimalToTime(total);
+                                if (overtimeEl) {
+                                    overtimeEl.textContent = decimalToTime(overtime);
+                                    if (overtimeHint) overtimeHint.textContent =
+                                        `Ore di straordinario effettuate — ${currentPersonName()}`;
                                 }
-                            });
-                        }
-                        notesEl.innerHTML = '';
-                        if (currentPersonId !== 'self') {
+                                if (feriePermEl) {
+                                    const { ferieUsed, permessiUsed } = computeFeriePermessiUsed(currentYear);
+                                    const ferieResidui = (workSettings.ferieTotal || 0) - ferieUsed;
+                                    const permessiResidui = (workSettings.permessiTotal || 0) - permessiUsed;
+                                    feriePermEl.innerHTML = `
+                                        <div class="stats-item"><div class="stats-item-title">Ferie Usate (${currentYear})</div><div class="stats-item-value">${ferieUsed}</div></div>
+                                        <div class="stats-item"><div class="stats-item-title">Ferie Residue</div><div class="stats-item-value">${ferieResidui}</div></div>
+                                        <div class="stats-item"><div class="stats-item-title">Permessi Residui</div><div class="stats-item-value">${permessiResidui}</div></div>
+                                    `;
+                                }
+                                shiftsEl.innerHTML = '';
+                                if (Object.keys(counts).length === 0) {
+                                    shiftsEl.innerHTML = '<div class="stats-item">Nessun turno</div>';
+                                } else {
+                                    Object.entries(counts).forEach(([name, count]) => {
+                                        if (shifts[name]) {
+                                            const div = document.createElement('div');
+                                            div.className = 'stats-item';
+                                            const label = shifts[name].isOvertime ? '⚡ ' : '';
+                                            div.innerHTML =
+                                                `<div class="stats-item-title">${label}${shifts[name].name}</div><div class="stats-item-value">${count} (${decimalToTime(count * shifts[name].hours)})</div>`;
+                                            shiftsEl.appendChild(div);
+                                        }
+                                    });
+                                }
+                                notesEl.innerHTML = '';
+                                if (currentPersonId !== 'self') {
+                                    notesEl.innerHTML = '<div class="stats-item">Le note sono personali</div>';
+                                } else if (notes.length === 0) {
+                                    notesEl.innerHTML = '<div class="stats-item">Nessuna nota</div>';
+                                } else {
+                                    notes.forEach(n => {
+                                        const div = document.createElement('div');
+                                        div.className = 'stats-item';
+                                        div.textContent = `${n.day}: ${n.text}`;
+                                        notesEl.appendChild(div);
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        loaded++;
+                        if (loaded === totalDays) {
+                            hoursEl.textContent = decimalToTime(total);
+                            if (overtimeEl) {
+                                overtimeEl.textContent = decimalToTime(overtime);
+                                if (overtimeHint) overtimeHint.textContent =
+                                    `Ore di straordinario effettuate — ${currentPersonName()}`;
+                            }
+                            if (feriePermEl) {
+                                const { ferieUsed, permessiUsed } = computeFeriePermessiUsed(currentYear);
+                                const ferieResidui = (workSettings.ferieTotal || 0) - ferieUsed;
+                                const permessiResidui = (workSettings.permessiTotal || 0) - permessiUsed;
+                                feriePermEl.innerHTML = `
+                                        <div class="stats-item"><div class="stats-item-title">Ferie Usate (${currentYear})</div><div class="stats-item-value">${ferieUsed}</div></div>
+                                        <div class="stats-item"><div class="stats-item-title">Ferie Residue</div><div class="stats-item-value">${ferieResidui}</div></div>
+                                        <div class="stats-item"><div class="stats-item-title">Permessi Residui</div><div class="stats-item-value">${permessiResidui}</div></div>
+                                    `;
+                            }
+                            shiftsEl.innerHTML = '';
+                            if (Object.keys(counts).length === 0) {
+                                shiftsEl.innerHTML = '<div class="stats-item">Nessun turno</div>';
+                            } else {
+                                Object.entries(counts).forEach(([name, count]) => {
+                                    if (shifts[name]) {
+                                        const div = document.createElement('div');
+                                        div.className = 'stats-item';
+                                        const label = shifts[name].isOvertime ? '⚡ ' : '';
+                                        div.innerHTML =
+                                            `<div class="stats-item-title">${label}${shifts[name].name}</div><div class="stats-item-value">${count} (${decimalToTime(count * shifts[name].hours)})</div>`;
+                                        shiftsEl.appendChild(div);
+                                    }
+                                });
+                            }
                             notesEl.innerHTML = '<div class="stats-item">Le note sono personali</div>';
-                        } else if (notes.length === 0) {
-                            notesEl.innerHTML = '<div class="stats-item">Nessuna nota</div>';
-                        } else {
-                            notes.forEach(n => {
-                                const div = document.createElement('div');
-                                div.className = 'stats-item';
-                                div.textContent = `${n.day}: ${n.time||'--:--'} ${n.text}`;
-                                notesEl.appendChild(div);
-                            });
                         }
                     }
                 });
@@ -3631,8 +4299,24 @@
         }
 
         function computeFeriePermessiUsed(year) {
-            let ferieUsed = 0, permessiUsed = 0;
-            return { ferieUsed: 0, permessiUsed: 0 };
+            let ferieUsed = 0,
+                permessiUsed = 0;
+            // Calcolo reale dai turni
+            for (let m = 0; m < 12; m++) {
+                const days = new Date(year, m + 1, 0).getDate();
+                for (let d = 1; d <= days; d++) {
+                    const key = shiftKey(year, m, d);
+                    loadShift(key).then(list => {
+                        list.forEach(sName => {
+                            if (shifts[sName]) {
+                                if (shifts[sName].isFerie) ferieUsed++;
+                                if (shifts[sName].isPermesso) permessiUsed++;
+                            }
+                        });
+                    });
+                }
+            }
+            return { ferieUsed, permessiUsed };
         }
 
         // ============================================================
@@ -3652,7 +4336,9 @@
             const container = document.getElementById('annual-calendar');
             if (!container) return;
             container.innerHTML = '';
-            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
+                'Ottobre', 'Novembre', 'Dicembre'
+            ];
             const dayNames = ['L', 'M', 'M', 'G', 'V', 'S', 'D'];
             const today = new Date();
 
@@ -3685,7 +4371,8 @@
                 for (let d = 1; d <= daysInMonth; d++) {
                     const cell = document.createElement('div');
                     cell.className = 'annual-day';
-                    if (today.getFullYear() === currentYear && today.getMonth() === m && today.getDate() === d) cell.classList.add('today');
+                    if (today.getFullYear() === currentYear && today.getMonth() === m && today.getDate() === d) cell.classList
+                        .add('today');
                     const dayIsHoliday = isHoliday(currentYear, m, d) || new Date(currentYear, m, d).getDay() === 0;
                     if (dayIsHoliday) cell.classList.add('holiday');
                     const key = shiftKey(currentYear, m, d);
@@ -3698,7 +4385,7 @@
                                 return s?.abbreviation || '?';
                             }).join('');
                             cell.textContent = combined;
-                            if (shifts[names[0]]) {
+                            if (shifts[names[0]] && !dayIsHoliday) {
                                 cell.style.backgroundColor = shifts[names[0]].color;
                                 cell.style.color = isDarkColor(shifts[names[0]].color) ? '#ffffff' : '#000000';
                             }
@@ -3718,7 +4405,8 @@
             const overtimeEl = document.getElementById('annual-overtime');
             const shiftsEl = document.getElementById('annual-shifts-details');
             if (!hoursEl || !shiftsEl) return;
-            let total = 0, totalOvertime = 0;
+            let total = 0,
+                totalOvertime = 0;
             const counts = {};
             let processed = 0;
             let totalDays = 0;
@@ -3750,7 +4438,8 @@
                                         const div = document.createElement('div');
                                         div.className = 'stats-item';
                                         const label = shifts[name].isOvertime ? '⚡ ' : '';
-                                        div.innerHTML = `<div class="stats-item-title">${label}${shifts[name].name}</div><div class="stats-item-value">${count} (${decimalToTime(count * shifts[name].hours)})</div>`;
+                                        div.innerHTML =
+                                            `<div class="stats-item-title">${label}${shifts[name].name}</div><div class="stats-item-value">${count} (${decimalToTime(count * shifts[name].hours)})</div>`;
                                         shiftsEl.appendChild(div);
                                     }
                                 });
@@ -3824,7 +4513,9 @@
             const container = document.getElementById('family-overview-grid');
             const titleEl = document.getElementById('family-overview-month-title');
             if (!container) return;
-            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
+                'Ottobre', 'Novembre', 'Dicembre'
+            ];
             if (titleEl) titleEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
             function getAvatarHTML(id, name) {
@@ -3838,7 +4529,8 @@
                 return m.name ? m.name.charAt(0).toUpperCase() : '👤';
             }
 
-            const persons = [{ id: 'self', name: myProfile.name }].concat(Object.entries(familyMembers).map(([id, m]) => ({ id, ...m })));
+            const persons = [{ id: 'self', name: myProfile.name }].concat(Object.entries(familyMembers).map(([id, m]) => ({ id,
+                ...m })));
             const days = new Date(currentYear, currentMonth + 1, 0).getDate();
             let html = '<div class="family-table-wrap"><table class="family-table"><thead><tr><th>Giorno</th>';
             persons.forEach(p => {
@@ -3849,20 +4541,22 @@
             html += '</tr></thead><tbody>';
             const today = new Date();
             for (let d = 1; d <= days; d++) {
-                const isToday = today.getFullYear() === currentYear && today.getMonth() === currentMonth && today.getDate() === d;
-                html += `<tr class="${isToday ? 'fam-today-row' : ''}"><td class="fam-day-cell">${d}</td>`;
+                const isToday = today.getFullYear() === currentYear && today.getMonth() === currentMonth && today.getDate() ===
+                    d;
+                html += `<tr class="${isToday ? 'fam-today-row' : ''}" data-day="${d}"><td class="fam-day-cell">${d}</td>`;
                 persons.forEach(p => {
-                    html += `<td class="fam-shift-cell"><span class="fam-empty">–</span></td>`;
+                    html += `<td class="fam-shift-cell" data-person="${p.id}"><span class="fam-empty">–</span></td>`;
                 });
                 html += '</tr>';
             }
             html += '</tbody></table></div>';
             container.innerHTML = html;
 
-            persons.forEach((p, pi) => {
+            persons.forEach((p) => {
                 for (let d = 1; d <= days; d++) {
-                    const key = p.id === 'self' ? `self_shift_${currentYear}_${currentMonth}_${d}` : `fam_${p.id}_shift_${currentYear}_${currentMonth}_${d}`;
-                    const td = container.querySelector(`tr:nth-child(${d}) td:nth-child(${pi+2})`);
+                    const key = p.id === 'self' ? `self_shift_${currentYear}_${currentMonth}_${d}` :
+                        `fam_${p.id}_shift_${currentYear}_${currentMonth}_${d}`;
+                    const td = container.querySelector(`tbody tr[data-day="${d}"] td[data-person="${p.id}"]`);
                     if (td) {
                         loadShift(key).then(list => {
                             if (list.length === 0) {
@@ -3916,9 +4610,11 @@
                 select.style.background = 'var(--paper-2)';
                 select.style.color = 'var(--ink)';
                 select.innerHTML = '<option value="">😴 Riposo</option>' +
-                    shiftKeys.map(k => `<option value="${k}" ${val === k ? 'selected' : ''}>${shifts[k].name}</option>`).join('');
+                    shiftKeys.map(k => `<option value="${k}" ${val === k ? 'selected' : ''}>${shifts[k].name}</option>`)
+                    .join('');
                 select.value = val || '';
-                select.addEventListener('change', () => { patternSequence[idx] = select.value || null; saveUserPattern(); });
+                select.addEventListener('change', () => { patternSequence[idx] = select.value || null;
+                    saveUserPattern(); });
                 row.appendChild(select);
                 const removeBtn = document.createElement('button');
                 removeBtn.style.background = 'none';
@@ -3928,13 +4624,17 @@
                 removeBtn.style.fontSize = '0.8rem';
                 removeBtn.style.padding = '2px 4px';
                 removeBtn.innerHTML = '✕';
-                removeBtn.addEventListener('click', () => { patternSequence.splice(idx, 1); renderPatternSequence(); saveUserPattern(); });
+                removeBtn.addEventListener('click', () => { patternSequence.splice(idx, 1);
+                    renderPatternSequence();
+                    saveUserPattern(); });
                 row.appendChild(removeBtn);
                 list.appendChild(row);
             });
         }
 
-        function addPatternDay() { patternSequence.push(null); renderPatternSequence(); saveUserPattern(); }
+        function addPatternDay() { patternSequence.push(null);
+            renderPatternSequence();
+            saveUserPattern(); }
 
         function openPatternModal() {
             if (!patternSequence || patternSequence.length === 0) patternSequence = [null];
@@ -3957,7 +4657,9 @@
             const endDate = new Date(sy, sm - 1, sd);
             endDate.setMonth(endDate.getMonth() + monthsAhead);
             let cursor = new Date(startDate);
-            let count = 0, applied = 0, skipped = 0;
+            let count = 0,
+                applied = 0,
+                skipped = 0;
             const updates = {};
 
             function processNext() {
@@ -3971,10 +4673,14 @@
                     renderCalendar();
                     updateWorkedHoursAndSummary();
                     updateWidget();
-                    showToast(`🔁 Ciclo applicato a ${applied} giorni${skipped > 0 ? ` (${skipped} già assegnati)` : ''}`, 'success');
+                    showToast(
+                        `🔁 Ciclo applicato a ${applied} giorni${skipped > 0 ? ` (${skipped} già assegnati)` : ''}`,
+                        'success');
                     return;
                 }
-                const y = cursor.getFullYear(), m = cursor.getMonth(), d = cursor.getDate();
+                const y = cursor.getFullYear(),
+                    m = cursor.getMonth(),
+                    d = cursor.getDate();
                 const key = shiftKey(y, m, d);
                 const patternValue = patternSequence[count % patternSequence.length];
                 loadShift(key).then(existing => {
@@ -3998,7 +4704,9 @@
             try {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('p', 'mm', 'a4');
-                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
+                    'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+                ];
                 const monthName = monthNames[currentMonth];
                 doc.setFontSize(20);
                 doc.setTextColor(99, 102, 241);
@@ -4018,33 +4726,74 @@
                     loadShift(skey).then(shiftsList => {
                         let shiftDisplay = '-';
                         if (shiftsList.length > 0) {
-                            shiftDisplay = shiftsList.map(s => shifts[s] && shifts[s].isOvertime ? `⚡${s}` : s).join(', ');
+                            shiftDisplay = shiftsList.map(s => shifts[s] && shifts[s].isOvertime ? `⚡${s}` : s).join(
+                            ', ');
                         }
+                        const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
                         let noteText = '-';
                         if (currentPersonId === 'self') {
-                            const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
-                            const notes = notesData[noteKey] || [];
-                            noteText = notes.length > 0 ? notes.map(n => `${n.time||'--:--'} ${n.text}`).join('; ') : '-';
-                        }
-                        const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d).getDay() === 0;
-                        const dayLabel = dayIsHoliday ? `${d} (F)` : `${d}`;
-                        tableData.push([dayLabel, shiftDisplay, noteText]);
-                        loaded++;
-                        if (loaded === days) {
-                            doc.autoTable({
-                                head: [['Giorno', 'Turni', 'Note']],
-                                body: tableData,
-                                startY: 42,
-                                theme: 'striped',
-                                headStyles: { fillColor: [99, 102, 241], textColor: [255, 255, 255], fontSize: 8, fontStyle: 'bold', halign: 'center' },
-                                bodyStyles: { fontSize: 7, cellPadding: 2 },
-                                columnStyles: { 0: { cellWidth: 20, halign: 'center' }, 1: { cellWidth: 50, halign: 'left' }, 2: { cellWidth: 70, halign: 'left' } },
-                                alternateRowStyles: { fillColor: [243, 241, 254] },
-                                margin: { left: 14, right: 14 }
+                            loadNote(noteKey).then(nd => {
+                                noteText = nd.text || '-';
+                                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(
+                                    currentYear, currentMonth, d).getDay() === 0;
+                                const dayLabel = dayIsHoliday ? `${d} (F)` : `${d}`;
+                                tableData.push([dayLabel, shiftDisplay, noteText]);
+                                loaded++;
+                                if (loaded === days) {
+                                    doc.autoTable({
+                                        head: [
+                                            ['Giorno', 'Turni', 'Note']
+                                        ],
+                                        body: tableData,
+                                        startY: 42,
+                                        theme: 'striped',
+                                        headStyles: { fillColor: [99, 102, 241],
+                                            textColor: [255, 255, 255], fontSize: 8,
+                                            fontStyle: 'bold', halign: 'center' },
+                                        bodyStyles: { fontSize: 7, cellPadding: 2 },
+                                        columnStyles: { 0: { cellWidth: 20, halign: 'center' },
+                                            1: { cellWidth: 50, halign: 'left' },
+                                            2: { cellWidth: 70, halign: 'left' } },
+                                        alternateRowStyles: { fillColor: [243, 241, 254] },
+                                        margin: { left: 14, right: 14 }
+                                    });
+                                    const personSuffix = currentPersonId === 'self' ? '' :
+                                        `_${currentPersonName().replace(/\s+/g,'-')}`;
+                                    doc.save(
+                                        `calendario_${currentYear}_${currentMonth + 1}${personSuffix}.pdf`
+                                        );
+                                    showToast('📄 PDF generato!', 'success');
+                                }
                             });
-                            const personSuffix = currentPersonId === 'self' ? '' : `_${currentPersonName().replace(/\s+/g,'-')}`;
-                            doc.save(`calendario_${currentYear}_${currentMonth + 1}${personSuffix}.pdf`);
-                            showToast('📄 PDF generato!', 'success');
+                        } else {
+                            noteText = '-';
+                            const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear,
+                                currentMonth, d).getDay() === 0;
+                            const dayLabel = dayIsHoliday ? `${d} (F)` : `${d}`;
+                            tableData.push([dayLabel, shiftDisplay, noteText]);
+                            loaded++;
+                            if (loaded === days) {
+                                doc.autoTable({
+                                    head: [
+                                        ['Giorno', 'Turni', 'Note']
+                                    ],
+                                    body: tableData,
+                                    startY: 42,
+                                    theme: 'striped',
+                                    headStyles: { fillColor: [99, 102, 241], textColor: [255, 255, 255],
+                                        fontSize: 8, fontStyle: 'bold', halign: 'center' },
+                                    bodyStyles: { fontSize: 7, cellPadding: 2 },
+                                    columnStyles: { 0: { cellWidth: 20, halign: 'center' },
+                                        1: { cellWidth: 50, halign: 'left' },
+                                        2: { cellWidth: 70, halign: 'left' } },
+                                    alternateRowStyles: { fillColor: [243, 241, 254] },
+                                    margin: { left: 14, right: 14 }
+                                });
+                                const personSuffix = currentPersonId === 'self' ? '' :
+                                    `_${currentPersonName().replace(/\s+/g,'-')}`;
+                                doc.save(`calendario_${currentYear}_${currentMonth + 1}${personSuffix}.pdf`);
+                                showToast('📄 PDF generato!', 'success');
+                            }
                         }
                     });
                 }
@@ -4057,18 +4806,24 @@
         function exportExcel() {
             try {
                 if (typeof XLSX === 'undefined') { showToast('❌ Libreria Excel non disponibile', 'error'); return; }
-                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
+                    'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+                ];
                 const monthName = monthNames[currentMonth];
                 const days = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const rows = [['Giorno', 'Festivo', 'Turni', 'Ore', 'Straordinario', 'Note']];
+                const rows = [
+                    ['Giorno', 'Festivo', 'Turni', 'Ore', 'Straordinario', 'Note']
+                ];
                 let loaded = 0;
-                let monthTotalHours = 0, monthOvertime = 0;
+                let monthTotalHours = 0,
+                    monthOvertime = 0;
 
                 for (let d = 1; d <= days; d++) {
                     const skey = shiftKey(currentYear, currentMonth, d);
                     loadShift(skey).then(shiftsList => {
                         const shiftNames = shiftsList.length > 0 ? shiftsList.join(', ') : '-';
-                        let dayHours = 0, dayOvertime = 0;
+                        let dayHours = 0,
+                            dayOvertime = 0;
                         shiftsList.forEach(sName => {
                             if (shifts[sName]) {
                                 dayHours += shifts[sName].hours;
@@ -4078,25 +4833,63 @@
                         monthTotalHours += dayHours;
                         monthOvertime += dayOvertime;
                         let noteText = '-';
+                        const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
                         if (currentPersonId === 'self') {
-                            const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
-                            const notes = notesData[noteKey] || [];
-                            noteText = notes.length > 0 ? notes.map(n => `${n.time||'--:--'} ${n.text}`).join('; ') : '-';
-                        }
-                        const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d).getDay() === 0;
-                        rows.push([d, dayIsHoliday ? 'Sì' : '', shiftNames, decimalToTime(dayHours), decimalToTime(dayOvertime), noteText]);
-                        loaded++;
-                        if (loaded === days) {
-                            rows.push([]);
-                            rows.push(['Totale mese', '', '', decimalToTime(monthTotalHours), decimalToTime(monthOvertime), '']);
-                            rows.push(['Persona', currentPersonName(), '', '', '', '']);
-                            const worksheet = XLSX.utils.aoa_to_sheet(rows);
-                            worksheet['!cols'] = [{ wch: 10 }, { wch: 9 }, { wch: 25 }, { wch: 10 }, { wch: 12 }, { wch: 35 }];
-                            const workbook = XLSX.utils.book_new();
-                            XLSX.utils.book_append_sheet(workbook, worksheet, `${monthName} ${currentYear}`.slice(0, 31));
-                            const personSuffix = currentPersonId === 'self' ? '' : `_${currentPersonName().replace(/\s+/g,'-')}`;
-                            XLSX.writeFile(workbook, `calendario_${currentYear}_${currentMonth + 1}${personSuffix}.xlsx`);
-                            showToast('📊 Excel generato!', 'success');
+                            loadNote(noteKey).then(nd => {
+                                noteText = nd.text || '-';
+                                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(
+                                    currentYear, currentMonth, d).getDay() === 0;
+                                rows.push([d, dayIsHoliday ? 'Sì' : '', shiftNames, decimalToTime(
+                                    dayHours), decimalToTime(dayOvertime), noteText]);
+                                loaded++;
+                                if (loaded === days) {
+                                    rows.push([]);
+                                    rows.push(['Totale mese', '', '', decimalToTime(
+                                        monthTotalHours), decimalToTime(monthOvertime),
+                                        ''
+                                    ]);
+                                    rows.push(['Persona', currentPersonName(), '', '', '', '']);
+                                    const worksheet = XLSX.utils.aoa_to_sheet(rows);
+                                    worksheet['!cols'] = [{ wch: 10 }, { wch: 9 }, { wch: 25 },
+                                    { wch: 10 }, { wch: 12 }, { wch: 35 }];
+                                    const workbook = XLSX.utils.book_new();
+                                    XLSX.utils.book_append_sheet(workbook, worksheet,
+                                        `${monthName} ${currentYear}`.slice(0, 31));
+                                    const personSuffix = currentPersonId === 'self' ? '' :
+                                        `_${currentPersonName().replace(/\s+/g,'-')}`;
+                                    XLSX.writeFile(workbook,
+                                        `calendario_${currentYear}_${currentMonth + 1}${personSuffix}.xlsx`
+                                        );
+                                    showToast('📊 Excel generato!', 'success');
+                                }
+                            });
+                        } else {
+                            noteText = '-';
+                            const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear,
+                                currentMonth, d).getDay() === 0;
+                            rows.push([d, dayIsHoliday ? 'Sì' : '', shiftNames, decimalToTime(dayHours),
+                                decimalToTime(dayOvertime), noteText
+                            ]);
+                            loaded++;
+                            if (loaded === days) {
+                                rows.push([]);
+                                rows.push(['Totale mese', '', '', decimalToTime(monthTotalHours),
+                                    decimalToTime(monthOvertime), ''
+                                ]);
+                                rows.push(['Persona', currentPersonName(), '', '', '', '']);
+                                const worksheet = XLSX.utils.aoa_to_sheet(rows);
+                                worksheet['!cols'] = [{ wch: 10 }, { wch: 9 }, { wch: 25 }, { wch: 10 },
+                                { wch: 12 }, { wch: 35 }];
+                                const workbook = XLSX.utils.book_new();
+                                XLSX.utils.book_append_sheet(workbook, worksheet,
+                                    `${monthName} ${currentYear}`.slice(0, 31));
+                                const personSuffix = currentPersonId === 'self' ? '' :
+                                    `_${currentPersonName().replace(/\s+/g,'-')}`;
+                                XLSX.writeFile(workbook,
+                                    `calendario_${currentYear}_${currentMonth + 1}${personSuffix}.xlsx`
+                                    );
+                                showToast('📊 Excel generato!', 'success');
+                            }
                         }
                     });
                 }
@@ -4135,7 +4928,8 @@
                 try {
                     const backup = JSON.parse(ev.target.result);
                     if (backup.data && backup.user) {
-                        if (!confirm(`Ripristinare i dati per ${backup.user}? I dati correnti saranno sostituiti.`)) return;
+                        if (!confirm(`Ripristinare i dati per ${backup.user}? I dati correnti saranno sostituiti.`))
+                            return;
                         if (!currentUserEncoded) { showToast('❌ Non autenticato', 'error'); return; }
                         db.ref(`users/${currentUserEncoded}`).update(backup.data)
                             .then(() => {
@@ -4165,7 +4959,8 @@
                     if (shiftsList.length > 0) {
                         const date = new Date(currentYear, currentMonth, d);
                         const dateStr = date.toISOString().slice(0, 10);
-                        const shiftText = shiftsList.map(s => shifts[s] && shifts[s].isOvertime ? `⚡${s}` : s).join(' - ');
+                        const shiftText = shiftsList.map(s => shifts[s] && shifts[s].isOvertime ? `⚡${s}` : s).join(
+                            ' - ');
                         events.push({ date: dateStr, text: `Turno: ${shiftText}` });
                     }
                     loaded++;
@@ -4173,8 +4968,11 @@
                         if (events.length === 0) { showToast('❌ Nessun turno da esportare', 'error'); return; }
                         let url = 'https://calendar.google.com/calendar/u/0/r/eventedit?';
                         url += `ctz=Europe/Rome`;
-                        const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
-                        url += `&text=${encodeURIComponent('Turni ' + monthNames[currentMonth] + ' - ' + currentPersonName())}`;
+                        const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio',
+                            'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+                        ];
+                        url +=
+                            `&text=${encodeURIComponent('Turni ' + monthNames[currentMonth] + ' - ' + currentPersonName())}`;
                         url += `&details=${encodeURIComponent(events.map(e => `${e.date}: ${e.text}`).join('\n'))}`;
                         window.open(url, '_blank');
                         showToast('📅 Apertura Google Calendar', 'info');
@@ -4186,7 +4984,9 @@
         function buildShareImageHTML() {
             const container = document.getElementById('share-image-container');
             if (!container) return container;
-            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre',
+                'Ottobre', 'Novembre', 'Dicembre'
+            ];
             const dayNames = ['LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM'];
             const monthName = monthNames[currentMonth];
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -4201,7 +5001,8 @@
                     <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;">
             `;
             dayNames.forEach(d => {
-                html += `<div style="text-align:center;font-weight:800;font-size:0.55rem;color:#6366f1;padding:2px 0;background:rgba(99,102,241,0.06);border-radius:4px;">${d}</div>`;
+                html +=
+                    `<div style="text-align:center;font-weight:800;font-size:0.55rem;color:#6366f1;padding:2px 0;background:rgba(99,102,241,0.06);border-radius:4px;">${d}</div>`;
             });
             for (let i = 0; i < offset; i++) {
                 html += `<div style="aspect-ratio:1/1;background:transparent;border-radius:6px;padding:2px;"></div>`;
@@ -4209,11 +5010,14 @@
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const isToday = isCurrentMonth && d === today.getDate();
-                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d).getDay() === 0;
-                let style = `aspect-ratio:1/1;background:rgba(148,163,184,0.06);border-radius:6px;padding:2px;font-size:0.55rem;font-weight:700;position:relative;`;
-                if (isToday) style += `background:rgba(99,102,241,0.12);box-shadow:inset 0 0 0 1.5px rgba(99,102,241,0.4);`;
-                if (dayIsHoliday) style += `background:rgba(244,63,94,0.10);`;
-                html += `<div style="${style}" data-day="${d}">${d}</div>`;
+                const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d)
+                    .getDay() === 0;
+                let style =
+                    `aspect-ratio:1/1;background:rgba(148,163,184,0.06);border-radius:6px;padding:2px;font-size:0.55rem;font-weight:700;position:relative;display:flex;flex-direction:column;overflow:hidden;`;
+                if (isToday) style +=
+                    `background:rgba(99,102,241,0.12);box-shadow:inset 0 0 0 1.5px rgba(99,102,241,0.4);`;
+                if (dayIsHoliday) style += `background:#ef4444;color:#ffffff;`;
+                html += `<div style="${style}" data-day="${d}"><span>${d}</span></div>`;
             }
 
             html += `
@@ -4230,6 +5034,9 @@
 
         async function shareMonthImage() {
             try {
+                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
+                    'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+                ];
                 const container = buildShareImageHTML();
                 if (!container) { showToast('❌ Errore creazione immagine', 'error'); return; }
 
@@ -4237,13 +5044,12 @@
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
                 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
                 const offset = firstDay === 0 ? 6 : firstDay - 1;
-                const cells = container.querySelectorAll('div[style*="aspect-ratio"]');
+                const cells = container.querySelectorAll('div[data-day]');
 
                 for (let d = 1; d <= daysInMonth; d++) {
                     const key = shiftKey(currentYear, currentMonth, d);
                     const shiftsList = await loadShift(key);
-                    const idx = d + offset - 1;
-                    const cell = cells[idx];
+                    const cell = container.querySelector(`div[data-day="${d}"]`);
                     if (cell && shiftsList.length > 0) {
                         const badgeContainer = document.createElement('div');
                         badgeContainer.style.display = 'flex';
@@ -4253,19 +5059,23 @@
                         shiftsList.slice(0, 3).forEach(sName => {
                             if (shifts[sName]) {
                                 const badge = document.createElement('span');
-                                badge.style.fontSize = '0.35rem';
+                                badge.style.fontSize = '0.42rem';
+                                badge.style.lineHeight = '1.3';
                                 badge.style.fontWeight = '800';
                                 badge.style.padding = '1px 3px';
                                 badge.style.borderRadius = '3px';
                                 badge.style.background = shifts[sName].color;
-                                badge.style.color = isDarkColor(shifts[sName].color) ? '#ffffff' : '#000000';
-                                badge.textContent = shifts[sName].isOvertime ? '⚡' + shifts[sName].abbreviation : shifts[sName].abbreviation;
+                                badge.style.color = isDarkColor(shifts[sName].color) ? '#ffffff' :
+                                    '#000000';
+                                badge.style.display = 'inline-block';
+                                badge.textContent = shifts[sName].isOvertime ? '⚡' + shifts[sName]
+                                    .abbreviation : shifts[sName].abbreviation;
                                 badgeContainer.appendChild(badge);
                             }
                         });
                         if (shiftsList.length > 3) {
                             const more = document.createElement('span');
-                            more.style.fontSize = '0.3rem';
+                            more.style.fontSize = '0.35rem';
                             more.style.fontWeight = '700';
                             more.textContent = '+' + (shiftsList.length - 3);
                             badgeContainer.appendChild(more);
@@ -4299,11 +5109,10 @@
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
                 if (!blob) throw new Error('Impossibile creare immagine');
 
-                const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
-
                 if (navigator.share) {
                     const file = new File([blob], `calendario_${currentYear}_${currentMonth+1}.png`, { type: 'image/png' });
-                    await navigator.share({ title: `Calendario ${monthNames[currentMonth]} ${currentYear}`, files: [file] });
+                    await navigator.share({ title: `Calendario ${monthNames[currentMonth]} ${currentYear}`,
+                        files: [file] });
                     showToast('📸 Immagine condivisa!', 'success');
                 } else {
                     const url = URL.createObjectURL(blob);
@@ -4318,7 +5127,7 @@
                 }
             } catch (error) {
                 console.error('Share error:', error);
-                showToast('❌ Errore condivisione immagine: ' + error.message, 'error');
+                showToast('❌ Errore condivisione immagine', 'error');
             }
         }
 
@@ -4368,7 +5177,9 @@
             if (tab === 'contacts') renderContacts();
             if (tab === 'groups') loadGroups();
             if (tab === 'chats') loadChats();
-            if (tab === 'calendar') { renderCalendar(); updateWidget(); updateWorkedHoursAndSummary(); }
+            if (tab === 'calendar') { renderCalendar();
+                updateWidget();
+                updateWorkedHoursAndSummary(); }
             if (tab === 'stats') updateWorkedHoursAndSummary();
         }
 
@@ -4425,7 +5236,9 @@
                 getUserPhoto(c.encoded, (photo) => {
                     const el = document.getElementById(avatarId);
                     if (el) {
-                        if (photo) { el.style.backgroundImage = `url(${photo})`; el.innerHTML = ''; } else { el.style.backgroundImage = ''; el.textContent = c.displayName.charAt(0).toUpperCase(); }
+                        if (photo) { el.style.backgroundImage = `url(${photo})`;
+                            el.innerHTML = ''; } else { el.style.backgroundImage = '';
+                            el.textContent = c.displayName.charAt(0).toUpperCase(); }
                     }
                 });
                 return html;
@@ -4447,7 +5260,9 @@
             const status = document.getElementById('add-contact-status');
             const username = this.value.trim();
             const btn = document.getElementById('add-contact-btn');
-            if (!username) { status.textContent = ''; status.className = 'status'; btn.disabled = false; return; }
+            if (!username) { status.textContent = '';
+                status.className = 'status';
+                btn.disabled = false; return; }
             if (!username.startsWith('@')) {
                 status.textContent = 'ℹ️ Usa @nome.cognome';
                 status.className = 'status';
@@ -4457,9 +5272,13 @@
             const clean = username.substring(1);
             const normClean = normalizeUsername(clean);
             const normCurrent = normalizeUsername(currentUser);
-            if (normClean === normCurrent) { status.textContent = '❌ Non puoi aggiungerti'; status.className = 'status error'; btn.disabled = true; return; }
+            if (normClean === normCurrent) { status.textContent = '❌ Non puoi aggiungerti';
+                status.className = 'status error';
+                btn.disabled = true; return; }
             const existing = Object.values(myContacts).find(c => normalizeUsername(c.username) === normClean);
-            if (existing) { status.textContent = '⚠️ @' + clean + ' già in rubrica'; status.className = 'status error'; btn.disabled = true; return; }
+            if (existing) { status.textContent = '⚠️ @' + clean + ' già in rubrica';
+                status.className = 'status error';
+                btn.disabled = true; return; }
             status.textContent = '⏳ Verifica...';
             status.className = 'status checking';
             btn.disabled = true;
@@ -4477,7 +5296,9 @@
                         status.className = 'status success';
                         btn.disabled = false;
                     })
-                    .catch(() => { status.textContent = '❌ Errore verifica'; status.className = 'status error'; btn.disabled = true; });
+                    .catch(() => { status.textContent = '❌ Errore verifica';
+                        status.className = 'status error';
+                        btn.disabled = true; });
             }, 500);
         });
 
@@ -4486,23 +5307,31 @@
             const username = input.value.trim();
             const status = document.getElementById('add-contact-status');
             const btn = document.getElementById('add-contact-btn');
-            if (!username || !username.startsWith('@')) { status.textContent = '❌ Inserisci @nome'; status.className = 'status error'; return; }
+            if (!username || !username.startsWith('@')) { status.textContent = '❌ Inserisci @nome';
+                status.className = 'status error'; return; }
             const clean = username.substring(1);
             const normClean = normalizeUsername(clean);
             const normCurrent = normalizeUsername(currentUser);
-            if (normClean === normCurrent) { status.textContent = '❌ Non puoi aggiungerti'; status.className = 'status error'; return; }
+            if (normClean === normCurrent) { status.textContent = '❌ Non puoi aggiungerti';
+                status.className = 'status error'; return; }
             const existing = Object.values(myContacts).find(c => normalizeUsername(c.username) === normClean);
-            if (existing) { status.textContent = '⚠️ Già in rubrica'; status.className = 'status error'; input.value = ''; btn.disabled = true; return; }
+            if (existing) { status.textContent = '⚠️ Già in rubrica';
+                status.className = 'status error';
+                input.value = '';
+                btn.disabled = true; return; }
             btn.disabled = true;
             status.textContent = '⏳ Aggiunta...';
             status.className = 'status checking';
             const enc = encodeUsername(clean);
             db.ref(`users/${enc}`).once('value')
                 .then((snapshot) => {
-                    if (!snapshot.exists()) { status.textContent = '❌ Utente non trovato'; status.className = 'status error'; btn.disabled = false; return; }
+                    if (!snapshot.exists()) { status.textContent = '❌ Utente non trovato';
+                        status.className = 'status error';
+                        btn.disabled = false; return; }
                     const userData = snapshot.val();
                     const displayName = userData.displayName || clean;
-                    const contactData = { username: clean, displayName: displayName, addedAt: firebase.database.ServerValue.TIMESTAMP };
+                    const contactData = { username: clean, displayName: displayName,
+                        addedAt: firebase.database.ServerValue.TIMESTAMP };
                     db.ref(`users/${currentUserEncoded}/contacts/${enc}`).set(contactData)
                         .then(() => {
                             status.textContent = '✅ @' + displayName + ' aggiunto!';
@@ -4512,15 +5341,20 @@
                             showToast('✅ @' + displayName + ' aggiunto!', 'success');
                             loadMyContacts();
                         })
-                        .catch((err) => { status.textContent = '❌ Errore: ' + err.message; status.className = 'status error'; btn.disabled = false; });
+                        .catch((err) => { status.textContent = '❌ Errore: ' + err.message;
+                            status.className = 'status error';
+                            btn.disabled = false; });
                 })
-                .catch((err) => { status.textContent = '❌ Errore: ' + err.message; status.className = 'status error'; btn.disabled = false; });
+                .catch((err) => { status.textContent = '❌ Errore: ' + err.message;
+                    status.className = 'status error';
+                    btn.disabled = false; });
         }
 
         function removeContact(contactEncoded) {
             if (!confirm('Rimuovere contatto?')) return;
             db.ref(`users/${currentUserEncoded}/contacts/${contactEncoded}`).remove()
-                .then(() => { showToast('🗑️ Contatto rimosso', 'success'); loadMyContacts(); })
+                .then(() => { showToast('🗑️ Contatto rimosso', 'success');
+                    loadMyContacts(); })
                 .catch(() => { showToast('❌ Errore rimozione', 'error'); });
         }
 
@@ -4534,7 +5368,8 @@
                 const chatKeys = Object.keys(privateData);
                 const container = document.getElementById('chats-list');
                 if (chatKeys.length === 0) {
-                    container.innerHTML = `<div class="empty-state"><div class="icon">💬</div><div class="title">Nessuna chat</div><div class="sub">Aggiungi contatti e inizia</div></div>`;
+                    container.innerHTML =
+                        `<div class="empty-state"><div class="icon">💬</div><div class="title">Nessuna chat</div><div class="sub">Aggiungi contatti e inizia</div></div>`;
                     return;
                 }
                 let html = '';
@@ -4557,27 +5392,34 @@
                         getUserPhoto(otherEncoded, (photo) => {
                             const el = document.getElementById(avatarId);
                             if (el) {
-                                if (photo) { el.style.backgroundImage = `url(${photo})`; el.innerHTML = ''; } else { el.style.backgroundImage = ''; el.textContent = username.charAt(0).toUpperCase(); }
+                                if (photo) { el.style.backgroundImage = `url(${photo})`;
+                                    el.innerHTML = ''; } else { el.style.backgroundImage = '';
+                                    el.textContent = username.charAt(0).toUpperCase(); }
                             }
                         });
                         const chatKey = [currentUserEncoded, otherEncoded].sort().join('_');
                         db.ref(`private_messages/${chatKey}`).limitToLast(1).on('value', (msgSnapshot) => {
                             const msgs = msgSnapshot.val();
-                            let lastMsg = null, lastTime = null;
+                            let lastMsg = null,
+                                lastTime = null;
                             if (msgs) {
                                 const keys = Object.keys(msgs);
                                 const lastKey = keys[keys.length - 1];
                                 lastMsg = msgs[lastKey];
                                 lastTime = lastMsg.timestamp;
                             }
-                            const timeStr = lastTime ? new Date(lastTime).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                            const timeStr = lastTime ? new Date(lastTime).toLocaleTimeString('it-IT', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) : '';
                             let lastText = 'Nessun messaggio';
                             if (lastMsg) {
                                 if (lastMsg.isAudio) lastText = '🎤 Vocale';
                                 else if (lastMsg.isFile) lastText = '📎 File';
                                 else lastText = lastMsg.text || 'Messaggio';
                             }
-                            const sender = lastMsg ? (lastMsg.sender === currentUser ? 'Tu: ' : '') : '';
+                            const sender = lastMsg ? (lastMsg.sender === currentUser ? 'Tu: ' : '') :
+                            '';
                             const lastMsgEl = document.getElementById('last-msg-' + otherEncoded);
                             const timeEl = document.getElementById('time-' + otherEncoded);
                             if (lastMsgEl) lastMsgEl.textContent = sender + lastText;
@@ -4599,7 +5441,8 @@
                 const groupIds = Object.keys(groupsData);
                 const container = document.getElementById('groups-list');
                 if (groupIds.length === 0) {
-                    container.innerHTML = `<div class="empty-state"><div class="icon">👥</div><div class="title">Nessun gruppo</div><div class="sub">Crea un gruppo per iniziare</div></div>`;
+                    container.innerHTML =
+                        `<div class="empty-state"><div class="icon">👥</div><div class="title">Nessun gruppo</div><div class="sub">Crea un gruppo per iniziare</div></div>`;
                     return;
                 }
                 let html = '';
@@ -4625,7 +5468,9 @@
                             getGroupPhoto(groupId, (photo) => {
                                 const el = document.getElementById(avatarId);
                                 if (el) {
-                                    if (photo) { el.style.backgroundImage = `url(${photo})`; el.innerHTML = ''; } else { el.style.backgroundImage = ''; el.textContent = group.name.charAt(0).toUpperCase(); }
+                                    if (photo) { el.style.backgroundImage = `url(${photo})`;
+                                        el.innerHTML = ''; } else { el.style.backgroundImage = '';
+                                        el.textContent = group.name.charAt(0).toUpperCase(); }
                                 }
                             });
                             container.innerHTML = html;
@@ -4649,7 +5494,8 @@
             inviteList = [];
             document.getElementById('modal-group-name').value = '';
             document.getElementById('modal-invite-input').value = '';
-            document.getElementById('modal-invite-list').innerHTML = '<span style="font-size:0.65rem;color:#94a3b8;">Nessun invitato</span>';
+            document.getElementById('modal-invite-list').innerHTML =
+            '<span style="font-size:0.65rem;color:#94a3b8;">Nessun invitato</span>';
             document.getElementById('user-verification').style.display = 'none';
             document.getElementById('create-group-modal').classList.remove('hidden');
         }
@@ -4705,7 +5551,8 @@
             const normClean = normalizeUsername(clean);
             const inContacts = Object.values(myContacts).some(c => normalizeUsername(c.username) === normClean);
             if (!inContacts) { showToast('❌ @' + clean + ' non in rubrica', 'error'); return; }
-            if (inviteList.some(u => normalizeUsername(u) === normClean)) { showToast('⚠️ Già in lista', 'warning'); input.value = ''; return; }
+            if (inviteList.some(u => normalizeUsername(u) === normClean)) { showToast('⚠️ Già in lista', 'warning');
+                input.value = ''; return; }
             inviteList.push(clean);
             renderInviteList();
             input.value = '';
@@ -4744,7 +5591,6 @@
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
                 password: password,
                 members: {},
-                invites: {},
                 photo: null
             };
             const encodedCreator = currentUserEncoded;
@@ -4753,13 +5599,16 @@
                 displayName: currentUser,
                 isCreator: true
             };
+            // Aggiungiamo subito i contatti invitati come membri effettivi del gruppo
+            // (essendo già in rubrica, sono utenti fidati; niente flusso di accettazione
+            // separato, che nella versione precedente non era mai implementato e quindi
+            // gli inviti restavano "pending" per sempre).
             inviteList.forEach(user => {
                 const encodedUser = encodeUsername(user);
-                groupData.invites[encodedUser] = {
-                    invitedBy: currentUser,
-                    at: firebase.database.ServerValue.TIMESTAMP,
-                    status: 'pending',
-                    displayName: user
+                groupData.members[encodedUser] = {
+                    joinedAt: firebase.database.ServerValue.TIMESTAMP,
+                    displayName: user,
+                    isCreator: false
                 };
             });
             const btn = document.querySelector('#create-group-modal .btn-primary');
@@ -4768,32 +5617,94 @@
             btn.disabled = true;
             db.ref(`chat_groups/${groupId}`).set(groupData)
                 .then(() => {
-                    db.ref(`users/${encodedCreator}/groups/${groupId}`).set(true);
                     const updates = {};
+                    updates[`users/${encodedCreator}/groups/${groupId}`] = true;
                     inviteList.forEach(user => {
                         const encodedUser = encodeUsername(user);
-                        updates[`users/${encodedUser}/invites/${groupId}`] = {
-                            groupName: name,
-                            invitedBy: currentUser,
-                            at: firebase.database.ServerValue.TIMESTAMP
-                        };
-                        if (Notification.permission === 'granted' && notificationSettings.enableAll !== false && notificationSettings.chatMessages !== false) {
-                            new Notification('📩 Invito da ' + currentUser, {
-                                body: currentUser + ' ti ha invitato in "' + name + '"',
-                                icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⏱</text></svg>'
-                            });
-                        }
+                        updates[`users/${encodedUser}/groups/${groupId}`] = true;
                     });
                     return db.ref().update(updates);
                 })
                 .then(() => {
                     closeCreateGroupModal();
-                    showToast('✅ Gruppo "' + name + '" creato!', 'success');
+                    showToast('✅ Gruppo "' + name + '" creato con ' + inviteList.length + ' membri!', 'success');
                     loadGroups();
                     switchAppTab('groups');
                 })
                 .catch((err) => { showToast('❌ Errore: ' + err.message, 'error'); })
-                .finally(() => { btn.textContent = orig; btn.disabled = false; });
+                .finally(() => { btn.textContent = orig;
+                    btn.disabled = false; });
+        }
+
+        // Aggiunge un membro a un gruppo GIA' ESISTENTE (funzione mancante nella versione precedente).
+        // Aggiunge direttamente l'utente ai membri del gruppo: deve comunque essere un utente
+        // registrato in AppTurni (verificato su Firebase prima di aggiungerlo).
+        function addMemberToGroup() {
+            if (!currentChatId || currentChatType !== 'group') { showToast('❌ Nessun gruppo selezionato', 'error'); return; }
+            const input = document.getElementById('add-member-input');
+            const status = document.getElementById('add-member-status');
+            if (!input || !status) return;
+            const username = input.value.trim();
+            if (!username || !username.startsWith('@')) {
+                status.textContent = '❌ Usa il formato @nome.cognome';
+                status.style.color = '#ef4444';
+                return;
+            }
+            const clean = username.substring(1);
+            const normClean = normalizeUsername(clean);
+            if (normClean === normalizeUsername(currentUser)) {
+                status.textContent = '❌ Sei già nel gruppo';
+                status.style.color = '#ef4444';
+                return;
+            }
+            const encodedUser = encodeUsername(clean);
+            const groupId = currentChatId;
+            status.textContent = '⏳ Verifica utente...';
+            status.style.color = '#6366f1';
+            db.ref(`users/${encodedUser}`).once('value').then(snapshot => {
+                if (!snapshot.exists()) {
+                    status.textContent = '❌ Utente @' + clean + ' non trovato';
+                    status.style.color = '#ef4444';
+                    return;
+                }
+                const userData = snapshot.val();
+                const displayName = userData.displayName || clean;
+                db.ref(`chat_groups/${groupId}/members/${encodedUser}`).once('value').then(mSnap => {
+                    if (mSnap.exists()) {
+                        status.textContent = '⚠️ @' + displayName + ' è già nel gruppo';
+                        status.style.color = '#f59e0b';
+                        return;
+                    }
+                    const updates = {};
+                    updates[`chat_groups/${groupId}/members/${encodedUser}`] = {
+                        joinedAt: firebase.database.ServerValue.TIMESTAMP,
+                        displayName: displayName,
+                        isCreator: false
+                    };
+                    updates[`users/${encodedUser}/groups/${groupId}`] = true;
+                    db.ref().update(updates).then(() => {
+                        status.textContent = '✅ @' + displayName + ' aggiunto al gruppo!';
+                        status.style.color = '#10b981';
+                        input.value = '';
+                        showToast('✅ @' + displayName + ' aggiunto al gruppo!', 'success');
+                        showGroupMembers();
+                        loadGroups();
+                        if (currentChatId === groupId) {
+                            db.ref(`chat_groups/${groupId}/members`).once('value', (mAll) => {
+                                const count = Object.keys(mAll.val() || {}).length;
+                                const chatSub = document.getElementById('chat-sub');
+                                if (chatSub) chatSub.textContent = '👥 ' + count + ' membri • 🔐 E2EE';
+                            });
+                        }
+                    }).catch(err => {
+                        status.textContent = '❌ Errore: ' + err.message;
+                        status.style.color = '#ef4444';
+                    });
+                });
+            }).catch(() => {
+                status.textContent = '❌ Errore di verifica';
+                status.style.color = '#ef4444';
+            });
         }
 
         // ============================================================
@@ -4821,7 +5732,9 @@
                 document.getElementById('members-btn').style.display = 'none';
                 const avatarEl = document.getElementById('chat-avatar');
                 getUserPhoto(otherEncoded, (photo) => {
-                    if (photo) { avatarEl.style.backgroundImage = `url(${photo})`; avatarEl.innerHTML = ''; } else { avatarEl.style.backgroundImage = ''; avatarEl.textContent = username.charAt(0).toUpperCase(); }
+                    if (photo) { avatarEl.style.backgroundImage = `url(${photo})`;
+                        avatarEl.innerHTML = ''; } else { avatarEl.style.backgroundImage = '';
+                        avatarEl.textContent = username.charAt(0).toUpperCase(); }
                 });
                 loadMessagesPrivate(otherEncoded);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -4829,7 +5742,8 @@
         }
 
         function loadMessagesPrivate(otherEncoded) {
-            if (messagesListener) { db.ref(`private_messages`).off(); messagesListener = null; }
+            if (messagesListener) { db.ref(`private_messages`).off();
+                messagesListener = null; }
             const container = document.getElementById('chat-messages');
             container.innerHTML = '';
             const chatKey = [currentUserEncoded, otherEncoded].sort().join('_');
@@ -4842,7 +5756,8 @@
                 if (!msg || processedMsgIds.has(msgKey)) return;
                 processedMsgIds.add(msgKey);
                 const isMe = msg.sender === currentUser;
-                const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit',
+                    minute: '2-digit' }) : '';
                 if (!isMe && msg.status !== 'read') {
                     db.ref(`private_messages/${chatKey}/${msgKey}/status`).set('read');
                 }
@@ -4853,16 +5768,16 @@
                         const newStatus = sSnapshot.val() || 'sent';
                         const el = document.querySelector(`.msg-status-${msgKey}`);
                         if (el) {
-                            const icon = newStatus === 'read' ? '✔️✔️' : newStatus === 'delivered' ? '✔️✔️' : '✔️';
+                            const icon = newStatus === 'read' ? '✔✔' : '✔';
                             const color = newStatus === 'read' ? '#34b7f1' : '#94a3b8';
                             el.textContent = icon;
                             el.style.color = color;
                         }
                     });
                     const status = msg.status || 'sent';
-                    const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
+                    const icon = status === 'read' ? '✔✔' : '✔';
                     const color = status === 'read' ? '#34b7f1' : '#94a3b8';
-                    statusHtml = `<span class="status msg-status-${msgKey}" style="color:${color};">${icon}</span>`;
+                    statusHtml = `<span class="status msg-status-${msgKey}" style="color:${color};font-weight:700;">${icon}</span>`;
                 }
                 let timerHtml = '';
                 if (msg.timer && msg.timer > 0) {
@@ -4914,7 +5829,7 @@
                         ${contentHtml}
                         <div class="time">${time} ${statusHtml} ${timerHtml}</div>
                         <div class="msg-actions">
-                            <button class="reply-btn" onclick="setReply('${msgKey}', '${msg.sender}', '${decrypted || ''}', ${msg.isAudio || false}, ${msg.isFile || false})">↩️</button>
+                            <button class="reply-btn" onclick="setReply('${msgKey}', '${escAttr(msg.sender)}', '${escAttr(decrypted)}', ${msg.isAudio || false}, ${msg.isFile || false})">↩️</button>
                             <button class="delete-btn" onclick="deleteMessage('${currentChatId}', '${msgKey}', 'private')">🗑️</button>
                         </div>
                     `;
@@ -4945,7 +5860,9 @@
                 document.getElementById('members-btn').style.display = 'inline-block';
                 const avatarEl = document.getElementById('chat-avatar');
                 getGroupPhoto(groupId, (photo) => {
-                    if (photo) { avatarEl.style.backgroundImage = `url(${photo})`; avatarEl.innerHTML = ''; } else { avatarEl.style.backgroundImage = ''; avatarEl.textContent = group.name.charAt(0).toUpperCase(); }
+                    if (photo) { avatarEl.style.backgroundImage = `url(${photo})`;
+                        avatarEl.innerHTML = ''; } else { avatarEl.style.backgroundImage = '';
+                        avatarEl.textContent = group.name.charAt(0).toUpperCase(); }
                 });
                 loadMessagesGroup(groupId);
                 setTimeout(() => document.getElementById('chat-input').focus(), 300);
@@ -4953,7 +5870,8 @@
         }
 
         function loadMessagesGroup(groupId) {
-            if (messagesListener) { db.ref(`chat_messages/${groupId}`).off(); messagesListener = null; }
+            if (messagesListener) { db.ref(`chat_messages/${groupId}`).off();
+                messagesListener = null; }
             const container = document.getElementById('chat-messages');
             container.innerHTML = '';
             const messagesRef = db.ref(`chat_messages/${groupId}`);
@@ -4966,7 +5884,10 @@
                     if (!msg || processedMsgIds.has(msgKey)) return;
                     processedMsgIds.add(msgKey);
                     const isMe = msg.sender === currentUser;
-                    const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }) : '';
+                    const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('it-IT', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : '';
                     if (!isMe && msg.status !== 'read') {
                         db.ref(`chat_messages/${groupId}/${msgKey}/status`).set('read');
                     }
@@ -4977,16 +5898,17 @@
                             const newStatus = sSnapshot.val() || 'sent';
                             const el = document.querySelector(`.msg-status-${msgKey}`);
                             if (el) {
-                                const icon = newStatus === 'read' ? '✔️✔️' : newStatus === 'delivered' ? '✔️✔️' : '✔️';
+                                const icon = newStatus === 'read' ? '✔✔' : '✔';
                                 const color = newStatus === 'read' ? '#34b7f1' : '#94a3b8';
                                 el.textContent = icon;
                                 el.style.color = color;
                             }
                         });
                         const status = msg.status || 'sent';
-                        const icon = status === 'read' ? '✔️✔️' : status === 'delivered' ? '✔️✔️' : '✔️';
+                        const icon = status === 'read' ? '✔✔' : '✔';
                         const color = status === 'read' ? '#34b7f1' : '#94a3b8';
-                        statusHtml = `<span class="status msg-status-${msgKey}" style="color:${color};">${icon}</span>`;
+                        statusHtml =
+                            `<span class="status msg-status-${msgKey}" style="color:${color};font-weight:700;">${icon}</span>`;
                     }
                     let timerHtml = '';
                     if (msg.timer && msg.timer > 0) {
@@ -4999,24 +5921,24 @@
                             try {
                                 const ad = JSON.parse(decrypted);
                                 contentHtml = `
-                                    <div class="audio-player">
-                                        <button onclick="playAudio('${ad.data}')">▶️</button>
-                                        <div class="progress"><div class="fill" id="audio-progress-${msgKey}"></div></div>
-                                        <span class="duration">${Math.floor(ad.duration/60)}:${String(ad.duration%60).padStart(2,'0')}</span>
-                                    </div>
-                                `;
+                                <div class="audio-player">
+                                    <button onclick="playAudio('${ad.data}')">▶️</button>
+                                    <div class="progress"><div class="fill" id="audio-progress-${msgKey}"></div></div>
+                                    <span class="duration">${Math.floor(ad.duration/60)}:${String(ad.duration%60).padStart(2,'0')}</span>
+                                </div>
+                            `;
                             } catch (e) { contentHtml = '<div>🎤 Messaggio vocale</div>'; }
                         } else if (msg.isFile) {
                             try {
                                 const fd = JSON.parse(decrypted);
                                 const icon = fd.isImage ? '🖼️' : '📄';
                                 contentHtml = `
-                                    <div class="file-attachment" onclick="downloadFile('${fd.data}', '${fd.name}')">
-                                        <span class="file-icon">${icon}</span>
-                                        <span class="file-name">${fd.name}</span>
-                                        <span class="file-size">${formatFileSize(fd.size)}</span>
-                                    </div>
-                                `;
+                                <div class="file-attachment" onclick="downloadFile('${fd.data}', '${fd.name}')">
+                                    <span class="file-icon">${icon}</span>
+                                    <span class="file-name">${fd.name}</span>
+                                    <span class="file-size">${formatFileSize(fd.size)}</span>
+                                </div>
+                            `;
                             } catch (e) { contentHtml = '<div>📎 File allegato</div>'; }
                         } else {
                             contentHtml = `<div>${decrypted || '🔐 Messaggio cifrato'}</div>`;
@@ -5024,24 +5946,24 @@
                         let quotedHtml = '';
                         if (msg.replyTo) {
                             quotedHtml = `
-                                <div class="quoted">
-                                    <span class="q-sender">${msg.replyTo.sender}:</span>
-                                    ${msg.replyTo.isAudio ? '🎤 Vocale' : msg.replyTo.isFile ? '📎 File' : msg.replyTo.text || ''}
-                                </div>
-                            `;
+                            <div class="quoted">
+                                <span class="q-sender">${msg.replyTo.sender}:</span>
+                                ${msg.replyTo.isAudio ? '🎤 Vocale' : msg.replyTo.isFile ? '📎 File' : msg.replyTo.text || ''}
+                            </div>
+                        `;
                         }
                         const div = document.createElement('div');
                         div.className = `chat-msg ${isMe ? 'me' : 'other'}`;
                         div.innerHTML = `
-                            ${!isMe ? `<div class="sender">${msg.sender}</div>` : ''}
-                            ${quotedHtml}
-                            ${contentHtml}
-                            <div class="time">${time} ${statusHtml} ${timerHtml}</div>
-                            <div class="msg-actions">
-                                <button class="reply-btn" onclick="setReply('${msgKey}', '${msg.sender}', '${decrypted || ''}', ${msg.isAudio || false}, ${msg.isFile || false})">↩️</button>
-                                <button class="delete-btn" onclick="deleteMessage('${currentChatId}', '${msgKey}', 'group')">🗑️</button>
-                            </div>
-                        `;
+                        ${!isMe ? `<div class="sender">${msg.sender}</div>` : ''}
+                        ${quotedHtml}
+                        ${contentHtml}
+                        <div class="time">${time} ${statusHtml} ${timerHtml}</div>
+                        <div class="msg-actions">
+                            <button class="reply-btn" onclick="setReply('${msgKey}', '${escAttr(msg.sender)}', '${escAttr(decrypted)}', ${msg.isAudio || false}, ${msg.isFile || false})">↩️</button>
+                            <button class="delete-btn" onclick="deleteMessage('${currentChatId}', '${msgKey}', 'group')">🗑️</button>
+                        </div>
+                    `;
                         container.appendChild(div);
                         container.scrollTop = container.scrollHeight;
                     });
@@ -5078,6 +6000,7 @@
                 password = getChatPassword(chatKey, 'private');
                 path = `private_messages/${chatKey}`;
             } else if (currentChatType === 'group') {
+                path = `chat_messages/${currentChatId}`;
                 db.ref(`chat_groups/${currentChatId}/password`).once('value', (s) => {
                     const pwd = s.val() || currentChatId;
                     sendEncrypted(text, pwd, path);
@@ -5134,7 +6057,8 @@
 
         function deleteMessage(chatId, msgKey, type) {
             if (!confirm('Eliminare questo messaggio per tutti?')) return;
-            let path = type === 'private' ? `private_messages/${[currentUserEncoded, chatId].sort().join('_')}/${msgKey}` : `chat_messages/${chatId}/${msgKey}`;
+            let path = type === 'private' ? `private_messages/${[currentUserEncoded, chatId].sort().join('_')}/${msgKey}` :
+                `chat_messages/${chatId}/${msgKey}`;
             db.ref(path).remove().then(() => showToast('🗑️ Messaggio eliminato', 'success'))
                 .catch(() => showToast('❌ Errore eliminazione', 'error'));
         }
@@ -5249,6 +6173,10 @@
             if (!currentChatId || currentChatType !== 'group') { showToast('❌ Nessun gruppo selezionato', 'error'); return; }
             const container = document.getElementById('members-list');
             container.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:12px;">⏳ Caricamento...</div>';
+            const addStatus = document.getElementById('add-member-status');
+            if (addStatus) addStatus.textContent = '';
+            const addInput = document.getElementById('add-member-input');
+            if (addInput) addInput.value = '';
             db.ref(`chat_groups/${currentChatId}/members`).once('value', (snapshot) => {
                 const members = snapshot.val() || {};
                 const memberKeys = Object.keys(members);
@@ -5277,7 +6205,9 @@
                     getUserPhoto(encoded, (photo) => {
                         const el = document.getElementById(avatarId);
                         if (el) {
-                            if (photo) { el.style.backgroundImage = `url(${photo})`; el.innerHTML = ''; } else { el.style.backgroundImage = ''; el.textContent = displayName.charAt(0).toUpperCase(); }
+                            if (photo) { el.style.backgroundImage = `url(${photo})`;
+                                el.innerHTML = ''; } else { el.style.backgroundImage = '';
+                                el.textContent = displayName.charAt(0).toUpperCase(); }
                         }
                     });
                 });
@@ -5333,7 +6263,8 @@
             if (profilePhotoData) {
                 preview.style.backgroundImage = `url(${profilePhotoData})`;
                 preview.innerHTML = '';
-            } else { preview.style.backgroundImage = ''; preview.innerHTML = '👤'; }
+            } else { preview.style.backgroundImage = '';
+                preview.innerHTML = '👤'; }
             document.getElementById('profile-photo-modal').classList.remove('hidden');
         }
 
@@ -5352,8 +6283,11 @@
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     const MAX = 200;
-                    let w = img.width, h = img.height;
-                    if (w > h) { if (w > MAX) { h = h * (MAX / w); w = MAX; } } else { if (h > MAX) { w = w * (MAX / h); h = MAX; } }
+                    let w = img.width,
+                        h = img.height;
+                    if (w > h) { if (w > MAX) { h = h * (MAX / w);
+                            w = MAX; } } else { if (h > MAX) { w = w * (MAX / h);
+                            h = MAX; } }
                     canvas.width = w;
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
@@ -5418,7 +6352,9 @@
             db.ref(`chat_groups/${currentChatId}/photo`).once('value', (snapshot) => {
                 const photo = snapshot.val();
                 const preview = document.getElementById('group-photo-preview');
-                if (photo) { preview.style.backgroundImage = `url(${photo})`; preview.innerHTML = ''; } else { preview.style.backgroundImage = ''; preview.innerHTML = '👥'; }
+                if (photo) { preview.style.backgroundImage = `url(${photo})`;
+                    preview.innerHTML = ''; } else { preview.style.backgroundImage = '';
+                    preview.innerHTML = '👥'; }
                 document.getElementById('group-photo-modal').classList.remove('hidden');
             });
         }
@@ -5439,8 +6375,11 @@
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     const MAX = 200;
-                    let w = img.width, h = img.height;
-                    if (w > h) { if (w > MAX) { h = h * (MAX / w); w = MAX; } } else { if (h > MAX) { w = w * (MAX / h); h = MAX; } }
+                    let w = img.width,
+                        h = img.height;
+                    if (w > h) { if (w > MAX) { h = h * (MAX / w);
+                            w = MAX; } } else { if (h > MAX) { w = w * (MAX / h);
+                            h = MAX; } }
                     canvas.width = w;
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
@@ -5488,7 +6427,10 @@
         function updateGroupPhotoUI(groupId, photoData) {
             if (currentChatId === groupId) {
                 const avatar = document.getElementById('chat-avatar');
-                if (photoData) { avatar.style.backgroundImage = `url(${photoData})`; avatar.innerHTML = ''; } else { avatar.style.backgroundImage = ''; const g = allGroups[groupId]; avatar.textContent = g ? g.name.charAt(0).toUpperCase() : '👥'; }
+                if (photoData) { avatar.style.backgroundImage = `url(${photoData})`;
+                    avatar.innerHTML = ''; } else { avatar.style.backgroundImage = '';
+                    const g = allGroups[groupId];
+                    avatar.textContent = g ? g.name.charAt(0).toUpperCase() : '👥'; }
             }
         }
 
