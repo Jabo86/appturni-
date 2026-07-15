@@ -22,7 +22,7 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
     </script>
 
-    <!-- Firebase -->
+    <!-- Firebase - Solo Database, niente Auth -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js">
@@ -2167,168 +2167,6 @@
             transform: scale(0.98);
         }
 
-        /* SIDEBAR MENU - HAMBURGER */
-        .menu-sidebar {
-            position: fixed;
-            top: 0;
-            right: -320px;
-            width: 300px;
-            height: 100vh;
-            height: 100dvh;
-            background: var(--paper-2);
-            box-shadow: -4px 0 30px rgba(0, 0, 0, 0.15);
-            z-index: 3000;
-            transition: right 0.3s ease;
-            padding: 20px 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .dark-mode .menu-sidebar {
-            background: var(--bg-deep);
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .menu-sidebar.open {
-            right: 0;
-        }
-        .menu-sidebar .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-        .dark-mode .menu-sidebar .menu-header {
-            border-color: rgba(255, 255, 255, 0.06);
-        }
-        .menu-sidebar .menu-header h2 {
-            font-size: 1.1rem;
-            font-weight: 800;
-        }
-        .menu-sidebar .menu-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--ink);
-            padding: 4px;
-        }
-        .dark-mode .menu-sidebar .menu-close {
-            color: #e6e8f5;
-        }
-        .menu-sidebar .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--ink);
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-family: var(--font-display);
-        }
-        .dark-mode .menu-sidebar .menu-item {
-            color: #e6e8f5;
-        }
-        .menu-sidebar .menu-item:hover {
-            background: rgba(99, 102, 241, 0.08);
-        }
-        .dark-mode .menu-sidebar .menu-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .menu-sidebar .menu-item .icon {
-            font-size: 1.2rem;
-            width: 28px;
-            text-align: center;
-        }
-        .menu-sidebar .menu-divider {
-            height: 1px;
-            background: rgba(0, 0, 0, 0.06);
-            margin: 6px 0;
-        }
-        .dark-mode .menu-sidebar .menu-divider {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 2999;
-            display: none;
-        }
-        .menu-overlay.show {
-            display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 400px) {
-            .annual-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .day-cell {
-                min-height: 48px;
-            }
-            .shift-option {
-                font-size: 0.55rem;
-                padding: 3px 6px;
-            }
-            .widget-date {
-                font-size: 0.75rem;
-            }
-            .month-title {
-                font-size: 0.95rem;
-            }
-            .menu-sidebar {
-                width: 280px;
-                right: -280px;
-            }
-        }
-        @media (min-width: 481px) {
-            .app-container {
-                border-left: 1px solid rgba(0, 0, 0, 0.06);
-                border-right: 1px solid rgba(0, 0, 0, 0.06);
-            }
-        }
-
-        .hidden {
-            display: none !important;
-        }
-        .flex-between {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .gap-2 {
-            gap: 6px;
-        }
-        .gap-3 {
-            gap: 10px;
-        }
-        .mt-2 {
-            margin-top: 6px;
-        }
-        .mt-3 {
-            margin-top: 10px;
-        }
-        .mb-2 {
-            margin-bottom: 6px;
-        }
-        .mb-3 {
-            margin-bottom: 10px;
-        }
-        .text-center {
-            text-align: center;
-        }
-
         ::-webkit-scrollbar {
             width: 3px;
         }
@@ -2592,9 +2430,6 @@
                 <button class="btn-send" onclick="sendChatMessage()">Invia</button>
             </div>
         </div>
-
-        <!-- Il vecchio menu a comparsa (hamburger) è stato rimosso: tutte le sue voci
-             sono ora nella tab "⚙️ Impostazioni" per ridurre la confusione. -->
 
         <!-- MODALI -->
 
@@ -3008,8 +2843,6 @@
             }, 3000);
         }
 
-        // Escapa testo per uso sicuro dentro attributi onclick (evita che apostrofi/virgolette
-        // nei messaggi rompano l'HTML generato — molto comune in italiano: "c'è", "perché" ecc.)
         function escAttr(str) {
             return String(str == null ? '' : str)
                 .replace(/\\/g, '\\\\')
@@ -3134,7 +2967,6 @@
         let editingMemberId = null;
         let familyAvatarBase64 = '';
         let notificationSettings = { enableAll: true, chatMessages: true, reminders: true, notes: true };
-        let menuOpen = false;
 
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
@@ -3260,11 +3092,55 @@
         function autoLogin() {
             const savedUser = localStorage.getItem('appturni_user');
             const savedPassword = localStorage.getItem('appturni_password');
-            if (savedUser && savedPassword && connectionEstablished) {
+            const savedEncoded = localStorage.getItem('appturni_encoded');
+            if (savedUser && savedPassword && savedEncoded && connectionEstablished) {
                 document.getElementById('auth-username').value = savedUser;
                 document.getElementById('auth-password').value = savedPassword;
-                setTimeout(handleAuth, 500);
+                currentUser = savedUser;
+                currentUserEncoded = savedEncoded;
+                // Carica i dati
+                loadUserData(currentUserEncoded);
+                setTimeout(() => {
+                    enterApp();
+                }, 300);
             }
+        }
+
+        function loadUserData(encodedName) {
+            if (!encodedName) return;
+            const userRef = db.ref(`users/${encodedName}`);
+            userRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+                if (data.profilePhoto) profilePhotoData = data.profilePhoto;
+                if (data.myProfile) myProfile = data.myProfile;
+                if (data.notificationSettings) notificationSettings = data.notificationSettings;
+                if (data.shifts) {
+                    const newShifts = {};
+                    Object.keys(data.shifts).forEach(k => {
+                        if (data.shifts[k] && data.shifts[k].name) {
+                            newShifts[k] = data.shifts[k];
+                        }
+                    });
+                    shifts = newShifts;
+                    if (document.getElementById('shift-selector')) renderShiftSelector();
+                }
+                if (data.familyMembers) {
+                    familyMembers = data.familyMembers;
+                    if (document.getElementById('person-switcher')) renderPersonSwitcher();
+                }
+                if (data.workSettings) {
+                    workSettings = data.workSettings;
+                }
+                if (data.shiftPattern) {
+                    patternSequence = data.shiftPattern.sequence || [];
+                }
+                if (document.getElementById('calendar-grid')) {
+                    renderCalendar();
+                    updateWidget();
+                    updateWorkedHoursAndSummary();
+                }
+            });
         }
 
         function logout() {
@@ -3328,10 +3204,13 @@
         // ENTRATA APP
         // ============================================================
         function enterApp() {
+            if (!currentUser || !currentUserEncoded) return;
+            
             document.getElementById('auth-view').style.display = 'none';
             document.getElementById('main-app').classList.add('active');
             document.getElementById('header-name').textContent = '@' + currentUser;
             if (profilePhotoData) updateUserPhotoUI(profilePhotoData);
+            
             loadMyData();
             loadMyContacts();
             loadChats();
@@ -3342,17 +3221,9 @@
             updateWidget();
             updateWorkedHoursAndSummary();
             startClock();
+            
             if (Notification.permission === 'default') Notification.requestPermission();
             showToast('👋 Benvenuto ' + currentUser + '!', 'success');
-        }
-
-        // ============================================================
-        // TOGGLE MENU
-        // ============================================================
-        function toggleMenu() {
-            menuOpen = !menuOpen;
-            document.getElementById('menu-sidebar').classList.toggle('open', menuOpen);
-            document.getElementById('menu-overlay').classList.toggle('show', menuOpen);
         }
 
         // ============================================================
@@ -3389,6 +3260,10 @@
                 }
                 if (data.notificationSettings) {
                     notificationSettings = data.notificationSettings;
+                }
+                if (data.profilePhoto) {
+                    profilePhotoData = data.profilePhoto;
+                    updateUserPhotoUI(profilePhotoData);
                 }
                 renderCalendar();
                 updateWidget();
@@ -4115,7 +3990,7 @@
         }
 
         // ============================================================
-        // NOTE (massimo 5 al giorno)
+        // NOTE
         // ============================================================
         function openNoteModal(year, month, day) {
             currentNoteKey = `note_${year}_${month}_${day}`;
@@ -4333,7 +4208,6 @@
         function computeFeriePermessiUsed(year) {
             let ferieUsed = 0,
                 permessiUsed = 0;
-            // Calcolo reale dai turni
             for (let m = 0; m < 12; m++) {
                 const days = new Date(year, m + 1, 0).getDate();
                 for (let d = 1; d <= days; d++) {
@@ -5072,10 +4946,7 @@
                 const container = buildShareImageHTML();
                 if (!container) { showToast('❌ Errore creazione immagine', 'error'); return; }
 
-                // Popola i turni
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-                const offset = firstDay === 0 ? 6 : firstDay - 1;
                 const cells = container.querySelectorAll('div[data-day]');
 
                 for (let d = 1; d <= daysInMonth; d++) {
@@ -5216,7 +5087,6 @@
             if (tab === 'settings') updateWorkedHoursAndSummary();
         }
 
-        // Sotto-navigazione dentro la tab "Chat": Chat / Rubrica / Gruppi
         function switchChatSubTab(subtab) {
             document.querySelectorAll('.chat-subtabs .subtab').forEach(t => t.classList.remove('active'));
             document.querySelector(`.chat-subtabs .subtab[data-subtab="${subtab}"]`)?.classList.add('active');
@@ -5644,10 +5514,6 @@
                 displayName: currentUser,
                 isCreator: true
             };
-            // Aggiungiamo subito i contatti invitati come membri effettivi del gruppo
-            // (essendo già in rubrica, sono utenti fidati; niente flusso di accettazione
-            // separato, che nella versione precedente non era mai implementato e quindi
-            // gli inviti restavano "pending" per sempre).
             inviteList.forEach(user => {
                 const encodedUser = encodeUsername(user);
                 groupData.members[encodedUser] = {
@@ -5682,9 +5548,6 @@
                     btn.disabled = false; });
         }
 
-        // Aggiunge un membro a un gruppo GIA' ESISTENTE (funzione mancante nella versione precedente).
-        // Aggiunge direttamente l'utente ai membri del gruppo: deve comunque essere un utente
-        // registrato in AppTurni (verificato su Firebase prima di aggiungerlo).
         function addMemberToGroup() {
             if (!currentChatId || currentChatType !== 'group') { showToast('❌ Nessun gruppo selezionato', 'error'); return; }
             const input = document.getElementById('add-member-input');
