@@ -960,6 +960,12 @@
         .chat-view-header .header-actions button:hover {
             background: rgba(255, 255, 255, 0.15);
         }
+        .chat-view-header .header-actions .delete-chat-btn {
+            color: #ef4444;
+        }
+        .chat-view-header .header-actions .delete-chat-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
 
         .chat-messages {
             flex: 1;
@@ -1343,6 +1349,28 @@
             color: #94a3b8;
             flex-shrink: 0;
             margin-left: 6px;
+        }
+        .chat-list .chat-item .chat-actions {
+            display: flex;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+        .chat-list .chat-item .chat-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px 4px;
+            border-radius: 50%;
+            transition: background 0.2s;
+            opacity: 0.6;
+        }
+        .chat-list .chat-item .chat-actions button:hover {
+            background: rgba(239, 68, 68, 0.1);
+            opacity: 1;
+        }
+        .chat-list .chat-item .chat-actions .delete-chat-btn {
+            color: #ef4444;
         }
 
         .empty-state {
@@ -2190,7 +2218,66 @@
             background: #1a1e3d;
             color: #e6e8f5;
         }
+
+        /* Stili per l'immagine condivisa - badge più grandi e leggibili */
+        #share-image-container .share-day-cell .share-shift-badge {
+            font-size: 0.6rem !important;
+            padding: 2px 4px !important;
+            border-radius: 4px !important;
+            font-weight: 800 !important;
+            margin: 1px !important;
+            display: inline-block !important;
+            line-height: 1.3 !important;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+        }
+        #share-image-container .share-day-cell .share-shifts-container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 2px !important;
+            margin-top: 4px !important;
+        }
+        #share-image-container .share-day-cell .share-day-number {
+            font-size: 0.7rem !important;
+            font-weight: 700 !important;
+            position: absolute !important;
+            top: 2px !important;
+            right: 4px !important;
+        }
+        #share-image-container .share-day-cell {
+            aspect-ratio: 1/1.05 !important;
+            background: rgba(148, 163, 184, 0.06) !important;
+            border-radius: 6px !important;
+            padding: 4px !important;
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            min-height: 65px !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+        }
+        #share-image-container .share-day-cell.share-holiday {
+            background: #ef4444 !important;
+            color: #ffffff !important;
+        }
+        #share-image-container .share-day-cell.share-today {
+            background: rgba(99, 102, 241, 0.10) !important;
+            box-shadow: inset 0 0 0 1.5px rgba(99, 102, 241, 0.4) !important;
+        }
+        #share-image-container .share-day-cell.share-today .share-day-number {
+            background: var(--grad-primary) !important;
+            color: white !important;
+            border-radius: 50% !important;
+            width: 22px !important;
+            height: 22px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            right: 3px !important;
+            top: 2px !important;
+            font-size: 0.7rem !important;
+        }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -2413,6 +2500,7 @@
                 <div class="header-actions">
                     <button onclick="document.getElementById('file-input').click()" title="Allega file">📎</button>
                     <button onclick="showTimerSelector()" title="Timer autodistruzione">⏱️</button>
+                    <button onclick="deleteCurrentChat()" title="Elimina chat" class="delete-chat-btn">🗑️</button>
                 </div>
                 <input type="file" id="file-input" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip" onchange="handleFileUpload(event)">
             </div>
@@ -2530,7 +2618,14 @@
         <!-- Note Modal -->
         <div id="note-modal" class="modal-overlay hidden">
             <div class="modal">
-                <h3>📝 Aggiungi Nota</h3>
+                <h3 id="note-modal-title">📝 Nota 1/5</h3>
+                <div id="note-nav" style="display:flex;gap:4px;justify-content:center;margin-bottom:10px;flex-wrap:wrap;">
+                    <button onclick="switchNoteIndex(0)" id="note-nav-0" class="btn-secondary" style="padding:4px 10px;font-size:0.7rem;min-width:32px;">1</button>
+                    <button onclick="switchNoteIndex(1)" id="note-nav-1" class="btn-secondary" style="padding:4px 10px;font-size:0.7rem;min-width:32px;">2</button>
+                    <button onclick="switchNoteIndex(2)" id="note-nav-2" class="btn-secondary" style="padding:4px 10px;font-size:0.7rem;min-width:32px;">3</button>
+                    <button onclick="switchNoteIndex(3)" id="note-nav-3" class="btn-secondary" style="padding:4px 10px;font-size:0.7rem;min-width:32px;">4</button>
+                    <button onclick="switchNoteIndex(4)" id="note-nav-4" class="btn-secondary" style="padding:4px 10px;font-size:0.7rem;min-width:32px;">5</button>
+                </div>
                 <label>Nota</label>
                 <textarea id="note-text" rows="3" placeholder="Inserisci una nota..."></textarea>
                 <label>Data Notifica</label>
@@ -2542,6 +2637,7 @@
                     <label>Attiva notifica</label>
                 </div>
                 <div class="modal-actions">
+                    <button onclick="deleteCurrentNote()" class="btn-danger" id="note-delete-btn" style="display:none;">🗑️ Elimina</button>
                     <button onclick="closeNoteModal()" class="btn-secondary">Annulla</button>
                     <button onclick="saveNote()" class="btn-primary">Salva</button>
                 </div>
@@ -3098,7 +3194,6 @@
                 document.getElementById('auth-password').value = savedPassword;
                 currentUser = savedUser;
                 currentUserEncoded = savedEncoded;
-                // Carica i dati
                 loadUserData(currentUserEncoded);
                 setTimeout(() => {
                     enterApp();
@@ -3205,12 +3300,12 @@
         // ============================================================
         function enterApp() {
             if (!currentUser || !currentUserEncoded) return;
-            
+
             document.getElementById('auth-view').style.display = 'none';
             document.getElementById('main-app').classList.add('active');
             document.getElementById('header-name').textContent = '@' + currentUser;
             if (profilePhotoData) updateUserPhotoUI(profilePhotoData);
-            
+
             loadMyData();
             loadMyContacts();
             loadChats();
@@ -3221,7 +3316,7 @@
             updateWidget();
             updateWorkedHoursAndSummary();
             startClock();
-            
+
             if (Notification.permission === 'default') Notification.requestPermission();
             showToast('👋 Benvenuto ' + currentUser + '!', 'success');
         }
@@ -3857,10 +3952,24 @@
 
                 const noteBtn = document.createElement('button');
                 noteBtn.className = 'note-edit-btn';
-                noteBtn.innerHTML = '✏️';
-                noteBtn.title = 'Modifica nota';
-                noteBtn.addEventListener('click', (e) => { e.stopPropagation();
-                    openNoteModal(currentYear, currentMonth, day); });
+                noteBtn.innerHTML = '📝';
+                noteBtn.title = 'Aggiungi/Modifica note (max 5)';
+                noteBtn.addEventListener('click', (e) => { 
+                    e.stopPropagation();
+                    loadNotesList(currentYear, currentMonth, day).then(notesList => {
+                        // Trova il primo slot libero o apri la nota esistente
+                        let targetIndex = 0;
+                        for (let i = 0; i < 5; i++) {
+                            if (!notesList[i] || !notesList[i].text) {
+                                targetIndex = i;
+                                break;
+                            }
+                            targetIndex = i + 1;
+                        }
+                        if (targetIndex >= 5) targetIndex = 0;
+                        openNoteModal(currentYear, currentMonth, day, targetIndex);
+                    });
+                });
                 cell.appendChild(noteBtn);
 
                 const skey = shiftKey(currentYear, currentMonth, day);
@@ -3889,14 +3998,15 @@
                 });
 
                 if (currentPersonId === 'self') {
-                    const noteKey = `note_${currentYear}_${currentMonth}_${day}`;
-                    loadNote(noteKey).then(noteData => {
-                        if (noteData.text) {
+                    loadNotesList(currentYear, currentMonth, day).then(notesList => {
+                        if (notesList.length > 0) {
                             const noteEl = document.createElement('div');
                             noteEl.className = 'note-indicator';
-                            if (noteData.hasNotification) noteEl.classList.add('has-notification');
-                            noteEl.textContent = noteData.text.length > 12 ? noteData.text.slice(0, 12) + '…' :
-                                noteData.text;
+                            const hasNotif = notesList.some(n => n.hasNotification);
+                            if (hasNotif) noteEl.classList.add('has-notification');
+                            const allText = notesList.map(n => n.text).join(' · ');
+                            noteEl.textContent = allText.length > 12 ? allText.slice(0, 12) + '…' : allText;
+                            noteEl.title = notesList.map((n, i) => `Nota ${i+1}: ${n.text}`).join('\n');
                             cell.appendChild(noteEl);
                         }
                     });
@@ -3977,9 +4087,13 @@
                     });
                 }
                 if (currentPersonId === 'self') {
-                    loadNote(noteKey).then(noteData => {
-                        if (noteData.text) {
-                            html += `<span class="widget-shift widget-note">📝 ${noteData.text}</span>`;
+                    loadNotesList(today.getFullYear(), today.getMonth(), today.getDate()).then(notesList => {
+                        if (notesList.length > 0) {
+                            notesList.forEach((noteData, idx) => {
+                                if (noteData.text) {
+                                    html += `<span class="widget-shift widget-note">📝 ${idx+1}. ${noteData.text}</span>`;
+                                }
+                            });
                         }
                         shiftsEl.innerHTML = html;
                     });
@@ -3990,16 +4104,123 @@
         }
 
         // ============================================================
-        // NOTE
+        // NOTE - FINO A 5 NOTE AL GIORNO
         // ============================================================
-        function openNoteModal(year, month, day) {
+        let currentNoteIndex = 0;
+        let currentNoteYear = null;
+        let currentNoteMonth = null;
+        let currentNoteDay = null;
+
+        function getNotesKey(year, month, day) {
+            return `notes_${year}_${month}_${day}`;
+        }
+
+        function loadNotesList(year, month, day) {
+            return new Promise((resolve) => {
+                if (!currentUserEncoded) { resolve([]); return; }
+                const path = `users/${currentUserEncoded}/notesList/${getNotesKey(year, month, day)}`;
+                db.ref(path).once('value', (snapshot) => {
+                    const val = snapshot.val();
+                    resolve(val || []);
+                }).catch(() => resolve([]));
+            });
+        }
+
+        function saveNotesList(year, month, day, notesList) {
+            if (!currentUserEncoded) return;
+            const path = `users/${currentUserEncoded}/notesList/${getNotesKey(year, month, day)}`;
+            db.ref(path).set(notesList).catch(() => {});
+        }
+
+        function updateNoteNavUI(notesList) {
+            for (let i = 0; i < 5; i++) {
+                const btn = document.getElementById(`note-nav-${i}`);
+                if (!btn) continue;
+                const hasNote = i < notesList.length && notesList[i] && notesList[i].text;
+                if (i === currentNoteIndex) {
+                    btn.style.background = 'linear-gradient(135deg, #6366f1, #a855f7)';
+                    btn.style.color = 'white';
+                    btn.style.borderColor = 'var(--accent)';
+                } else if (hasNote) {
+                    btn.style.background = 'rgba(99,102,241,0.15)';
+                    btn.style.color = '#6366f1';
+                    btn.style.borderColor = 'rgba(99,102,241,0.3)';
+                } else {
+                    btn.style.background = 'rgba(148,163,184,0.12)';
+                    btn.style.color = '#94a3b8';
+                    btn.style.borderColor = 'transparent';
+                }
+            }
+            const deleteBtn = document.getElementById('note-delete-btn');
+            if (deleteBtn) {
+                const hasCurrentNote = currentNoteIndex < (notesList || []).length && notesList[currentNoteIndex] && notesList[currentNoteIndex].text;
+                deleteBtn.style.display = hasCurrentNote ? 'inline-block' : 'none';
+            }
+        }
+
+        function switchNoteIndex(index) {
+            if (!currentNoteKey) return;
+            // Salva prima la nota corrente
+            const text = document.getElementById('note-text').value.trim() || '';
+            const date = document.getElementById('note-notification-date').value || '';
+            const time = document.getElementById('note-notification-time').value || '';
+            const enable = document.getElementById('note-enable-notification').checked || false;
+
+            loadNotesList(currentNoteYear, currentNoteMonth, currentNoteDay).then(notesList => {
+                // Salva la nota corrente prima di switchare
+                if (text) {
+                    const data = { text };
+                    if (enable && date && time) {
+                        data.hasNotification = true;
+                        data.notificationDate = date;
+                        data.notificationTime = time;
+                    } else {
+                        data.hasNotification = false;
+                    }
+                    while (notesList.length <= currentNoteIndex) {
+                        notesList.push({ text: '' });
+                    }
+                    notesList[currentNoteIndex] = data;
+                }
+
+                currentNoteIndex = index;
+                const noteData = notesList[currentNoteIndex] || {};
+
+                document.getElementById('note-text').value = noteData.text || '';
+                document.getElementById('note-notification-date').value = noteData.notificationDate || new Date().toISOString().slice(0, 10);
+                document.getElementById('note-notification-time').value = noteData.notificationTime || '08:00';
+                document.getElementById('note-enable-notification').checked = noteData.hasNotification || false;
+
+                const modalTitle = document.getElementById('note-modal-title');
+                if (modalTitle) {
+                    modalTitle.innerHTML = `📝 Nota ${currentNoteIndex + 1}/5 — ${currentNoteDay}/${currentNoteMonth + 1}/${currentNoteYear}`;
+                }
+
+                updateNoteNavUI(notesList);
+            });
+        }
+
+        function openNoteModal(year, month, day, noteIndex) {
             currentNoteKey = `note_${year}_${month}_${day}`;
-            loadNote(currentNoteKey).then(data => {
-                document.getElementById('note-text').value = data.text || '';
-                document.getElementById('note-notification-date').value = data.notificationDate || new Date().toISOString()
-                    .slice(0, 10);
-                document.getElementById('note-notification-time').value = data.notificationTime || '08:00';
-                document.getElementById('note-enable-notification').checked = data.hasNotification || false;
+            currentNoteYear = year;
+            currentNoteMonth = month;
+            currentNoteDay = day;
+            currentNoteIndex = noteIndex !== undefined ? noteIndex : 0;
+
+            loadNotesList(year, month, day).then(notesList => {
+                const noteData = notesList[currentNoteIndex] || {};
+
+                const modalTitle = document.getElementById('note-modal-title');
+                if (modalTitle) {
+                    modalTitle.innerHTML = `📝 Nota ${currentNoteIndex + 1}/5 — ${day}/${month + 1}/${year}`;
+                }
+
+                document.getElementById('note-text').value = noteData.text || '';
+                document.getElementById('note-notification-date').value = noteData.notificationDate || new Date().toISOString().slice(0, 10);
+                document.getElementById('note-notification-time').value = noteData.notificationTime || '08:00';
+                document.getElementById('note-enable-notification').checked = noteData.hasNotification || false;
+
+                updateNoteNavUI(notesList);
                 document.getElementById('note-modal').classList.remove('hidden');
             });
         }
@@ -4007,6 +4228,45 @@
         function closeNoteModal() {
             document.getElementById('note-modal').classList.add('hidden');
             currentNoteKey = null;
+            currentNoteYear = null;
+            currentNoteMonth = null;
+            currentNoteDay = null;
+        }
+
+        function deleteCurrentNote() {
+            if (!currentNoteKey) return;
+            if (!confirm('Eliminare questa nota?')) return;
+
+            loadNotesList(currentNoteYear, currentNoteMonth, currentNoteDay).then(notesList => {
+                if (currentNoteIndex < notesList.length) {
+                    notesList.splice(currentNoteIndex, 1);
+                    saveNotesList(currentNoteYear, currentNoteMonth, currentNoteDay, notesList);
+                    showToast('🗑️ Nota eliminata', 'success');
+                }
+
+                // Se ci sono ancora note, mostra la precedente o la prima
+                if (notesList.length > 0) {
+                    const newIndex = Math.min(currentNoteIndex, notesList.length - 1);
+                    currentNoteIndex = newIndex;
+                    const noteData = notesList[newIndex] || {};
+                    document.getElementById('note-text').value = noteData.text || '';
+                    document.getElementById('note-notification-date').value = noteData.notificationDate || new Date().toISOString().slice(0, 10);
+                    document.getElementById('note-notification-time').value = noteData.notificationTime || '08:00';
+                    document.getElementById('note-enable-notification').checked = noteData.hasNotification || false;
+
+                    const modalTitle = document.getElementById('note-modal-title');
+                    if (modalTitle) {
+                        modalTitle.innerHTML = `📝 Nota ${currentNoteIndex + 1}/5 — ${currentNoteDay}/${currentNoteMonth + 1}/${currentNoteYear}`;
+                    }
+                    updateNoteNavUI(notesList);
+                } else {
+                    closeNoteModal();
+                }
+
+                renderCalendar();
+                updateWorkedHoursAndSummary();
+                updateWidget();
+            });
         }
 
         function saveNote() {
@@ -4015,29 +4275,44 @@
             const date = document.getElementById('note-notification-date').value || '';
             const time = document.getElementById('note-notification-time').value || '';
             const enable = document.getElementById('note-enable-notification').checked || false;
-            const data = { text };
-            if (text) {
-                if (enable && date && time) {
-                    data.hasNotification = true;
-                    data.notificationDate = date;
-                    data.notificationTime = time;
-                } else {
-                    data.hasNotification = false;
-                    delete data.notificationDate;
-                    delete data.notificationTime;
-                }
-                saveNoteData(currentNoteKey, data);
-            } else {
-                saveNoteData(currentNoteKey, { text: '' });
-            }
-            closeNoteModal();
-            renderCalendar();
-            updateWorkedHoursAndSummary();
-            updateWidget();
-            showToast('📝 Nota salvata', 'success');
-        }
 
-        // ============================================================
+            loadNotesList(currentNoteYear, currentNoteMonth, currentNoteDay).then(notesList => {
+                if (text) {
+                    const data = { text };
+                    if (enable && date && time) {
+                        data.hasNotification = true;
+                        data.notificationDate = date;
+                        data.notificationTime = time;
+                    } else {
+                        data.hasNotification = false;
+                    }
+
+                    while (notesList.length <= currentNoteIndex) {
+                        notesList.push({ text: '' });
+                    }
+                    notesList[currentNoteIndex] = data;
+
+                    while (notesList.length > 0 && !notesList[notesList.length - 1].text) {
+                        notesList.pop();
+                    }
+
+                    saveNotesList(currentNoteYear, currentNoteMonth, currentNoteDay, notesList);
+                    showToast(`📝 Nota ${currentNoteIndex + 1} salvata (${notesList.length}/5)`, 'success');
+                } else {
+                    if (currentNoteIndex < notesList.length) {
+                        notesList.splice(currentNoteIndex, 1);
+                        saveNotesList(currentNoteYear, currentNoteMonth, currentNoteDay, notesList);
+                    }
+                    showToast('📝 Nota rimossa', 'info');
+                }
+
+                closeNoteModal();
+                renderCalendar();
+                updateWorkedHoursAndSummary();
+                updateWidget();
+            });
+        }
+// ============================================================
         // WORK SETTINGS
         // ============================================================
         function openWorkSettingsModal() {
@@ -4113,9 +4388,11 @@
                         }
                     });
                     if (currentPersonId === 'self') {
-                        const nk = `note_${currentYear}_${currentMonth}_${d}`;
-                        loadNote(nk).then(nd => {
-                            if (nd.text) notes.push({ day: d, text: nd.text });
+                        loadNotesList(currentYear, currentMonth, d).then(ndList => {
+                            if (ndList.length > 0) {
+                                const texts = ndList.filter(n => n.text).map(n => n.text);
+                                if (texts.length > 0) notes.push({ day: d, texts: texts });
+                            }
                             loaded++;
                             if (loaded === totalDays) {
                                 hoursEl.textContent = decimalToTime(total);
@@ -4158,7 +4435,8 @@
                                     notes.forEach(n => {
                                         const div = document.createElement('div');
                                         div.className = 'stats-item';
-                                        div.textContent = `${n.day}: ${n.text}`;
+                                        div.style.fontSize = '0.6rem';
+                                        div.innerHTML = `<strong>${n.day}:</strong> ${n.texts.map((t,i) => `${i+1}. ${t}`).join(', ')}`;
                                         notesEl.appendChild(div);
                                     });
                                 }
@@ -4633,7 +4911,7 @@
                         let shiftDisplay = '-';
                         if (shiftsList.length > 0) {
                             shiftDisplay = shiftsList.map(s => shifts[s] && shifts[s].isOvertime ? `⚡${s}` : s).join(
-                            ', ');
+                                ', ');
                         }
                         const noteKey = `note_${currentYear}_${currentMonth}_${d}`;
                         let noteText = '-';
@@ -4919,11 +5197,14 @@
                 const dayIsHoliday = isHoliday(currentYear, currentMonth, d) || new Date(currentYear, currentMonth, d)
                     .getDay() === 0;
                 let style =
-                    `aspect-ratio:1/1;background:rgba(148,163,184,0.06);border-radius:6px;padding:2px;font-size:0.55rem;font-weight:700;position:relative;display:flex;flex-direction:column;overflow:hidden;`;
+                    `aspect-ratio:1/1.05;background:rgba(148,163,184,0.06);border-radius:6px;padding:4px;font-size:0.6rem;font-weight:700;position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(148,163,184,0.1);`;
                 if (isToday) style +=
                     `background:rgba(99,102,241,0.12);box-shadow:inset 0 0 0 1.5px rgba(99,102,241,0.4);`;
                 if (dayIsHoliday) style += `background:#ef4444;color:#ffffff;`;
-                html += `<div style="${style}" data-day="${d}"><span>${d}</span></div>`;
+                html += `<div class="share-day-cell" style="${style}" data-day="${d}">
+                    <span class="share-day-number" style="font-size:0.7rem;font-weight:700;position:absolute;top:2px;right:4px;">${d}</span>
+                    <div class="share-shifts-container" style="display:flex;flex-wrap:wrap;gap:2px;margin-top:6px;flex:1;align-content:flex-start;"></div>
+                </div>`;
             }
 
             html += `
@@ -4943,56 +5224,56 @@
                 const monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
                     'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
                 ];
+
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+                // 1. Precarica TUTTI i turni del mese in parallelo
+                const shiftPromises = [];
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const key = shiftKey(currentYear, currentMonth, d);
+                    shiftPromises.push(loadShift(key).then(list => ({ day: d, shifts: list })));
+                }
+                const allShifts = await Promise.all(shiftPromises);
+
+                // 2. Costruisci l'HTML con i turni già inseriti
                 const container = buildShareImageHTML();
                 if (!container) { showToast('❌ Errore creazione immagine', 'error'); return; }
 
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const cells = container.querySelectorAll('div[data-day]');
-
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const key = shiftKey(currentYear, currentMonth, d);
-                    const shiftsList = await loadShift(key);
-                    const cell = container.querySelector(`div[data-day="${d}"]`);
+                // Inserisci i turni precaricati
+                allShifts.forEach(({ day, shifts: shiftsList }) => {
+                    const cell = container.querySelector(`.share-day-cell[data-day="${day}"]`);
                     if (cell && shiftsList.length > 0) {
-                        const badgeContainer = document.createElement('div');
-                        badgeContainer.style.display = 'flex';
-                        badgeContainer.style.flexWrap = 'wrap';
-                        badgeContainer.style.gap = '1px';
-                        badgeContainer.style.marginTop = '2px';
-                        shiftsList.slice(0, 3).forEach(sName => {
-                            if (shifts[sName]) {
-                                const badge = document.createElement('span');
-                                badge.style.fontSize = '0.42rem';
-                                badge.style.lineHeight = '1.3';
-                                badge.style.fontWeight = '800';
-                                badge.style.padding = '1px 3px';
-                                badge.style.borderRadius = '3px';
-                                badge.style.background = shifts[sName].color;
-                                badge.style.color = isDarkColor(shifts[sName].color) ? '#ffffff' :
-                                    '#000000';
-                                badge.style.display = 'inline-block';
-                                badge.textContent = shifts[sName].isOvertime ? '⚡' + shifts[sName]
-                                    .abbreviation : shifts[sName].abbreviation;
-                                badgeContainer.appendChild(badge);
+                        const badgeContainer = cell.querySelector('.share-shifts-container');
+                        if (badgeContainer) {
+                            badgeContainer.innerHTML = '';
+                            const count = shiftsList.length;
+                            shiftsList.slice(0, 4).forEach((sName) => {
+                                if (shifts[sName]) {
+                                    const badge = document.createElement('span');
+                                    const fontSize = count === 1 ? '0.65rem' : count <= 3 ? '0.55rem' : '0.5rem';
+                                    badge.style.cssText = `font-size:${fontSize};line-height:1.3;font-weight:800;padding:2px 5px;border-radius:4px;background:${shifts[sName].color};color:${isDarkColor(shifts[sName].color) ? '#ffffff' : '#000000'};display:inline-block;box-shadow:0 1px 2px rgba(0,0,0,0.1);`;
+                                    const label = shifts[sName].isOvertime ? '⚡' : '';
+                                    badge.textContent = label + shifts[sName].abbreviation;
+                                    badgeContainer.appendChild(badge);
+                                }
+                            });
+                            if (shiftsList.length > 4) {
+                                const more = document.createElement('span');
+                                more.style.cssText = 'font-size:0.5rem;font-weight:700;background:rgba(148,163,184,0.2);padding:1px 5px;border-radius:4px;';
+                                more.textContent = '+' + (shiftsList.length - 4);
+                                badgeContainer.appendChild(more);
                             }
-                        });
-                        if (shiftsList.length > 3) {
-                            const more = document.createElement('span');
-                            more.style.fontSize = '0.35rem';
-                            more.style.fontWeight = '700';
-                            more.textContent = '+' + (shiftsList.length - 3);
-                            badgeContainer.appendChild(more);
                         }
-                        cell.appendChild(badgeContainer);
                     }
-                }
+                });
 
-                container.style.position = 'absolute';
-                container.style.left = '0';
-                container.style.top = '0';
-                container.style.zIndex = '9999';
-                container.style.display = 'block';
-                await new Promise(resolve => setTimeout(resolve, 300));
+                // 3. Renderizza l'immagine
+                container.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;display:block;visibility:visible;opacity:1;';
+                document.body.appendChild(container);
+
+                // Aspetta che il DOM sia aggiornato
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+                await new Promise(resolve => setTimeout(resolve, 200));
 
                 const canvas = await html2canvas(container, {
                     scale: 2,
@@ -5003,16 +5284,16 @@
                     height: container.scrollHeight
                 });
 
-                container.style.position = 'absolute';
-                container.style.left = '-9999px';
-                container.style.top = '0';
-                container.style.zIndex = '-1';
-                container.style.display = 'none';
+                // Rimuovi il container temporaneo
+                if (container.parentNode) {
+                    container.parentNode.removeChild(container);
+                }
+                container.style.cssText = 'position:absolute;left:-9999px;top:0;z-index:-1;display:none;';
 
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
                 if (!blob) throw new Error('Impossibile creare immagine');
 
-                if (navigator.share) {
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], 'test.png', { type: 'image/png' })] })) {
                     const file = new File([blob], `calendario_${currentYear}_${currentMonth+1}.png`, { type: 'image/png' });
                     await navigator.share({ title: `Calendario ${monthNames[currentMonth]} ${currentYear}`,
                         files: [file] });
@@ -5030,7 +5311,7 @@
                 }
             } catch (error) {
                 console.error('Share error:', error);
-                showToast('❌ Errore condivisione immagine', 'error');
+                showToast('❌ Errore condivisione immagine: ' + error.message, 'error');
             }
         }
 
@@ -5302,6 +5583,9 @@
                                     <div class="last-msg" id="last-msg-${otherEncoded}">Caricamento...</div>
                                 </div>
                                 <div class="time" id="time-${otherEncoded}"></div>
+                                <div class="chat-actions">
+                                    <button class="delete-chat-btn" onclick="event.stopPropagation();deletePrivateChat('${otherEncoded}')" title="Elimina chat">🗑️</button>
+                                </div>
                             </div>
                         `;
                         getUserPhoto(otherEncoded, (photo) => {
@@ -5346,8 +5630,49 @@
             });
         }
 
+        // Elimina chat privata
+        function deletePrivateChat(otherEncoded) {
+            if (!confirm(`Eliminare la chat con @${otherEncoded}? I messaggi saranno rimossi per tutti.`)) return;
+            const chatKey = [currentUserEncoded, otherEncoded].sort().join('_');
+            db.ref(`private_messages/${chatKey}`).remove()
+                .then(() => {
+                    db.ref(`users/${currentUserEncoded}/privateChats/${otherEncoded}`).remove();
+                    if (currentChatId === otherEncoded && currentChatType === 'private') {
+                        closeChatView();
+                    }
+                    showToast('🗑️ Chat eliminata', 'success');
+                    loadChats();
+                })
+                .catch(() => showToast('❌ Errore eliminazione chat', 'error'));
+        }
+
+        // Elimina chat corrente (da header)
+        function deleteCurrentChat() {
+            if (!currentChatId) { showToast('❌ Nessuna chat aperta', 'error'); return; }
+            if (currentChatType === 'private') {
+                deletePrivateChat(currentChatId);
+            } else if (currentChatType === 'group') {
+                if (!confirm(`Eliminare il gruppo "${currentChatName}"?`)) return;
+                db.ref(`chat_groups/${currentChatId}/creator`).once('value', (snapshot) => {
+                    if (snapshot.val() !== currentUser) {
+                        showToast('❌ Solo il creatore può eliminare il gruppo', 'error');
+                        return;
+                    }
+                    if (!confirm('🔴 Sei sicuro? Operazione irreversibile.')) return;
+                    db.ref(`chat_groups/${currentChatId}`).remove()
+                        .then(() => {
+                            db.ref(`users/${currentUserEncoded}/groups/${currentChatId}`).remove();
+                            showToast('🗑️ Gruppo eliminato', 'success');
+                            closeChatView();
+                            loadGroups();
+                        })
+                        .catch(() => showToast('❌ Errore eliminazione gruppo', 'error'));
+                });
+            }
+        }
+
         // ============================================================
-        // GRUPPI
+        // GRUPPI - con eliminazione dalla lista
         // ============================================================
         function loadGroups() {
             if (!currentUserEncoded) return;
@@ -5378,6 +5703,9 @@
                                         <div class="name">${group.name}</div>
                                         <div class="last-msg">👥 ${memberCount} membri ${isCreator ? '👑' : ''}</div>
                                     </div>
+                                    <div class="chat-actions">
+                                        <button class="delete-chat-btn" onclick="event.stopPropagation();deleteGroupFromList('${groupId}')" title="Elimina gruppo">🗑️</button>
+                                    </div>
                                 </div>
                             `;
                             getGroupPhoto(groupId, (photo) => {
@@ -5395,224 +5723,25 @@
             });
         }
 
-        function getGroupPhoto(groupId, callback) {
-            db.ref(`chat_groups/${groupId}/photo`).on('value', (snapshot) => {
-                callback(snapshot.val());
-            });
-        }
-
-        // ============================================================
-        // CREA GRUPPO
-        // ============================================================
-        function showCreateGroupModal() {
-            if (!currentUserEncoded) { showToast('❌ Non autenticato', 'error'); return; }
-            inviteList = [];
-            document.getElementById('modal-group-name').value = '';
-            document.getElementById('modal-invite-input').value = '';
-            document.getElementById('modal-invite-list').innerHTML =
-            '<span style="font-size:0.65rem;color:#94a3b8;">Nessun invitato</span>';
-            document.getElementById('user-verification').style.display = 'none';
-            document.getElementById('create-group-modal').classList.remove('hidden');
-        }
-
-        function closeCreateGroupModal() {
-            document.getElementById('create-group-modal').classList.add('hidden');
-        }
-
-        let verifyTimeoutGroup = null;
-
-        document.getElementById('modal-invite-input')?.addEventListener('input', function() {
-            clearTimeout(verifyTimeoutGroup);
-            const username = this.value.trim();
-            const verification = document.getElementById('user-verification');
-            if (!username) { verification.style.display = 'none'; return; }
-            if (!username.startsWith('@')) {
-                verification.style.display = 'block';
-                verification.className = 'user-verification invalid';
-                verification.innerHTML = 'ℹ️ Usa @nome';
-                return;
-            }
-            const clean = username.substring(1);
-            const normClean = normalizeUsername(clean);
-            const inContacts = Object.values(myContacts).some(c => normalizeUsername(c.username) === normClean);
-            if (!inContacts) {
-                verification.style.display = 'block';
-                verification.className = 'user-verification invalid';
-                verification.innerHTML = '❌ @' + clean + ' non in rubrica';
-                return;
-            }
-            if (normalizeUsername(clean) === normalizeUsername(currentUser)) {
-                verification.style.display = 'block';
-                verification.className = 'user-verification invalid';
-                verification.innerHTML = '❌ Non puoi invitarti';
-                return;
-            }
-            if (inviteList.some(u => normalizeUsername(u) === normClean)) {
-                verification.style.display = 'block';
-                verification.className = 'user-verification invalid';
-                verification.innerHTML = '⚠️ @' + clean + ' già in lista';
-                return;
-            }
-            verification.style.display = 'block';
-            verification.className = 'user-verification valid';
-            verification.innerHTML = '✅ @' + clean + ' in rubrica!';
-        });
-
-        function addInviteUser() {
-            const input = document.getElementById('modal-invite-input');
-            const username = input.value.trim();
-            if (!username || !username.startsWith('@')) { showToast('❌ Inserisci @nome', 'error'); return; }
-            const clean = username.substring(1);
-            const normClean = normalizeUsername(clean);
-            const inContacts = Object.values(myContacts).some(c => normalizeUsername(c.username) === normClean);
-            if (!inContacts) { showToast('❌ @' + clean + ' non in rubrica', 'error'); return; }
-            if (inviteList.some(u => normalizeUsername(u) === normClean)) { showToast('⚠️ Già in lista', 'warning');
-                input.value = ''; return; }
-            inviteList.push(clean);
-            renderInviteList();
-            input.value = '';
-            document.getElementById('user-verification').style.display = 'none';
-            showToast('✅ @' + clean + ' aggiunto!', 'success');
-        }
-
-        function renderInviteList() {
-            const container = document.getElementById('modal-invite-list');
-            if (inviteList.length === 0) {
-                container.innerHTML = '<span style="font-size:0.65rem;color:#94a3b8;">Nessun invitato</span>';
-                return;
-            }
-            container.innerHTML = inviteList.map(user => `
-                <span style="background:#075e54;color:white;padding:1px 6px;border-radius:10px;font-size:0.6rem;font-weight:600;display:inline-flex;align-items:center;gap:3px;">
-                    @${user}
-                    <span onclick="removeInviteUser('${user}')" style="cursor:pointer;opacity:0.7;font-size:0.8rem;">×</span>
-                </span>
-            `).join('');
-        }
-
-        function removeInviteUser(username) {
-            inviteList = inviteList.filter(u => u !== username);
-            renderInviteList();
-        }
-
-        function confirmCreateGroup() {
-            const name = document.getElementById('modal-group-name').value.trim();
-            if (!name) { showToast('❌ Inserisci un nome', 'error'); return; }
-            if (inviteList.length === 0) { showToast('❌ Invita almeno un contatto', 'error'); return; }
-            const groupId = 'g_' + Date.now();
-            const password = 'gpass_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-            const groupData = {
-                name: name,
-                creator: currentUser,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                password: password,
-                members: {},
-                photo: null
-            };
-            const encodedCreator = currentUserEncoded;
-            groupData.members[encodedCreator] = {
-                joinedAt: firebase.database.ServerValue.TIMESTAMP,
-                displayName: currentUser,
-                isCreator: true
-            };
-            inviteList.forEach(user => {
-                const encodedUser = encodeUsername(user);
-                groupData.members[encodedUser] = {
-                    joinedAt: firebase.database.ServerValue.TIMESTAMP,
-                    displayName: user,
-                    isCreator: false
-                };
-            });
-            const btn = document.querySelector('#create-group-modal .btn-primary');
-            const orig = btn.textContent;
-            btn.textContent = '⏳ Creazione...';
-            btn.disabled = true;
-            db.ref(`chat_groups/${groupId}`).set(groupData)
-                .then(() => {
-                    const updates = {};
-                    updates[`users/${encodedCreator}/groups/${groupId}`] = true;
-                    inviteList.forEach(user => {
-                        const encodedUser = encodeUsername(user);
-                        updates[`users/${encodedUser}/groups/${groupId}`] = true;
-                    });
-                    return db.ref().update(updates);
-                })
-                .then(() => {
-                    closeCreateGroupModal();
-                    showToast('✅ Gruppo "' + name + '" creato con ' + inviteList.length + ' membri!', 'success');
-                    loadGroups();
-                    switchAppTab('chat');
-                    switchChatSubTab('groups');
-                })
-                .catch((err) => { showToast('❌ Errore: ' + err.message, 'error'); })
-                .finally(() => { btn.textContent = orig;
-                    btn.disabled = false; });
-        }
-
-        function addMemberToGroup() {
-            if (!currentChatId || currentChatType !== 'group') { showToast('❌ Nessun gruppo selezionato', 'error'); return; }
-            const input = document.getElementById('add-member-input');
-            const status = document.getElementById('add-member-status');
-            if (!input || !status) return;
-            const username = input.value.trim();
-            if (!username || !username.startsWith('@')) {
-                status.textContent = '❌ Usa il formato @nome.cognome';
-                status.style.color = '#ef4444';
-                return;
-            }
-            const clean = username.substring(1);
-            const normClean = normalizeUsername(clean);
-            if (normClean === normalizeUsername(currentUser)) {
-                status.textContent = '❌ Sei già nel gruppo';
-                status.style.color = '#ef4444';
-                return;
-            }
-            const encodedUser = encodeUsername(clean);
-            const groupId = currentChatId;
-            status.textContent = '⏳ Verifica utente...';
-            status.style.color = '#6366f1';
-            db.ref(`users/${encodedUser}`).once('value').then(snapshot => {
-                if (!snapshot.exists()) {
-                    status.textContent = '❌ Utente @' + clean + ' non trovato';
-                    status.style.color = '#ef4444';
+        // Elimina gruppo dalla lista (solo per creatore)
+        function deleteGroupFromList(groupId) {
+            if (!confirm(`Eliminare il gruppo "${allGroups[groupId]?.name || groupId}"?`)) return;
+            db.ref(`chat_groups/${groupId}/creator`).once('value', (snapshot) => {
+                if (snapshot.val() !== currentUser) {
+                    showToast('❌ Solo il creatore può eliminare il gruppo', 'error');
                     return;
                 }
-                const userData = snapshot.val();
-                const displayName = userData.displayName || clean;
-                db.ref(`chat_groups/${groupId}/members/${encodedUser}`).once('value').then(mSnap => {
-                    if (mSnap.exists()) {
-                        status.textContent = '⚠️ @' + displayName + ' è già nel gruppo';
-                        status.style.color = '#f59e0b';
-                        return;
-                    }
-                    const updates = {};
-                    updates[`chat_groups/${groupId}/members/${encodedUser}`] = {
-                        joinedAt: firebase.database.ServerValue.TIMESTAMP,
-                        displayName: displayName,
-                        isCreator: false
-                    };
-                    updates[`users/${encodedUser}/groups/${groupId}`] = true;
-                    db.ref().update(updates).then(() => {
-                        status.textContent = '✅ @' + displayName + ' aggiunto al gruppo!';
-                        status.style.color = '#10b981';
-                        input.value = '';
-                        showToast('✅ @' + displayName + ' aggiunto al gruppo!', 'success');
-                        showGroupMembers();
-                        loadGroups();
-                        if (currentChatId === groupId) {
-                            db.ref(`chat_groups/${groupId}/members`).once('value', (mAll) => {
-                                const count = Object.keys(mAll.val() || {}).length;
-                                const chatSub = document.getElementById('chat-sub');
-                                if (chatSub) chatSub.textContent = '👥 ' + count + ' membri • 🔐 E2EE';
-                            });
+                if (!confirm('🔴 Sei sicuro? Operazione irreversibile.')) return;
+                db.ref(`chat_groups/${groupId}`).remove()
+                    .then(() => {
+                        db.ref(`users/${currentUserEncoded}/groups/${groupId}`).remove();
+                        if (currentChatId === groupId && currentChatType === 'group') {
+                            closeChatView();
                         }
-                    }).catch(err => {
-                        status.textContent = '❌ Errore: ' + err.message;
-                        status.style.color = '#ef4444';
-                    });
-                });
-            }).catch(() => {
-                status.textContent = '❌ Errore di verifica';
-                status.style.color = '#ef4444';
+                        showToast('🗑️ Gruppo eliminato', 'success');
+                        loadGroups();
+                    })
+                    .catch(() => showToast('❌ Errore eliminazione gruppo', 'error'));
             });
         }
 
@@ -6343,7 +6472,225 @@
             }
         }
 
+        
         // ============================================================
+        // GRUPPI - FUNZIONI MANCANTI
+        // ============================================================
+        function showCreateGroupModal() {
+            inviteList = [];
+            document.getElementById('modal-group-name').value = '';
+            document.getElementById('modal-invite-input').value = '';
+            document.getElementById('modal-invite-list').innerHTML = '';
+            document.getElementById('user-verification').style.display = 'none';
+            document.getElementById('user-verification').innerHTML = '';
+            document.getElementById('group-error').style.display = 'none';
+            document.getElementById('create-group-modal').classList.remove('hidden');
+        }
+
+        function closeCreateGroupModal() {
+            document.getElementById('create-group-modal').classList.add('hidden');
+            inviteList = [];
+        }
+
+        function addInviteUser() {
+            const input = document.getElementById('modal-invite-input');
+            const username = input.value.trim();
+            const verificationDiv = document.getElementById('user-verification');
+
+            if (!username) {
+                showToast('❌ Inserisci un nome utente', 'error');
+                return;
+            }
+
+            let clean = username;
+            if (clean.startsWith('@')) clean = clean.substring(1);
+            const normClean = normalizeUsername(clean);
+            const normCurrent = normalizeUsername(currentUser);
+
+            if (normClean === normCurrent) {
+                showToast('❌ Non puoi invitare te stesso', 'error');
+                return;
+            }
+
+            if (inviteList.some(u => normalizeUsername(u) === normClean)) {
+                showToast('⚠️ Utente già invitato', 'error');
+                return;
+            }
+
+            verificationDiv.style.display = 'block';
+            verificationDiv.innerHTML = '<span style="color:#6366f1;font-size:0.7rem;">⏳ Verifica...</span>';
+
+            const enc = encodeUsername(clean);
+            db.ref(`users/${enc}`).once('value')
+                .then((snapshot) => {
+                    if (!snapshot.exists()) {
+                        verificationDiv.innerHTML = '<span style="color:#ef4444;font-size:0.7rem;">❌ Utente non trovato</span>';
+                        return;
+                    }
+                    const userData = snapshot.val();
+                    const displayName = userData.displayName || clean;
+                    inviteList.push(clean);
+                    renderInviteList();
+                    verificationDiv.innerHTML = '<span style="color:#10b981;font-size:0.7rem;">✅ @' + displayName + ' aggiunto</span>';
+                    input.value = '';
+                    setTimeout(() => { verificationDiv.style.display = 'none'; }, 2000);
+                })
+                .catch(() => {
+                    verificationDiv.innerHTML = '<span style="color:#ef4444;font-size:0.7rem;">❌ Errore verifica</span>';
+                });
+        }
+
+        function renderInviteList() {
+            const container = document.getElementById('modal-invite-list');
+            if (inviteList.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = inviteList.map((u, idx) => 
+                `<span style="background:rgba(99,102,241,0.1);color:var(--accent);padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
+                    @${u} <button onclick="removeInvite(${idx})" style="background:none;border:none;cursor:pointer;font-size:0.7rem;color:#ef4444;padding:0;">✕</button>
+                </span>`
+            ).join('');
+        }
+
+        function removeInvite(index) {
+            inviteList.splice(index, 1);
+            renderInviteList();
+        }
+
+        async function confirmCreateGroup() {
+            const name = document.getElementById('modal-group-name').value.trim();
+            const errorDiv = document.getElementById('group-error');
+
+            if (!name) {
+                errorDiv.textContent = '❌ Inserisci un nome per il gruppo';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            if (inviteList.length === 0) {
+                errorDiv.textContent = '❌ Invita almeno un membro';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+
+            const groupId = 'group_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const password = groupId + '_group_password';
+
+            const members = {};
+            members[currentUserEncoded] = {
+                displayName: currentUser,
+                isCreator: true,
+                joinedAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            // Aggiungi gli invitati come membri
+            for (const username of inviteList) {
+                const enc = encodeUsername(username);
+                const userSnap = await db.ref(`users/${enc}`).once('value');
+                const userData = userSnap.val();
+                if (userData) {
+                    members[enc] = {
+                        displayName: userData.displayName || username,
+                        isCreator: false,
+                        joinedAt: firebase.database.ServerValue.TIMESTAMP
+                    };
+                    // Aggiungi il gruppo anche agli utenti invitati
+                    await db.ref(`users/${enc}/groups/${groupId}`).set(true);
+                }
+            }
+
+            const groupData = {
+                name: name,
+                creator: currentUser,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                members: members,
+                password: password
+            };
+
+            try {
+                await db.ref(`chat_groups/${groupId}`).set(groupData);
+                await db.ref(`users/${currentUserEncoded}/groups/${groupId}`).set(true);
+
+                closeCreateGroupModal();
+                showToast('✅ Gruppo "' + name + '" creato!', 'success');
+                loadGroups();
+
+                // Apri automaticamente la chat del gruppo
+                setTimeout(() => openGroupChat(groupId), 500);
+            } catch (err) {
+                errorDiv.textContent = '❌ Errore creazione: ' + err.message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function addMemberToGroup() {
+            const input = document.getElementById('add-member-input');
+            const username = input.value.trim();
+            const statusDiv = document.getElementById('add-member-status');
+
+            if (!username) {
+                statusDiv.textContent = '❌ Inserisci un nome utente';
+                statusDiv.className = 'status error';
+                return;
+            }
+
+            let clean = username;
+            if (clean.startsWith('@')) clean = clean.substring(1);
+            const enc = encodeUsername(clean);
+
+            db.ref(`chat_groups/${currentChatId}/members/${enc}`).once('value', (snap) => {
+                if (snap.exists()) {
+                    statusDiv.textContent = '⚠️ Utente già membro';
+                    statusDiv.className = 'status error';
+                    return;
+                }
+
+                db.ref(`users/${enc}`).once('value')
+                    .then((userSnap) => {
+                        if (!userSnap.exists()) {
+                            statusDiv.textContent = '❌ Utente non trovato';
+                            statusDiv.className = 'status error';
+                            return;
+                        }
+                        const userData = userSnap.val();
+                        const displayName = userData.displayName || clean;
+
+                        const memberData = {
+                            displayName: displayName,
+                            isCreator: false,
+                            joinedAt: firebase.database.ServerValue.TIMESTAMP
+                        };
+
+                        db.ref(`chat_groups/${currentChatId}/members/${enc}`).set(memberData)
+                            .then(() => {
+                                db.ref(`users/${enc}/groups/${currentChatId}`).set(true);
+                                statusDiv.textContent = '✅ @' + displayName + ' aggiunto!';
+                                statusDiv.className = 'status success';
+                                input.value = '';
+                                showGroupMembers();
+                                showToast('✅ @' + displayName + ' aggiunto al gruppo', 'success');
+                            })
+                            .catch((err) => {
+                                statusDiv.textContent = '❌ Errore: ' + err.message;
+                                statusDiv.className = 'status error';
+                            });
+                    })
+                    .catch(() => {
+                        statusDiv.textContent = '❌ Errore verifica';
+                        statusDiv.className = 'status error';
+                    });
+            });
+        }
+
+        function getGroupPhoto(groupId, callback) {
+            db.ref(`chat_groups/${groupId}/photo`).on('value', (snapshot) => {
+                if (callback) callback(snapshot.val());
+            });
+        }
+
+// ============================================================
         // INIT
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
