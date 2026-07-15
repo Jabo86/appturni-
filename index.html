@@ -5225,72 +5225,89 @@
                     'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
                 ];
 
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-                // 1. Precarica TUTTI i turni del mese in parallelo
-                const shiftPromises = [];
-                for (let d = 1; d <= daysInMonth; d++) {
-                    const key = shiftKey(currentYear, currentMonth, d);
-                    shiftPromises.push(loadShift(key).then(list => ({ day: d, shifts: list })));
+                // Trova il calendario reale
+                const calendarTab = document.getElementById('tab-calendar');
+                if (!calendarTab) {
+                    showToast('❌ Calendario non trovato', 'error');
+                    return;
                 }
-                const allShifts = await Promise.all(shiftPromises);
 
-                // 2. Costruisci l'HTML con i turni già inseriti
-                const container = buildShareImageHTML();
-                if (!container) { showToast('❌ Errore creazione immagine', 'error'); return; }
+                const calendarScroll = calendarTab.querySelector('.calendar-scroll');
+                if (!calendarScroll) {
+                    showToast('❌ Sezione calendario non trovata', 'error');
+                    return;
+                }
 
-                // Inserisci i turni precaricati
-                allShifts.forEach(({ day, shifts: shiftsList }) => {
-                    const cell = container.querySelector(`.share-day-cell[data-day="${day}"]`);
-                    if (cell && shiftsList.length > 0) {
-                        const badgeContainer = cell.querySelector('.share-shifts-container');
-                        if (badgeContainer) {
-                            badgeContainer.innerHTML = '';
-                            const count = shiftsList.length;
-                            shiftsList.slice(0, 4).forEach((sName) => {
-                                if (shifts[sName]) {
-                                    const badge = document.createElement('span');
-                                    const fontSize = count === 1 ? '0.65rem' : count <= 3 ? '0.55rem' : '0.5rem';
-                                    badge.style.cssText = `font-size:${fontSize};line-height:1.3;font-weight:800;padding:2px 5px;border-radius:4px;background:${shifts[sName].color};color:${isDarkColor(shifts[sName].color) ? '#ffffff' : '#000000'};display:inline-block;box-shadow:0 1px 2px rgba(0,0,0,0.1);`;
-                                    const label = shifts[sName].isOvertime ? '⚡' : '';
-                                    badge.textContent = label + shifts[sName].abbreviation;
-                                    badgeContainer.appendChild(badge);
-                                }
-                            });
-                            if (shiftsList.length > 4) {
-                                const more = document.createElement('span');
-                                more.style.cssText = 'font-size:0.5rem;font-weight:700;background:rgba(148,163,184,0.2);padding:1px 5px;border-radius:4px;';
-                                more.textContent = '+' + (shiftsList.length - 4);
-                                badgeContainer.appendChild(more);
-                            }
-                        }
-                    }
-                });
+                // Salva riferimenti agli elementi da nascondere temporaneamente
+                const shareSection = calendarScroll.querySelector('.share-section');
+                const shiftSelector = calendarScroll.querySelector('.shift-selector-section');
 
-                // 3. Renderizza l'immagine
-                container.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;display:block;visibility:visible;opacity:1;';
-                document.body.appendChild(container);
+                // Nascondi temporaneamente i controlli sotto
+                const originalShareDisplay = shareSection ? shareSection.style.display : '';
+                const originalShiftDisplay = shiftSelector ? shiftSelector.style.display : '';
+                if (shareSection) shareSection.style.display = 'none';
+                if (shiftSelector) shiftSelector.style.display = 'none';
 
-                // Aspetta che il DOM sia aggiornato
-                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-                await new Promise(resolve => setTimeout(resolve, 200));
+                // Salva stili originali del calendario
+                const originalOverflow = calendarScroll.style.overflow;
+                const originalMaxHeight = calendarScroll.style.maxHeight;
 
-                const canvas = await html2canvas(container, {
+                // Rimuovi limiti di scroll per catturare tutto
+                calendarScroll.style.overflow = 'visible';
+                calendarScroll.style.maxHeight = 'none';
+
+                // Calcola le dimensioni reali del contenuto
+                const rect = calendarScroll.getBoundingClientRect();
+                const scrollWidth = calendarScroll.scrollWidth;
+                const scrollHeight = calendarScroll.scrollHeight;
+
+                // Cattura direttamente il calendario reale
+                const canvas = await html2canvas(calendarScroll, {
                     scale: 2,
                     useCORS: true,
-                    backgroundColor: document.body.classList.contains('dark-mode') ? '#0d0f22' : '#ffffff',
+                    allowTaint: true,
+                    backgroundColor: document.body.classList.contains('dark-mode') ? '#0d0f22' : '#f3f1ec',
                     logging: false,
-                    width: 400,
-                    height: container.scrollHeight
+                    width: scrollWidth,
+                    height: scrollHeight,
+                    windowWidth: scrollWidth,
+                    windowHeight: scrollHeight,
+                    x: 0,
+                    y: 0,
+                    scrollX: 0,
+                    scrollY: 0
                 });
 
-                // Rimuovi il container temporaneo
-                if (container.parentNode) {
-                    container.parentNode.removeChild(container);
-                }
-                container.style.cssText = 'position:absolute;left:-9999px;top:0;z-index:-1;display:none;';
+                // Ripristina i controlli
+                if (shareSection) shareSection.style.display = originalShareDisplay;
+                if (shiftSelector) shiftSelector.style.display = originalShiftDisplay;
+                calendarScroll.style.overflow = originalOverflow;
+                calendarScroll.style.maxHeight = originalMaxHeight;
 
-                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                // Aggiungi footer all'immagine
+                const footerCanvas = document.createElement('canvas');
+                footerCanvas.width = canvas.width;
+                footerCanvas.height = canvas.height + 60; // spazio per footer
+                const ctx = footerCanvas.getContext('2d');
+
+                // Disegna lo sfondo
+                ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#0d0f22' : '#f3f1ec';
+                ctx.fillRect(0, 0, footerCanvas.width, footerCanvas.height);
+
+                // Disegna il calendario
+                ctx.drawImage(canvas, 0, 0);
+
+                // Disegna il footer
+                ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#1a1e3d' : '#ffffff';
+                ctx.fillRect(0, canvas.height, footerCanvas.width, 60);
+                ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#94a3b8' : '#64748b';
+                ctx.font = 'bold 22px Poppins, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`📊 ${currentPersonName()} · ${monthNames[currentMonth]} ${currentYear} · AppTurni`, footerCanvas.width / 2, canvas.height + 30);
+
+                // Esporta
+                const blob = await new Promise(resolve => footerCanvas.toBlob(resolve, 'image/png'));
                 if (!blob) throw new Error('Impossibile creare immagine');
 
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], 'test.png', { type: 'image/png' })] })) {
