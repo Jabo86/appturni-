@@ -502,16 +502,16 @@
         }
 
         .day-cell {
-            aspect-ratio: 1 / 1.1;
+            aspect-ratio: 1 / 1.55;
             background: rgba(148, 163, 184, 0.06);
             border-radius: 10px;
-            padding: 3px;
+            padding: 4px;
             position: relative;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             flex-direction: column;
-            min-height: 58px;
+            min-height: 95px;
             overflow: hidden;
             border: 1px solid transparent;
         }
@@ -523,7 +523,7 @@
         }
         .day-number {
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             position: absolute;
             top: 2px;
             right: 4px;
@@ -536,14 +536,14 @@
             background: var(--grad-primary);
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             right: 3px;
             top: 2px;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
         }
         .day-cell.holiday {
             background: #ef4444 !important;
@@ -567,39 +567,39 @@
         .shifts-container {
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            margin-top: 16px;
+            gap: 2px;
+            margin-top: 22px;
             flex: 1;
             justify-content: center;
         }
         .shift-badge {
-            font-size: 0.5rem;
+            font-size: 0.72rem;
             font-weight: 800;
-            padding: 1px 3px;
-            border-radius: 4px;
+            padding: 3px 6px;
+            border-radius: 5px;
             text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.2;
+            line-height: 1.3;
             max-width: 100%;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         .shift-badge.single {
-            font-size: 0.6rem;
-            padding: 2px 4px;
+            font-size: 0.85rem;
+            padding: 3px 6px;
         }
         .shift-badge.multi-2 {
-            font-size: 0.45rem;
+            font-size: 0.68rem;
         }
         .shift-badge.multi-3 {
-            font-size: 0.4rem;
+            font-size: 0.62rem;
         }
         .shift-badge.multi-4 {
-            font-size: 0.35rem;
+            font-size: 0.58rem;
         }
         .shift-badge.multi-5 {
-            font-size: 0.3rem;
+            font-size: 0.52rem;
         }
 
         .note-indicator {
@@ -2221,9 +2221,9 @@
 
         /* Stili per l'immagine condivisa - badge più grandi e leggibili */
         #share-image-container .share-day-cell .share-shift-badge {
-            font-size: 0.6rem !important;
-            padding: 2px 4px !important;
-            border-radius: 4px !important;
+            font-size: 0.72rem !important;
+            padding: 3px 6px !important;
+            border-radius: 5px !important;
             font-weight: 800 !important;
             margin: 1px !important;
             display: inline-block !important;
@@ -2237,21 +2237,21 @@
             margin-top: 4px !important;
         }
         #share-image-container .share-day-cell .share-day-number {
-            font-size: 0.7rem !important;
+            font-size: 0.8rem !important;
             font-weight: 700 !important;
             position: absolute !important;
-            top: 2px !important;
-            right: 4px !important;
+            top: 3px !important;
+            right: 5px !important;
         }
         #share-image-container .share-day-cell {
-            aspect-ratio: 1/1.05 !important;
+            aspect-ratio: 1/1.35 !important;
             background: rgba(148, 163, 184, 0.06) !important;
-            border-radius: 6px !important;
-            padding: 4px !important;
+            border-radius: 8px !important;
+            padding: 5px !important;
             position: relative !important;
             display: flex !important;
             flex-direction: column !important;
-            min-height: 65px !important;
+            min-height: 85px !important;
             overflow: hidden !important;
             border: 1px solid rgba(148, 163, 184, 0.1) !important;
         }
@@ -2267,14 +2267,14 @@
             background: var(--grad-primary) !important;
             color: white !important;
             border-radius: 50% !important;
-            width: 22px !important;
-            height: 22px !important;
+            width: 26px !important;
+            height: 26px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             right: 3px !important;
             top: 2px !important;
-            font-size: 0.7rem !important;
+            font-size: 0.8rem !important;
         }
     </style>
 <base target="_blank">
